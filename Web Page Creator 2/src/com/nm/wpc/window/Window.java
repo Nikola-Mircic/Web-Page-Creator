@@ -5,6 +5,7 @@ import java.awt.event.ComponentListener;
 
 import javax.swing.JFrame;
 
+import com.nm.wpc.filesystem.FileManager;
 import com.nm.wpc.screen.MainScreen;
 
 /*
@@ -63,6 +64,9 @@ public class Window extends JFrame implements Runnable{
 	}
 	
 	public static void main(String[] args) {
+		FileManager fm = new FileManager();
+		fm.createDefaultProperties();
+		
 		ms = new MainScreen(WIDTH, HEIGHT);
 		ms.updateSize(WIDTH, HEIGHT);
 		Window window = new Window();

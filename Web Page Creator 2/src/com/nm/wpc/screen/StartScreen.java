@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import com.nm.wpc.editor.option.ContinueRecentOption;
 import com.nm.wpc.editor.option.NewProjectOption;
 import com.nm.wpc.editor.option.Option;
+import com.nm.wpc.filesystem.FileManager;
 import com.nm.wpc.gui.Button;
 import com.nm.wpc.gui.GUIObject;
 import com.nm.wpc.gui.InputField;
@@ -20,6 +21,7 @@ public class StartScreen extends Screen{
 	private Option options[];
 	
 	public StartScreen(int w,int h,MainScreen ms) {
+		
 		this.objects = new ArrayList<GUIObject>();
 		this.width = w;
 		this.height = h;

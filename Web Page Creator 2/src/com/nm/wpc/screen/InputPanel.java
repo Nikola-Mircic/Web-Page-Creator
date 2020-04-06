@@ -34,8 +34,10 @@ public class InputPanel extends Screen{
 		g.fillRect(0, 0, width, height);
 		g.setColor(Color.BLACK);
 		g.drawRect(0, 0, width-1, height-1);
-		g.setFont(new Font("",Font.BOLD,50));
-		g.drawString(TITLE, 0, height);
+		if(TITLE != "") {
+			g.setFont(new Font("",Font.BOLD,width/this.TITLE.length()*2));
+			g.drawString(TITLE, 2, width/this.TITLE.length()*2);
+		}
 	}
 
 	public String getTITLE() {
@@ -44,7 +46,7 @@ public class InputPanel extends Screen{
 
 	public void setTITLE(String title) {
 		this.TITLE = title;
-		drawContent(WIDTH, HEIGHT);
+		drawContent(width, height);
 	}
 
 	public GUIObject getSource() {
