@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import com.nm.wpc.editor.option.ContinueRecentOption;
 import com.nm.wpc.editor.option.NewProjectOption;
 import com.nm.wpc.editor.option.Option;
-import com.nm.wpc.filesystem.FileManager;
 import com.nm.wpc.gui.Button;
 import com.nm.wpc.gui.GUIObject;
 import com.nm.wpc.gui.InputField;
@@ -18,19 +17,20 @@ public class StartScreen extends Screen{
 	private static final long serialVersionUID = 1L;
 	private MainScreen ms;
 	
+	private GUIObject last;
+	
 	private Option options[];
 	
 	public StartScreen(int w,int h,MainScreen ms) {
-		
+		super(w, h);
 		this.objects = new ArrayList<GUIObject>();
-		this.width = w;
-		this.height = h;
+		this.panels = new ArrayList<InputPanel>();
 		this.ms = ms;
 		
 		this.options = new Option[3];
-		options[0] =  new NewProjectOption(ms);
-		options[1] =  new NewProjectOption(ms);
-		options[2] =  new ContinueRecentOption(ms);
+		options[0] =  new NewProjectOption(this.ms);
+		options[1] =  new NewProjectOption(this.ms);
+		options[2] =  new ContinueRecentOption(this.ms);
 		
 		addButtons();
 		
@@ -47,6 +47,10 @@ public class StartScreen extends Screen{
 		for(GUIObject object:objects) {
 			g.drawImage((Image)object.getImg(), object.getX(), object.getY(), null);
 		}
+		for(InputPanel panel : panels) {
+			g.drawImage(panel.getContent(), panel.getX(), panel.getY(), null);
+			panel.drawChildPanels(g);
+		}
 		g.setColor(Color.GREEN);
 		g.fillRect(width-66, height-64, 50, 25);
 	}
@@ -55,21 +59,63 @@ public class StartScreen extends Screen{
 		Button btn;
 		InputField input;
 		for(int i=0;i<3;i++) {
-			btn = new Button(100, 100+i*30, 50, 19, options[i]);
+			btn = (Button)(new Button(100, 100+i*30, 50, 19, options[i]).setContainer(this));
+			btn.fitText(1);
 			objects.add(btn);
 		}
-		input = new InputField("Test",100, 260, 150, 50,1);
+		input = (InputField)(new InputField("Test",100, 260, 150, 50,1).setContainer(this));
 		objects.add(input);
 	}
 	
 	@Override
 	public void onClick(int x,int y) {
+		panelsActivity = false;
+		InputPanel temp = null;
+		for (InputPanel panel : panels) {
+			int x1 = panel.getX();
+			int y1 =  panel.getY();
+			int x2 = x1+panel.getW();
+			int y2 = y1+panel.getH();
+			if(x1<x && x<x2 && y1<y && y<y2) {
+				panelsActivity = true;
+				temp = panel;
+			}else {
+				temp = panel.getClicked(x, y);
+				if(temp != null) {
+					panelsActivity = true;
+					break;
+				}
+			}
+		}
+		
+		if(panelsActivity) {
+			temp.onClick(x, y);
+			this.drawContent(getW(), getH());
+			return;
+		}else {
+			this.panels.removeAll(panels);
+		}
+		
 		for(GUIObject object:objects) {
 			if(x>=object.getX() && x<=object.getX()+object.getWidth() && y>=object.getY() && y<=object.getY()+object.getHeight()) {
-				object.onClick();
+				object.mousePressed();
+				last = object;
 				break;
 			}
 		}
 		drawContent(this.width, this.height);
+	}
+	
+	public void onRelease() {
+		if(last == null) {
+			for(InputPanel panel : panels) {
+				panel.onRelease();
+			}
+		}else {
+			last.mouseReleased();
+			last = null;
+		}
+		
+		drawContent(getW(), getH());
 	}
 }

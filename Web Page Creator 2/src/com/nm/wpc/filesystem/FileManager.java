@@ -10,9 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
-
-import sun.security.krb5.internal.APOptions;
 
 public class FileManager {
 	private String absolutePath;
@@ -106,7 +103,8 @@ public class FileManager {
 		while ((line = br.readLine()) != null) {
 			sb.append(line + System.lineSeparator());
 		}
-
+		
+		br.close();
 		return sb.toString();
 	}
 	
@@ -124,6 +122,7 @@ public class FileManager {
 				makePropertie("author");
 				makePropertie("default-project-name", "project");
 				makePropertie("default-project-location", absolutePath+"\\projects");
+				makePropertie("default-font-size","20");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -158,7 +157,7 @@ public class FileManager {
 	
 	public void makePropertie(String propertieName) {
 		String fileData = getProperties();
-		fileData += (propertieName+":"+",");
+		fileData += (propertieName+":"+",\n");
 		try {
             Files.write(Paths.get(findFile(".properties").getAbsolutePath()), fileData.getBytes());
         } catch (IOException e) {
@@ -168,7 +167,7 @@ public class FileManager {
 	
 	public void makePropertie(String propertieName,String newValue) {
 		String fileData = getProperties();
-		fileData += (propertieName+":"+newValue+",");
+		fileData += (propertieName+":"+newValue+",\n");
 		try {
             Files.write(Paths.get(findFile(".properties").getAbsolutePath()), fileData.getBytes());
         } catch (IOException e) {

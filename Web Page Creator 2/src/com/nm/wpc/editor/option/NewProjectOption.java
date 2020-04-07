@@ -1,8 +1,8 @@
 package com.nm.wpc.editor.option;
 
-import java.awt.Dimension;
-
+import com.nm.wpc.gui.Button;
 import com.nm.wpc.gui.GUIObject;
+import com.nm.wpc.gui.InputField;
 import com.nm.wpc.screen.InputPanel;
 import com.nm.wpc.screen.MainScreen;
 
@@ -15,14 +15,13 @@ public class NewProjectOption extends Option{
 	
 	@Override
 	public void make(GUIObject source) {
-		InputPanel ip = createPanel(source,ms.createPanelDimension());
+		InputPanel ip = new InputPanel(source, source.getX()+source.getWidth(), source.getY());
 		ip.setTITLE("Create new project:");
-		
-		ms.drawPanel(ip);
-	}
-	
-	private InputPanel createPanel(GUIObject source,Dimension dim) {
-		return new InputPanel(source,dim.width, dim.height);
+		ip.addGUIObject(new Button(ip.getX()+5, ip.getY()+50, ip.getW()-10, 20, this).setContainer(ip));
+		ip.addGUIObject(new InputField("Test", ip.getX()+5, ip.getY()+80, ip.getW()-10, 50, 1).setContainer(ip));
+		ip.drawContent();
+		source.getContainer().drawPanel(ip);;
+		ms.repaint();
 	}
 }
 

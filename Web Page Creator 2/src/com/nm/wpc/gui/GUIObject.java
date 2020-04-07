@@ -4,9 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import com.nm.wpc.screen.Screen;
+
 public class GUIObject {
 	protected int x, y, width, height;
 	protected BufferedImage img;
+	protected Screen container;
 	
 	public GUIObject(int x,int y,int width,int height) {
 		setX(x);
@@ -28,7 +31,7 @@ public class GUIObject {
 		g.drawRect(x, y, width-1, height-1);
 	}
 	
-	public void onClick() {}
+	public void onClick(int x, int y) {}
 	
 	public BufferedImage getImg() {
 		return this.img;
@@ -37,6 +40,19 @@ public class GUIObject {
 	public void setImg(BufferedImage img) {
 		this.img = img;
 	}
+
+	public Screen getContainer() {
+		return container;
+	}
+
+	public GUIObject setContainer(Screen container) {
+		this.container = container;
+		return this;
+	}
+	
+	public void mousePressed() {}
+	
+	public void mouseReleased() {}
 
 	public int getWidth() {
 		return width;

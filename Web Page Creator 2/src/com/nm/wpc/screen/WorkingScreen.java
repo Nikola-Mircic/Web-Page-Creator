@@ -10,6 +10,7 @@ public class WorkingScreen extends Screen{
 	private MainScreen ms;
 	
 	public WorkingScreen(int w,int h,MainScreen ms) {
+		super(w, h);
 		this.ms = ms;
 		this.drawContent(w,h);
 	}

@@ -2,10 +2,8 @@ package com.nm.wpc.screen;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.io.File;
 import java.util.ArrayList;
 
-import com.nm.wpc.filesystem.FileManager;
 import com.nm.wpc.input.InputListener;
 
 /*
@@ -24,7 +22,7 @@ public class MainScreen extends Screen{
 	private boolean work = false;
 	
 	public MainScreen(int w,int h) {
-		
+		super(w, h);
 		this.start = new StartScreen(w, h,this);
 		this.working = new WorkingScreen(w, h,this);
 		
@@ -76,8 +74,8 @@ public class MainScreen extends Screen{
 		repaint();
 	}
 	
-	public Dimension createPanelDimension() {
-		return new Dimension(200, 300);
+	public Dimension createPanelDimension(InputPanel ip) {
+		return new Dimension(200, ip.getObjects().size()*80+50);
 	}
 
 	public InputListener getListener() {
@@ -90,32 +88,18 @@ public class MainScreen extends Screen{
 	
 	@Override
 	public void onClick(int x,int y) {
-		panelsActivity = false;
-		InputPanel temp = null;
-		for (InputPanel panel : panels) {
-			int x1 = panel.getSource().getX()+panel.getSource().getWidth();
-			int y1 =  panel.getSource().getY();
-			int x2 = x1+panel.getContent().getWidth();
-			int y2 = y1+panel.getContent().getHeight();
-			if(x1<x && x<x2 && y1<y && y<y2) {
-				panelsActivity = true;
-				temp = panel;
-			}
-		}
-		
-		if(panelsActivity)
-			sendToBack(temp);
-		
 		if(work)
 			working.onClick(x, y);
 		else
 			start.onClick(x, y);
+		
 		repaint();
 	}
 	
-	private void sendToBack(InputPanel panel){
-		InputPanel temp = panel;
-		panels.remove(panel);
-		panels.add(temp);
+	public void onRelease() {
+		if(!work)
+			start.onRelease();
+		
+		repaint();
 	}
 }

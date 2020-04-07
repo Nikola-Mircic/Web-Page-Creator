@@ -9,17 +9,24 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 import com.nm.wpc.screen.MainScreen;
+import com.nm.wpc.screen.Screen;
 
 public class InputListener implements KeyListener,MouseListener,MouseMotionListener,MouseWheelListener{
-	private MainScreen screen;
+	private Screen screen;
 	
-	public InputListener(MainScreen ms) {
-		this.screen = ms;
+	public InputListener(Screen s) {
+		this.screen = s;
 	}
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		screen.onClick(e.getX(), e.getY());
+	}
+	
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		((MainScreen)screen).onRelease();
+		
 	}
 	
 	@Override
@@ -53,12 +60,6 @@ public class InputListener implements KeyListener,MouseListener,MouseMotionListe
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
