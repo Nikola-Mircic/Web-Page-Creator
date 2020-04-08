@@ -100,7 +100,7 @@ public class InputField extends GUIObject{
 	}
 	
 	public void mouseReleased() {
-		printingText = "12345";
+		printingText = textData;
 		drawImage();
 	}
 
@@ -110,5 +110,7 @@ public class InputField extends GUIObject{
 
 	public void setText(String text) {
 		this.textData = text;
+		this.printingText = text;
+		drawImage();
 	}
 }

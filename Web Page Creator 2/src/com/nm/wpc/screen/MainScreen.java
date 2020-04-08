@@ -96,6 +96,7 @@ public class MainScreen extends Screen{
 		repaint();
 	}
 	
+	@Override
 	public void onRelease() {
 		if(!work)
 			start.onRelease();

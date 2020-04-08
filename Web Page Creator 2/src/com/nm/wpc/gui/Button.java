@@ -10,6 +10,7 @@ import com.nm.wpc.editor.option.Option;
 public class Button extends GUIObject{
 	private Option option;
 	private Color bckg;
+	private GUIObject guiObject;
 	
 	public Button(int x,int y,int width,int height,Option option) {
 		super(x,y,width,height);
@@ -61,6 +62,15 @@ public class Button extends GUIObject{
 		this.option = option;
 	}
 	
+	public GUIObject getGuiObject() {
+		return guiObject;
+	}
+
+	public Button setGuiObject(GUIObject guiObject) {
+		this.guiObject = guiObject;
+		return this;
+	}
+
 	@Override
 	public void mousePressed() {
 		this.bckg = new Color(230,230,230);

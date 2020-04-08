@@ -8,7 +8,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
-import com.nm.wpc.screen.MainScreen;
 import com.nm.wpc.screen.Screen;
 
 public class InputListener implements KeyListener,MouseListener,MouseMotionListener,MouseWheelListener{
@@ -25,7 +24,7 @@ public class InputListener implements KeyListener,MouseListener,MouseMotionListe
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		((MainScreen)screen).onRelease();
+		screen.onRelease();
 		
 	}
 	

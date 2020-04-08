@@ -30,6 +30,14 @@ public class Screen extends JPanel{
 	
 	public void onClick(int x,int y) {}
 	
+	public void mousePressed() {
+		
+	}
+	
+	public void onRelease() {
+		
+	}
+	
 	public void drawPanel(InputPanel ip) {
 		this.panels.add(ip);
 		this.panelsActivity = true;

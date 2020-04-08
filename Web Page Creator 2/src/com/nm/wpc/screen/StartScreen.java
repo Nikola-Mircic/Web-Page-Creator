@@ -106,6 +106,7 @@ public class StartScreen extends Screen{
 		drawContent(this.width, this.height);
 	}
 	
+	@Override
 	public void onRelease() {
 		if(last == null) {
 			for(InputPanel panel : panels) {

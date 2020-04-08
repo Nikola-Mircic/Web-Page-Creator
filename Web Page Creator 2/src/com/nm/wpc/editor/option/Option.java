@@ -7,6 +7,9 @@ public class Option {
   	protected String optName;
   	protected MainScreen ms;
   	
+  	public Option() {
+  	}
+  	
   	public Option(MainScreen ms) {
   		this.ms = ms;
   	}

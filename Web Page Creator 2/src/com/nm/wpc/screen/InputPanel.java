@@ -117,6 +117,7 @@ public class InputPanel extends Screen{
 		drawContent(this.width,this.height);
 	}
 	
+	@Override
 	public void onRelease() {
 		if(this.last == null) {
 			for(InputPanel panel : panels) {
