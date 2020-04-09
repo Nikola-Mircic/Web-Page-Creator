@@ -3,6 +3,7 @@ package com.nm.wpc.window;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
@@ -31,6 +32,7 @@ public class FormWindow extends JFrame{
 		
 		p = new Panel(300,500);
 		this.add(p);
+		this.addKeyListener(p.getListener());
 		
 		this.setVisible(true);
 	}
@@ -39,6 +41,7 @@ public class FormWindow extends JFrame{
 class Panel extends Screen{
 	private static final long serialVersionUID = 1L;
 	private GUIObject last;
+	private InputListener listener;
 	
 	public Panel(int w,int h) {
 		super(w, h);
@@ -53,8 +56,8 @@ class Panel extends Screen{
 		input = new InputField("Entry point:", 20, 200, 260,80,1);
 		this.objects.add(input);
 		
-		InputListener il = new InputListener(this);
-		this.addMouseListener(il);
+		listener = new InputListener(this);
+		this.addMouseListener(listener);
 	}
 	
 	@Override
@@ -65,23 +68,51 @@ class Panel extends Screen{
 	}
 	
 	@Override
-	public void onClick(int x, int y) {
+	public void onMousePressed(int x, int y) {
+		last = findEditingField();
+		
+		if(last != null) {
+			((InputField)last).setEditing(false);
+			last=null;
+		}
+		
 		for(GUIObject object:objects) {
 			if(x>=object.getX() && x<=object.getX()+object.getWidth() && y>=object.getY() && y<=object.getY()+object.getHeight()) {
 				last = object;
 			}
 		}
-		last.mousePressed();
+		if(last instanceof InputField)
+			last.mousePressed(x, y);
+		else if(last instanceof Button)
+			last.mousePressed();
+		
 		repaint();
 	}
 	
 	@Override
-	public void onRelease() {
+	public void onMouseRelease() {
 		if(last != null) {
 			last.mouseReleased();
 			last = null;
 		}
 		repaint();
+	}
+	
+	@Override
+	public void onKeyPressed(KeyEvent e) {
+		char c = e.getKeyChar();
+		InputField edit = findEditingField();
+		if(edit != null)
+			edit.addLetter(c);
+		repaint();
+	}
+
+	public InputListener getListener() {
+		return listener;
+	}
+
+	public void setListener(InputListener listener) {
+		this.listener = listener;
 	}
 	
 }

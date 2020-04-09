@@ -10,10 +10,12 @@ public class InputField extends GUIObject{
 	private String textData;
 	private String printingText;
 	
-	
 	private int type;
+	private int cursorPos;
 	
-	//private boolean editing = false;
+	private int border;
+	
+	private boolean editing = false;
 	
 	private BufferedImage textField;
 	
@@ -27,7 +29,7 @@ public class InputField extends GUIObject{
 	public InputField(String label,int x,int y,int width,int height,int type) {
 		super(x,y,width,height);
 		this.LABEL = label;
-		this.textData = "abc123";
+		this.textData = "popokatepetl12345";
 		this.printingText = this.textData;
 		this.type = type;
 		drawImage();
@@ -37,7 +39,7 @@ public class InputField extends GUIObject{
 		//Frame drawing
 		this.img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics g = this.img.getGraphics();
-		int border=0;
+		border=0;
 		if(type==0)
 			border = (height+20)/20;
 		else if(type == 1)
@@ -78,29 +80,56 @@ public class InputField extends GUIObject{
 		}
 	}
 	
-	/*private String resizeText(String text) {
+	private String resizeTextLeft(String text) {
 		String s = text;
-		int n = text.length();
-		if(n/2*20>width) {
-		}
+		int n=0;
+		if(type == 0)
+			n = Math.min(text.length(), ((width-((LABEL.length()/2)*20))-4*border)/10);
+		else
+			n = Math.min(text.length(), (width-2*border)/10);
+		s=s.substring(0,n);
 		return s;
-	}*/
+	}
 	
-	/*@Override
-	public void onClick(int x,int y) {
-		text="|";
-		//editing = true;
-		drawImage();
-	}*/
+	private String resizeTextRight(String text) {
+		String s = text;
+		int n=0;
+		if(type == 0)
+			n = Math.min(text.length(), ((width-((LABEL.length()/2)*20))-4*border)/10);
+		else
+			n = Math.min(text.length(), (width-2*border)/10);
+		s=s.substring(s.length()-n);
+		return s;
+	}
 	
-	public void mousePressed() {
-		printingText="|";
-		//editing = true;
+	private String insertChar(String base,char c,int pos) {
+		if(pos == base.length())
+			return (base+c);
+		else if(pos == 0)
+			return (c+base);
+		else
+			return (base.substring(0, pos)+c+base.substring(pos));
+	}
+	
+	private String removeChar(String base,int pos) {
+		if(pos == base.length()-1)
+			return base.substring(0,base.length()-1);
+		else if(pos == 0)
+			return base.substring(1);
+		else
+			return (base.substring(0, pos-1)+base.substring(pos+1));
+	}
+	
+	@Override
+	public void mousePressed(int x,int y) {
+		setEditing(true);
 		drawImage();
 	}
 	
-	public void mouseReleased() {
-		printingText = textData;
+	public void addLetter(char c) {
+		this.textData = insertChar(this.textData, c, cursorPos);
+		cursorPos++;
+		printingText = resizeTextRight(textData);
 		drawImage();
 	}
 
@@ -111,6 +140,24 @@ public class InputField extends GUIObject{
 	public void setText(String text) {
 		this.textData = text;
 		this.printingText = text;
+		drawImage();
+	}
+
+	public boolean isEditing() {
+		return editing;
+	}
+
+	public void setEditing(boolean edit) {
+		if(edit) {
+			cursorPos = textData.length();
+			textData = insertChar(textData, '|', cursorPos);
+			printingText = resizeTextRight(textData);
+			editing = true;
+		}else {
+			textData = removeChar(this.textData,cursorPos);
+			printingText = resizeTextLeft(textData);
+			editing = false;
+		}
 		drawImage();
 	}
 }

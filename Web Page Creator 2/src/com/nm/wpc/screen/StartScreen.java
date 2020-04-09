@@ -3,6 +3,7 @@ package com.nm.wpc.screen;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -23,8 +24,6 @@ public class StartScreen extends Screen{
 	
 	public StartScreen(int w,int h,MainScreen ms) {
 		super(w, h);
-		this.objects = new ArrayList<GUIObject>();
-		this.panels = new ArrayList<InputPanel>();
 		this.ms = ms;
 		
 		this.options = new Option[3];
@@ -68,9 +67,16 @@ public class StartScreen extends Screen{
 	}
 	
 	@Override
-	public void onClick(int x,int y) {
+	public void onMousePressed(int x,int y) {
 		panelsActivity = false;
 		InputPanel temp = null;
+		last = findEditingField();	
+		
+		if(last != null) {
+			((InputField)last).setEditing(false);
+			last=null;
+		}
+		
 		for (InputPanel panel : panels) {
 			int x1 = panel.getX();
 			int y1 =  panel.getY();
@@ -89,7 +95,7 @@ public class StartScreen extends Screen{
 		}
 		
 		if(panelsActivity) {
-			temp.onClick(x, y);
+			temp.onMousePressed(x, y);
 			this.drawContent(getW(), getH());
 			return;
 		}else {
@@ -98,7 +104,10 @@ public class StartScreen extends Screen{
 		
 		for(GUIObject object:objects) {
 			if(x>=object.getX() && x<=object.getX()+object.getWidth() && y>=object.getY() && y<=object.getY()+object.getHeight()) {
-				object.mousePressed();
+				if(object instanceof InputField)
+					object.mousePressed(x, y);
+				else
+					object.mousePressed();
 				last = object;
 				break;
 			}
@@ -107,16 +116,25 @@ public class StartScreen extends Screen{
 	}
 	
 	@Override
-	public void onRelease() {
+	public void onMouseRelease() {
 		if(last == null) {
 			for(InputPanel panel : panels) {
-				panel.onRelease();
+				panel.onMouseRelease();
 			}
 		}else {
 			last.mouseReleased();
 			last = null;
 		}
 		
+		drawContent(getW(), getH());
+	}
+	
+	@Override
+	public void onKeyPressed(KeyEvent e) {
+		char c = e.getKeyChar();
+		InputField edit = findEditingField();
+		if(edit != null)
+			edit.addLetter(c);
 		drawContent(getW(), getH());
 	}
 }

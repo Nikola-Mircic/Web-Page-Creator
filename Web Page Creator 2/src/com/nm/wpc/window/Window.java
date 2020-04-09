@@ -4,6 +4,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 import com.nm.wpc.filesystem.FileManager;
 import com.nm.wpc.screen.MainScreen;
@@ -64,6 +65,7 @@ public class Window extends JFrame implements Runnable{
 	}
 	
 	public static void main(String[] args) {
+		
 		FileManager fm = new FileManager();
 		fm.createDefaultProperties();
 		
@@ -72,6 +74,7 @@ public class Window extends JFrame implements Runnable{
 		Window window = new Window();
 		
 		window.add(ms);
+		window.addKeyListener(ms.getListener());
 		app = new Thread(window);
 		app.start();
 	}

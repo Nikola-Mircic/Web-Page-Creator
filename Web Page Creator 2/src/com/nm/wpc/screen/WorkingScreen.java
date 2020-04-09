@@ -24,7 +24,7 @@ public class WorkingScreen extends Screen{
 	}
 	
 	@Override
-	public void onClick(int x,int y) {
+	public void onMousePressed(int x,int y) {
 		ms.changeContent();
 	}
 }

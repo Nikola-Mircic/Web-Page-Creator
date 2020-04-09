@@ -1,15 +1,22 @@
 package com.nm.wpc.screen;
 
+import java.awt.event.KeyEvent;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
 
 import com.nm.wpc.gui.GUIObject;
+import com.nm.wpc.gui.InputField;
+import com.nm.wpc.window.Window;
+
 
 public class Screen extends JPanel{
 	private static final long serialVersionUID = 1L;
+	
+	protected Window window;
 	
 	protected int x,y;
 	protected int width,height;
@@ -24,17 +31,35 @@ public class Screen extends JPanel{
 	public Screen(int width,int height) {
 		setW(width);
 		setH(height);
+		this.objects = new ArrayList<GUIObject>();
+		this.panels = new ArrayList<InputPanel>();
 	}
-	
+
+	public Screen(int width,int height,Window window) {
+		setW(width);
+		setH(height);
+		setWindow(window);
+		this.objects = new ArrayList<GUIObject>();
+		this.panels = new ArrayList<InputPanel>();
+	}
+		
 	protected void drawContent(int width,int height) {}
 	
 	public void onClick(int x,int y) {}
 	
-	public void mousePressed() {
+	public void onMousePressed(int x,int y) {
 		
 	}
 	
-	public void onRelease() {
+	public void onMouseDragged(int x,int y) {
+		
+	}
+	
+	public void onMouseRelease() {
+		
+	}
+	
+	public void onKeyPressed(KeyEvent e) {
 		
 	}
 	
@@ -50,6 +75,24 @@ public class Screen extends JPanel{
 		}
 	}
 	
+	protected InputField findEditingField() {
+		InputField inf = null;
+		for(InputPanel panel : panels) {
+			inf = panel.findEditingField();
+			if(inf != null)
+				return inf;
+		}
+		
+		for(GUIObject field : objects) {
+			if(field instanceof InputField) {
+				if(((InputField) field).isEditing())
+					return (InputField)field;
+			}
+		}
+		
+		return inf;
+	}
+	
 	protected void sendToBack(InputPanel panel){
 		InputPanel temp = panel;
 		panels.remove(panel);
@@ -60,6 +103,14 @@ public class Screen extends JPanel{
 		this.objects.add(oject);
 	}
 	
+	public Window getWindow() {
+		return window;
+	}
+
+	public void setWindow(Window window) {
+		this.window = window;
+	}
+
 	public BufferedImage getContent() {
 		return content;
 	}

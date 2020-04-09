@@ -3,6 +3,7 @@ package com.nm.wpc.editor.option;
 import java.io.File;
 
 import javax.swing.JFileChooser;
+import javax.swing.UIManager;
 
 import com.nm.wpc.gui.*;
 
@@ -21,15 +22,20 @@ public class SelectFileOption extends Option{
 	
 	@Override
 	public void make(GUIObject source) {
-		JFileChooser test = new JFileChooser();
-		test.setCurrentDirectory(new File("."));
-		test.setDialogTitle("Choose a directory");
-		test.setFileSelectionMode(this.mode);
-	    test.setAcceptAllFileFilterUsed(false);
+		try {
+		    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} 
+		catch (Exception e) {
+		}
+		JFileChooser choose = new JFileChooser();
+		choose.setCurrentDirectory(new File("."));
+		choose.setDialogTitle("Choose a directory");
+		choose.setFileSelectionMode(this.mode);
+		choose.setAcceptAllFileFilterUsed(false);
 
-		int val = test.showOpenDialog(ms);
+		int val = choose.showOpenDialog(ms);
 		if(val == JFileChooser.APPROVE_OPTION) {
-			((InputField)((Button)source).getGuiObject()).setText(test.getSelectedFile().getAbsolutePath());
+			((InputField)((Button)source).getGuiObject()).setText(choose.getSelectedFile().getAbsolutePath());
 		}
 	}
 }

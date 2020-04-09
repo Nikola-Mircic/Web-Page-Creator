@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import com.nm.wpc.gui.GUIObject;
+import com.nm.wpc.gui.InputField;
 
 public class InputPanel extends Screen{
 	private static final long serialVersionUID = 1L;
@@ -93,14 +94,14 @@ public class InputPanel extends Screen{
 	}
 	
 	@Override
-	public void onClick(int x,int y) {
+	public void onMousePressed(int x,int y) {
 		this.panelsActivity = false;
 		InputPanel temp = null;
 		
 		temp = getClicked(x, y);
 		
 		if(temp != null) {
-			temp.onClick(x, y);
+			temp.onMousePressed(x, y);
 			this.drawContent(this.width, this.height);
 		}else {
 			panels.removeAll(panels);
@@ -108,7 +109,10 @@ public class InputPanel extends Screen{
 		
 		for(GUIObject obj : objects) {
 			if(x>obj.getX() && x<obj.getX()+obj.getWidth() && y>obj.getY() && y<obj.getY()+obj.getHeight()) {
-				obj.mousePressed();
+				if(obj instanceof InputField)
+					obj.mousePressed(x, y);
+				else
+					obj.mousePressed();
 				last = obj;
 				break;
 			}
@@ -118,10 +122,10 @@ public class InputPanel extends Screen{
 	}
 	
 	@Override
-	public void onRelease() {
+	public void onMouseRelease() {
 		if(this.last == null) {
 			for(InputPanel panel : panels) {
-				panel.onRelease();
+				panel.onMouseRelease();
 			}
 		}else {
 			last.mouseReleased();

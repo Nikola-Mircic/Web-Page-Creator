@@ -31,7 +31,11 @@ public class GUIObject {
 		g.drawRect(x, y, width-1, height-1);
 	}
 	
-	public void onClick(int x, int y) {}
+	public void mousePressed() {}
+	
+	public void mousePressed(int x,int y) {}
+	
+	public void mouseReleased() {}
 	
 	public BufferedImage getImg() {
 		return this.img;
@@ -49,10 +53,6 @@ public class GUIObject {
 		this.container = container;
 		return this;
 	}
-	
-	public void mousePressed() {}
-	
-	public void mouseReleased() {}
 
 	public int getWidth() {
 		return width;

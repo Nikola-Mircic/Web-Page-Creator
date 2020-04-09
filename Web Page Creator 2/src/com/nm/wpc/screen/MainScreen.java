@@ -2,9 +2,11 @@ package com.nm.wpc.screen;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import com.nm.wpc.input.InputListener;
+import com.nm.wpc.window.Window;
 
 /*
  * Classname: Screen
@@ -29,7 +31,20 @@ public class MainScreen extends Screen{
 		this.setListener(new InputListener(this));
 		this.addMouseListener(listener);
 		
-		this.panels = new ArrayList<InputPanel>();
+		this.panelsActivity = false;
+		
+		work=false;
+		this.content = start.getContent();
+	}
+	
+	public MainScreen(int w,int h,Window window) {
+		super(w, h, window);
+		this.start = new StartScreen(w, h,this);
+		this.working = new WorkingScreen(w, h,this);
+		this.setListener(new InputListener(this));
+		
+		this.addMouseListener(listener);
+		
 		this.panelsActivity = false;
 		
 		work=false;
@@ -87,19 +102,41 @@ public class MainScreen extends Screen{
 	}
 	
 	@Override
-	public void onClick(int x,int y) {
+	public void onMousePressed(int x,int y) {
 		if(work)
-			working.onClick(x, y);
+			working.onMousePressed(x, y);
 		else
-			start.onClick(x, y);
+			start.onMousePressed(x, y);
 		
 		repaint();
 	}
 	
 	@Override
-	public void onRelease() {
-		if(!work)
-			start.onRelease();
+	public void onMouseDragged(int x,int y) {
+		if(work)
+			working.onMousePressed(x, y);
+		else
+			start.onMousePressed(x, y);
+		
+		repaint();
+	}
+	
+	@Override
+	public void onMouseRelease() {
+		if(work)
+			working.onMouseRelease();
+		else
+			start.onMouseRelease();
+		
+		repaint();
+	}
+	
+	@Override
+	public void onKeyPressed(KeyEvent e) {
+		if(work)
+			working.onKeyPressed(e);
+		else
+			start.onKeyPressed(e);
 		
 		repaint();
 	}
