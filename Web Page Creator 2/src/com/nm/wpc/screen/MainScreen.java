@@ -101,6 +101,12 @@ public class MainScreen extends Screen{
 		this.listener = il;
 	}
 	
+	public Screen getActiveScreen() {
+		if(work)
+			return working;
+		return start;
+	}
+	
 	@Override
 	public void onMousePressed(int x,int y) {
 		if(work)

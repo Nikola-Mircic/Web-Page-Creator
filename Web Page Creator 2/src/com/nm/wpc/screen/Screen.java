@@ -28,9 +28,15 @@ public class Screen extends JPanel{
 	protected List<GUIObject> objects;
 	protected List<InputPanel> panels;
 	
+	public Screen() {
+		this.objects = new ArrayList<GUIObject>();
+		this.panels = new ArrayList<InputPanel>();
+	}
+	
 	public Screen(int width,int height) {
 		setW(width);
 		setH(height);
+		
 		this.objects = new ArrayList<GUIObject>();
 		this.panels = new ArrayList<InputPanel>();
 	}
@@ -56,11 +62,9 @@ public class Screen extends JPanel{
 	}
 	
 	public void onMouseRelease() {
-		
 	}
 	
 	public void onKeyPressed(KeyEvent e) {
-		
 	}
 	
 	public void drawPanel(InputPanel ip) {
@@ -75,7 +79,7 @@ public class Screen extends JPanel{
 		}
 	}
 	
-	protected InputField findEditingField() {
+	public InputField findEditingField() {
 		InputField inf = null;
 		for(InputPanel panel : panels) {
 			inf = panel.findEditingField();
@@ -112,6 +116,7 @@ public class Screen extends JPanel{
 	}
 
 	public BufferedImage getContent() {
+		this.drawContent(width, height);
 		return content;
 	}
 

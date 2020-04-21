@@ -21,22 +21,22 @@ public class InputListener implements KeyListener,MouseListener,MouseMotionListe
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
-		ih.handle(MouseEvent.MOUSE_PRESSED, e);
+		ih.handle(e);
 	}
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		ih.handle(MouseEvent.MOUSE_RELEASED, e);
+		ih.handle(e);
 	}
 	
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		ih.handle(MouseEvent.MOUSE_DRAGGED, e);
+		ih.handle(e);
 	}
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		screen.onKeyPressed(e);
+		ih.handle(e);
 	}
 	
 	@Override

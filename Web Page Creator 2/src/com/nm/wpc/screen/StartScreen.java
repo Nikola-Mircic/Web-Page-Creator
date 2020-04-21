@@ -19,6 +19,7 @@ public class StartScreen extends Screen{
 	private MainScreen ms;
 	
 	private GUIObject last;
+	private InputField editing;
 	
 	private Option options[];
 	
@@ -70,22 +71,25 @@ public class StartScreen extends Screen{
 	public void onMousePressed(int x,int y) {
 		panelsActivity = false;
 		InputPanel temp = null;
-		last = findEditingField();	
+		editing = findEditingField();
 		
-		if(last != null) {
-			((InputField)last).setEditing(false);
-			last=null;
+		if(editing!= null) {
+			editing.setEditing(false);
+			editing = null;
 		}
 		
+		//Test if clicked on any open panel
 		for (InputPanel panel : panels) {
 			int x1 = panel.getX();
 			int y1 =  panel.getY();
 			int x2 = x1+panel.getW();
 			int y2 = y1+panel.getH();
 			if(x1<x && x<x2 && y1<y && y<y2) {
+				//Check panels stored in this class
 				panelsActivity = true;
 				temp = panel;
 			}else {
+				//For each panel check it's child panels
 				temp = panel.getClicked(x, y);
 				if(temp != null) {
 					panelsActivity = true;
@@ -95,20 +99,26 @@ public class StartScreen extends Screen{
 		}
 		
 		if(panelsActivity) {
+			//If user clicked on a panel,activate it's function
 			temp.onMousePressed(x, y);
 			this.drawContent(getW(), getH());
 			return;
 		}else {
+			//No panels clicked,close all;
 			this.panels.removeAll(panels);
 		}
 		
 		for(GUIObject object:objects) {
+			//GUIObject check
 			if(x>=object.getX() && x<=object.getX()+object.getWidth() && y>=object.getY() && y<=object.getY()+object.getHeight()) {
-				if(object instanceof InputField)
+				if(object instanceof InputField) {
+					//if object is instance od InputField,send it x and y to check if clicked on editable part of input field
 					object.mousePressed(x, y);
-				else
+					editing = (InputField)object;
+				}else {
 					object.mousePressed();
-				last = object;
+					last = object;
+				}
 				break;
 			}
 		}
@@ -132,9 +142,22 @@ public class StartScreen extends Screen{
 	@Override
 	public void onKeyPressed(KeyEvent e) {
 		char c = e.getKeyChar();
-		InputField edit = findEditingField();
-		if(edit != null)
-			edit.addLetter(c);
+		if(editing != null) {
+			switch (e.getKeyCode()) {
+			case KeyEvent.VK_BACK_SPACE:
+				editing.removeLetter();
+				break;
+			case KeyEvent.VK_LEFT:
+				editing.moveCursor(-1);
+				break;
+			case KeyEvent.VK_RIGHT:
+				editing.moveCursor(1);
+				break;
+			default:
+				editing.addLetter(c);
+				break;
+			}
+		}
 		drawContent(getW(), getH());
 	}
 }
