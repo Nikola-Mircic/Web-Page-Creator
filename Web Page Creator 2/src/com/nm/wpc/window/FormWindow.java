@@ -10,31 +10,61 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 import com.nm.wpc.screen.Screen;
+import com.nm.wpc.editor.option.Option;
 import com.nm.wpc.editor.option.SelectFileOption;
 import com.nm.wpc.gui.*;
 import com.nm.wpc.input.InputListener;
 
 public class FormWindow extends JFrame{
 	private static final long serialVersionUID = 1L;
+	
 	private String title;
+	int width,height;
+	
 	private Panel p;
 
-	public FormWindow(String title) {
+	public FormWindow(String title,int w,int h) {
 		this.title = title;
+		this.width = w;
+		this.height = h;
+		
+		p = new Panel();
 	}
 	
 	public void createWindow() {
 		this.setTitle(title);
-		this.setSize(new Dimension(300,500));
+		this.setSize(p.getDimension());
 		this.setResizable(false);
 		
 		this.setLocationRelativeTo(null);
 		
-		p = new Panel(300,500);
 		this.add(p);
 		this.addKeyListener(p.getListener());
 		
 		this.setVisible(true);
+	}
+	
+	public void addInputField(InputField newIf) {
+		p.getObjects().add(newIf);
+	}
+	
+	public void addInputField(String label,int x,int y,int width,int height,int type) {
+		InputField input = new InputField(label,x,y,width,height,type);
+		p.getObjects().add(input);
+	}
+	
+	public void addButton(Button btn) {
+		p.getObjects().add(btn);
+	}
+	
+	public void addButton(String title,int x,int y,int width,int height,Option option) {
+		Button btn = new Button(title, x, y, width, height, option);
+		p.getObjects().add(btn);
+	}
+	
+	public void addButton(int x,int y,int width,int height,Option option) {
+		Button btn = new Button(x, y, width, height, option);
+		p.getObjects().add(btn);
 	}
 }
 
@@ -43,18 +73,15 @@ class Panel extends Screen{
 	private GUIObject last;
 	private InputListener listener;
 	
+	public Panel() {
+		super();
+		
+		listener = new InputListener(this);
+		this.addMouseListener(listener);
+	}
+	
 	public Panel(int w,int h) {
 		super(w, h);
-		this.objects = new ArrayList<GUIObject>();
-		InputField input;
-		input = new InputField("Project name:", 20, 20, 260,80,1);
-		this.objects.add(input);
-		input = new InputField("Project location:", 20, 110, 260,80,1);
-		this.objects.add(input);
-		Button btn = (new Button(225, 115, 30, 30, new SelectFileOption(JFileChooser.DIRECTORIES_ONLY))).setGuiObject(input);
-		this.objects.add(btn);
-		input = new InputField("Entry point:", 20, 200, 260,80,1);
-		this.objects.add(input);
 		
 		listener = new InputListener(this);
 		this.addMouseListener(listener);
@@ -97,14 +124,31 @@ class Panel extends Screen{
 		}
 		repaint();
 	}
+
+	public void addInputField(String label,int x,int y,int width,int height,int type) {
+		InputField input = new InputField(label,x,y,width,height,type);
+		this.objects.add(input);
+	}
 	
-	@Override
-	public void onKeyPressed(KeyEvent e) {
-		char c = e.getKeyChar();
-		InputField edit = findEditingField();
-		if(edit != null)
-			edit.addLetter(c);
-		repaint();
+	public void addButton(String title,int x,int y,int width,int height,Option option) {
+		Button btn = new Button(title, x, y, width, height, option);
+		this.objects.add(btn);
+	}
+	
+	public void addButton(int x,int y,int width,int height,Option option) {
+		Button btn = new Button(x, y, width, height, option);
+		this.objects.add(btn);
+	}
+	
+	public Dimension getDimension() {
+		for(GUIObject object : objects) {
+			if(object.getWidth() > width)
+				this.width = object.getWidth()+40;
+		}
+		
+		this.height = objects.get(objects.size()-1).getY()+objects.get(objects.size()-1).getHeight()+40;
+		
+		return new Dimension(this.width,this.height);
 	}
 
 	public InputListener getListener() {
