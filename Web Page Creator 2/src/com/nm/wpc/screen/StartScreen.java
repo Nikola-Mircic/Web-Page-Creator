@@ -44,9 +44,7 @@ public class StartScreen extends Screen{
 		Graphics g = this.content.getGraphics();
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, width, height);
-		for(GUIObject object:objects) {
-			g.drawImage((Image)object.getImg(), object.getX(), object.getY(), null);
-		}
+		drawObjects(g);
 		for(InputPanel panel : panels) {
 			g.drawImage(panel.getContent(), panel.getX(), panel.getY(), null);
 			panel.drawChildPanels(g);
@@ -61,10 +59,8 @@ public class StartScreen extends Screen{
 		for(int i=0;i<3;i++) {
 			btn = (Button)(new Button(100, 100+i*30, 50, 19, options[i]).setContainer(this));
 			btn.fitText(1);
-			objects.add(btn);
+			addGUIObject(btn);
 		}
-		input = (InputField)(new InputField("Test",100, 260, 150, 50,1).setContainer(this));
-		objects.add(input);
 	}
 	
 	@Override
@@ -108,20 +104,17 @@ public class StartScreen extends Screen{
 			this.panels.removeAll(panels);
 		}
 		
-		for(GUIObject object:objects) {
-			//GUIObject check
-			if(x>=object.getX() && x<=object.getX()+object.getWidth() && y>=object.getY() && y<=object.getY()+object.getHeight()) {
-				if(object instanceof InputField) {
-					//if object is instance od InputField,send it x and y to check if clicked on editable part of input field
-					object.mousePressed(x, y);
-					editing = (InputField)object;
-				}else {
-					object.mousePressed();
-					last = object;
-				}
-				break;
+		GUIObject object = checkOnClick(x, y);
+		if(object != null) {
+			if(object instanceof InputField) {
+				object.mousePressed(x, y);
+				editing = (InputField)object;
+			}else {
+				object.mousePressed();
+				last = object;
 			}
 		}
+		
 		drawContent(this.width, this.height);
 	}
 	

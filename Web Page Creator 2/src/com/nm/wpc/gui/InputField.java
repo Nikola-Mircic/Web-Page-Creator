@@ -10,7 +10,6 @@ import javax.crypto.spec.PSource;
 public class InputField extends GUIObject{
 	private String LABEL;
 	private String textData;
-	//private String printingText;
 	
 	private int type;
 	private int ptOffset;
@@ -33,7 +32,7 @@ public class InputField extends GUIObject{
 	public InputField(String label,int x,int y,int width,int height,int type) {
 		super(x,y,width,height);
 		this.LABEL = label;
-		this.textData = "popokatepetl12345";
+		this.textData = "";
 		this.ptOffset = 0;
 		this.ptLenght = 0;
 		this.type = type;

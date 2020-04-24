@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import com.nm.wpc.gui.GUIControler;
 import com.nm.wpc.gui.GUIObject;
 import com.nm.wpc.gui.InputField;
 import com.nm.wpc.window.Window;
@@ -25,11 +26,11 @@ public class Screen extends JPanel{
 	
 	protected boolean panelsActivity;
 	
-	protected List<GUIObject> objects;
+	protected GUIControler controler;
 	protected List<InputPanel> panels;
 	
 	public Screen() {
-		this.objects = new ArrayList<GUIObject>();
+		this.controler = new GUIControler();
 		this.panels = new ArrayList<InputPanel>();
 	}
 	
@@ -37,7 +38,7 @@ public class Screen extends JPanel{
 		setW(width);
 		setH(height);
 		
-		this.objects = new ArrayList<GUIObject>();
+		this.controler = new GUIControler();
 		this.panels = new ArrayList<InputPanel>();
 	}
 
@@ -45,27 +46,19 @@ public class Screen extends JPanel{
 		setW(width);
 		setH(height);
 		setWindow(window);
-		this.objects = new ArrayList<GUIObject>();
+		this.controler = new GUIControler();
 		this.panels = new ArrayList<InputPanel>();
 	}
 		
 	protected void drawContent(int width,int height) {}
 	
-	public void onClick(int x,int y) {}
+	public void onMousePressed(int x,int y) {}
 	
-	public void onMousePressed(int x,int y) {
-		
-	}
+	public void onMouseDragged(int x,int y) {}
 	
-	public void onMouseDragged(int x,int y) {
-		
-	}
+	public void onMouseRelease() {}
 	
-	public void onMouseRelease() {
-	}
-	
-	public void onKeyPressed(KeyEvent e) {
-	}
+	public void onKeyPressed(KeyEvent e) {}
 	
 	public void drawPanel(InputPanel ip) {
 		this.panels.add(ip);
@@ -73,28 +66,15 @@ public class Screen extends JPanel{
 	}
 	
 	protected void drawObjects(Graphics g) {
-		int n = this.objects.size();
-		for(int i=0;i<n;i++) {
-			g.drawImage(objects.get(i).getImg(), objects.get(i).getX()-this.x, objects.get(i).getY()-this.y, null);
-		}
+		controler.drawObjects(g,this.x,this.y);
 	}
 	
 	public InputField findEditingField() {
-		InputField inf = null;
-		for(InputPanel panel : panels) {
-			inf = panel.findEditingField();
-			if(inf != null)
-				return inf;
-		}
-		
-		for(GUIObject field : objects) {
-			if(field instanceof InputField) {
-				if(((InputField) field).isEditing())
-					return (InputField)field;
-			}
-		}
-		
-		return inf;
+		return controler.findEditingField(panels);
+	}
+	
+	protected GUIObject checkOnClick(int x,int y) {
+		return controler.checkOnClick(x,y);
 	}
 	
 	protected void sendToBack(InputPanel panel){
@@ -103,8 +83,8 @@ public class Screen extends JPanel{
 		panels.add(temp);
 	}
 	
-	public void addGUIObject(GUIObject oject) {
-		this.objects.add(oject);
+	public void addGUIObject(GUIObject object) {
+		this.controler.addObject(object);
 	}
 	
 	public Window getWindow() {
@@ -121,7 +101,7 @@ public class Screen extends JPanel{
 	}
 
 	public List<GUIObject> getObjects() {
-		return objects;
+		return controler.getObjects();
 	}
 
 	public int getX() {

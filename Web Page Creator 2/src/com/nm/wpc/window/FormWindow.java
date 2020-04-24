@@ -103,11 +103,11 @@ class Panel extends Screen{
 			last=null;
 		}
 		
-		for(GUIObject object:objects) {
-			if(x>=object.getX() && x<=object.getX()+object.getWidth() && y>=object.getY() && y<=object.getY()+object.getHeight()) {
-				last = object;
-			}
+		GUIObject object = checkOnClick(x, y);
+		if(object != null) {
+			last = object;
 		}
+		
 		if(last instanceof InputField)
 			last.mousePressed(x, y);
 		else if(last instanceof Button)
@@ -127,26 +127,26 @@ class Panel extends Screen{
 
 	public void addInputField(String label,int x,int y,int width,int height,int type) {
 		InputField input = new InputField(label,x,y,width,height,type);
-		this.objects.add(input);
+		addGUIObject(input);
 	}
 	
 	public void addButton(String title,int x,int y,int width,int height,Option option) {
 		Button btn = new Button(title, x, y, width, height, option);
-		this.objects.add(btn);
+		addGUIObject(btn);
 	}
 	
 	public void addButton(int x,int y,int width,int height,Option option) {
 		Button btn = new Button(x, y, width, height, option);
-		this.objects.add(btn);
+		addGUIObject(btn);
 	}
 	
 	public Dimension getDimension() {
-		for(GUIObject object : objects) {
+		for(GUIObject object : controler.getObjects()) {
 			if(object.getWidth() > width)
 				this.width = object.getWidth()+40;
 		}
 		
-		this.height = objects.get(objects.size()-1).getY()+objects.get(objects.size()-1).getHeight()+40;
+		this.height = controler.getObjects().get(controler.getObjects().size()-1).getY()+controler.getObjects().get(controler.getObjects().size()-1).getHeight()+40;
 		
 		return new Dimension(this.width,this.height);
 	}

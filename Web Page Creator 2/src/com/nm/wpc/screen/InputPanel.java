@@ -20,8 +20,6 @@ public class InputPanel extends Screen{
 		this.x = x;
 		this.y = y;
 		this.setSource(source);
-		this.objects = new ArrayList<GUIObject>();
-		this.panels = new ArrayList<InputPanel>();
 		getDimensions();
 		
 		this.TITLE = "";
@@ -33,7 +31,6 @@ public class InputPanel extends Screen{
 		this.x = x;
 		this.y = y;
 		this.setSource(source);
-		this.objects = new ArrayList<GUIObject>();
 		
 		this.content = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		this.TITLE = "";
@@ -107,14 +104,13 @@ public class InputPanel extends Screen{
 			panels.removeAll(panels);
 		}
 		
-		for(GUIObject obj : objects) {
-			if(x>obj.getX() && x<obj.getX()+obj.getWidth() && y>obj.getY() && y<obj.getY()+obj.getHeight()) {
-				if(obj instanceof InputField)
-					obj.mousePressed(x, y);
-				else
-					obj.mousePressed();
-				last = obj;
-				break;
+		GUIObject object = checkOnClick(x, y);
+		if(object != null) {
+			if(object instanceof InputField) {
+				object.mousePressed(x, y);
+			}else {
+				object.mousePressed(x, y);
+				last = object;
 			}
 		}
 		
@@ -137,8 +133,8 @@ public class InputPanel extends Screen{
 	
 	private void getDimensions() {
 		int height = 50;
-		if(!objects.isEmpty())
-			height = objects.get(objects.size()-1).getY()-this.y+objects.get(objects.size()-1).getHeight()+10;
+		if(!controler.getObjects().isEmpty())
+			height = controler.getObjects().get(controler.getObjects().size()-1).getY()-this.y+controler.getObjects().get(controler.getObjects().size()-1).getHeight()+10;
 		this.width = 180;
 		this.height = height;
 	}
