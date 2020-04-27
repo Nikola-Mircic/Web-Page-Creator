@@ -8,10 +8,8 @@ import com.nm.wpc.screen.*;
 
 public class InputHandler {
 	private Screen screen;
-	private InputListener il;
 	
 	public InputHandler(InputListener il,Screen screen) {
-		this.il = il;
 		this.screen = screen;
 	}
 	

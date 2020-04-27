@@ -11,11 +11,9 @@ import java.awt.event.MouseWheelListener;
 import com.nm.wpc.screen.Screen;
 
 public class InputListener implements KeyListener,MouseListener,MouseMotionListener,MouseWheelListener{
-	private Screen screen;
 	private InputHandler ih;
 	
 	public InputListener(Screen s) {
-		this.screen = s;
 		this.ih = new InputHandler(this, s);
 	}
 	

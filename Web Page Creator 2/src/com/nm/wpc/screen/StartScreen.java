@@ -2,10 +2,8 @@ package com.nm.wpc.screen;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 import com.nm.wpc.editor.option.ContinueRecentOption;
 import com.nm.wpc.editor.option.NewProjectOption;
@@ -55,7 +53,6 @@ public class StartScreen extends Screen{
 	
 	private void addButtons() {
 		Button btn;
-		InputField input;
 		for(int i=0;i<3;i++) {
 			btn = (Button)(new Button(100, 100+i*30, 50, 19, options[i]).setContainer(this));
 			btn.fitText(1);

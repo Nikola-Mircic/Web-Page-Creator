@@ -3,7 +3,6 @@ package com.nm.wpc.screen;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 import com.nm.wpc.input.InputListener;
 import com.nm.wpc.window.Window;

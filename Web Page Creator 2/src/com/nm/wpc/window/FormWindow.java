@@ -3,15 +3,13 @@ package com.nm.wpc.window;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 import com.nm.wpc.screen.Screen;
 import com.nm.wpc.editor.option.Option;
-import com.nm.wpc.editor.option.SelectFileOption;
+import com.nm.wpc.filesystem.ProjectManager;
 import com.nm.wpc.gui.*;
 import com.nm.wpc.input.InputListener;
 
@@ -65,6 +63,12 @@ public class FormWindow extends JFrame{
 	public void addButton(int x,int y,int width,int height,Option option) {
 		Button btn = new Button(x, y, width, height, option);
 		p.getObjects().add(btn);
+	}
+	
+	public void submit() {
+		ProjectManager pm = new ProjectManager();
+		List<GUIObject> inputs = p.getObjects();
+		pm.createNewProject(((InputField)inputs.get(0)).getText(), ((InputField)inputs.get(1)).getText(), ((InputField)inputs.get(3)).getText());
 	}
 }
 

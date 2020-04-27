@@ -37,12 +37,25 @@ public class FileManager {
 	}
 	
 	public void createFile(String directory,String filename) {
-		File file = new File(absolutePath+directory+"\\"+filename);
+		File file = new File(directory+"\\"+filename);
 		try {
 			file.createNewFile();
 		} catch (IOException e) {
-			System.out.println("Error while creating file!");
+			
 		}
+	}
+	
+	/*Creating file as a directory*/
+	public void createDir(String dirname) {
+		File file = new File(absolutePath+"\\"+dirname);
+		if(!file.mkdir())
+			System.out.println("Error while creating file!");
+	}
+	
+	public void createDir(String root,String dirname) {
+		File file = new File(root+'\\'+dirname);
+		if(!file.mkdir())
+			System.out.println("Error while creating file!");
 	}
 	
 	/*Finding specific file or directory:
@@ -76,7 +89,7 @@ public class FileManager {
 	}
 	
 	public File findFile(String directory,String filename) {
-		return findFile(new File(absolutePath+directory), filename);
+		return findFile(new File(directory), filename);
 	}
 	
 	private File findFile(File root,String filename) {

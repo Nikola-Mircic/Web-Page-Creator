@@ -5,8 +5,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import javax.crypto.spec.PSource;
-
 public class InputField extends GUIObject{
 	private String LABEL;
 	private String textData;
