@@ -1,5 +1,8 @@
 package com.nm.wpc.editor.option;
 
+import java.security.Principal;
+
+import com.nm.wpc.filesystem.FileManager;
 import com.nm.wpc.filesystem.ProjectManager;
 import com.nm.wpc.gui.GUIObject;
 import com.nm.wpc.screen.MainScreen;
@@ -17,8 +20,6 @@ public class ContinueRecentOption extends Option{
 
 	@Override
 	public void make(GUIObject source) {
-		//ms.changeContent();
-		ProjectManager pm = new ProjectManager();
-		pm.createNewProject("Test", "C:/Users/Nikola/Desktop", "index.html");
+		ms.changeContent();
 	}
 }

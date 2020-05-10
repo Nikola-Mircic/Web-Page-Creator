@@ -23,7 +23,7 @@ public class ElementEditor extends Editor{
 			g.fillRect(0, 0, this.image.getWidth(), this.image.getHeight());
 		}
 	}
-	
+	                                  
 	public void makeEditor(PageElement newElement) {
 		this.element = newElement;
 		this.opts = newElement.getOpts();

@@ -20,6 +20,7 @@ import com.nm.wpc.screen.MainScreen;
  * Used for: Creating frame of app
  */
 
+
 public class Window extends JFrame implements Runnable{
 	private static final long serialVersionUID = 1L;
 	private static int WIDTH = 1000;

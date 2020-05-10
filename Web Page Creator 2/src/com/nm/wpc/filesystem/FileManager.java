@@ -26,9 +26,39 @@ public class FileManager {
 		this.absolutePath = dir;
 	}
 	
+	public boolean validatePath(String path) {
+		int idx = path.indexOf('/');
+		File root = new File(path.substring(0, idx));
+		File temp = null;
+		path = path.substring(idx+1);
+		idx = path.indexOf('/');
+		while(idx != -1) {
+			temp = findDirectory(root, path.substring(0, idx));
+			if(temp != null){
+				root = temp;
+			}else {
+				temp = new File(root.getAbsolutePath()+"/"+path.substring(0, idx));
+				if(!temp.mkdir())
+					return false;
+				root = temp;
+			}
+			path = path.substring(idx+1);
+			idx = path.indexOf('/');
+		}
+		temp = findDirectory(root, path);
+		if(temp != null){
+			return true;
+		}else {
+			temp = new File(root.getAbsolutePath()+"/"+path);
+			if(!temp.mkdir())
+				return false;
+		}
+		return true;
+	}
+	
 	/*Creating file*/
 	public void createFile(String filename) {
-		File file = new File(absolutePath+"\\"+filename);
+		File file = new File(absolutePath+"/"+filename);
 		try {
 			file.createNewFile();
 		} catch (IOException e) {
@@ -37,7 +67,9 @@ public class FileManager {
 	}
 	
 	public void createFile(String directory,String filename) {
-		File file = new File(directory+"\\"+filename);
+		if(!validatePath(directory))
+			return;
+		File file = new File(directory+"/"+filename);
 		try {
 			file.createNewFile();
 		} catch (IOException e) {
@@ -47,13 +79,15 @@ public class FileManager {
 	
 	/*Creating file as a directory*/
 	public void createDir(String dirname) {
-		File file = new File(absolutePath+"\\"+dirname);
+		File file = new File(absolutePath+"/"+dirname);
 		if(!file.mkdir())
 			System.out.println("Error while creating file!");
 	}
 	
 	public void createDir(String root,String dirname) {
-		File file = new File(root+'\\'+dirname);
+		if(!validatePath(root))
+			return;
+		File file = new File(root+'/'+dirname);
 		if(!file.mkdir())
 			System.out.println("Error while creating file!");
 	}
@@ -68,7 +102,13 @@ public class FileManager {
 		return findDirectory(new File(absolutePath),dirname);
 	}
 	
+	public File findDirectory(String path,String dirname) {
+		return findDirectory(new File(path),dirname);
+	}
+	
 	private File findDirectory(File root,String dirname) {
+		if(root.listFiles().length == 0)
+			return null;
 		List<File> dirs = new LinkedList<File>();
 		for(File file : root.listFiles()) {
 			if(file.isDirectory()) {
@@ -107,7 +147,7 @@ public class FileManager {
 		return null;
 	}
 	
-	public static String readFile(File file) throws IOException {
+	public String readFile(File file) throws IOException {
 		StringBuilder sb = new StringBuilder();
 		InputStream in = new FileInputStream(file);
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -120,6 +160,10 @@ public class FileManager {
 		br.close();
 		return sb.toString();
 	}
+	/*Functions dealing with WPC configuration files
+	 * lines 170-236 : dealing with .properties
+	 * 
+	 * */
 	
 	/*Functions dealing with .properties file:
 	 *	createDefaultProperties() - It call in main function in Window class and create .properties file for the first time with default values
@@ -134,7 +178,7 @@ public class FileManager {
 				newProps.createNewFile();
 				makePropertie("author");
 				makePropertie("default-project-name", "project");
-				makePropertie("default-project-location", absolutePath+"\\projects");
+				makePropertie("default-project-location", absolutePath+"/projects");
 				makePropertie("default-font-size","20");
 			} catch (IOException e) {
 				e.printStackTrace();
