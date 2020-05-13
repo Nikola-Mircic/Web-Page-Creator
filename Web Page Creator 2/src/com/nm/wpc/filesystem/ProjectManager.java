@@ -1,15 +1,19 @@
 package com.nm.wpc.filesystem;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProjectManager {
 	private FileManager fm;
+	private List<Project> projects;
 	
 	public ProjectManager() {
 		fm = new FileManager();
+		projects = new ArrayList<Project>();
+		
+		loadProjectData();
 	}
 	
 	public void createNewProject(String name,String location,String ep) {
@@ -22,20 +26,36 @@ public class ProjectManager {
 		createProjectData();
 	}
 	
+	private void loadProjectData() {
+		String data = fm.getProjectData();
+		this.projects = getProjects(data);
+	}
+	
 	private void createProjectData() {
-		String data;
-		File projectData = fm.findFile("projects.dat");
-		try {
-			data = fm.readFile(projectData);
-			System.out.println(data);
-		} catch (IOException e) {
-			return;
+		
+	}
+	
+	private List<Project> getProjects(String data){
+		List<Project> temp = new ArrayList<Project>();
+		
+		int idx = 0;
+		//Separator @|@
+		for(int i=0;i<data.length();i++) {
+			if(data.charAt(i)=='@') {
+				if(data.substring(i, i+3).equals("@|@")) {
+					temp.add(new Project(data.substring(idx, i)));
+					i+=2;
+					idx = i+1;
+				}
+			}
 		}
+		
+		return temp;
 	}
 }
 
 class Project{
-	Map<String,String> data;
+	private Map<String,String> data;
 	
 	public Project() {
 		this.data = getProjectBase();
@@ -89,6 +109,10 @@ class Project{
 		}
 		
 		return pData;
+	}
+	
+	public Map<String, String> getProjectMap() {
+		return this.data;
 	}
 	
 }

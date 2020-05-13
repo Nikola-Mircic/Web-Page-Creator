@@ -20,6 +20,7 @@ public class ContinueRecentOption extends Option{
 
 	@Override
 	public void make(GUIObject source) {
+		ProjectManager pm = new ProjectManager();
 		ms.changeContent();
 	}
 }

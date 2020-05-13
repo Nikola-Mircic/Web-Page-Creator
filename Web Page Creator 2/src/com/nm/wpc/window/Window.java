@@ -67,7 +67,7 @@ public class Window extends JFrame implements Runnable{
 	public static void main(String[] args) {
 		
 		FileManager fm = new FileManager();
-		fm.createDefaultProperties();
+		fm.createDefaultConfiguration();
 		
 		ms = new MainScreen(WIDTH, HEIGHT);
 		ms.updateSize(WIDTH, HEIGHT);

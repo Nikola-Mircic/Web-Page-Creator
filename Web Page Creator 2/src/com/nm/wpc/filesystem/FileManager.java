@@ -161,9 +161,13 @@ public class FileManager {
 		return sb.toString();
 	}
 	/*Functions dealing with WPC configuration files
-	 * lines 170-236 : dealing with .properties
-	 * 
+	 * lines 170-239 : dealing with .properties
+	 * lines 241-271 : dealing with projects.dat
 	 * */
+	
+	public void createDefaultConfiguration() {
+		createDefaultProperties();//Continue with this!!!!
+	}
 	
 	/*Functions dealing with .properties file:
 	 *	createDefaultProperties() - It call in main function in Window class and create .properties file for the first time with default values
@@ -171,7 +175,7 @@ public class FileManager {
 	 *	changeProperties(String propertieName,String newValue) - change value of field propertieName to newValue
 	 *	makePropertie(String propertieName) -  create new field
 	 *	makePropertie(String propertieName,String newValue) - create new field with value newValue*/
-	public void createDefaultProperties() {
+	private void createDefaultProperties() {
 		if(findFile(".properties")==null) {
 			File newProps = new File(absolutePath+"/.properties");
 			try {
@@ -231,4 +235,38 @@ public class FileManager {
             e.printStackTrace();
         }
 	}
+	
+	/*Functions dealing with projects.dat file
+	 * createEmptyProjectsData() - creates empty projects.dat file
+	 * addProjectData(String data) - inserts data to file
+	 * getProjectData() - returns list of projects each represent by a string
+	 **/
+	
+	public void createEmptyProjectsData() {
+		File temp = new File("projects.dat");
+		try {
+			temp.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+		}
+	}
+	
+	public void addProjectData(String data) {
+		String fileData = getProjectData();
+		fileData += (data+'\n');
+		try {
+			Files.write(Paths.get(findFile("projects.dat").getAbsolutePath()), fileData.getBytes());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public String getProjectData() {
+		try {
+			return readFile(findFile("projects.dat"));
+		} catch (IOException e) {
+			return "";
+		}
+	}
+	
 }
