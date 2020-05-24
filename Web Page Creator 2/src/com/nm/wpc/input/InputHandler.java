@@ -1,3 +1,9 @@
+/*
+ * Class: com.nm.wpc.input.InputHandler
+ * Superclass :  
+ * Used for: processing input form user
+ */
+
 package com.nm.wpc.input;
 
 import java.awt.event.KeyEvent;

@@ -1,9 +1,15 @@
 package com.nm.wpc.filesystem;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+/*
+ * Class: com.nm.wpc.filesystem.ProjectManger
+ * Superclass : 
+ * Used for: Organizing projects
+ */
 
 public class ProjectManager {
 	private FileManager fm;
@@ -17,22 +23,34 @@ public class ProjectManager {
 	}
 	
 	public void createNewProject(String name,String location,String ep) {
-		fm.createDir(location, "/"+name);
-		fm.createDir(location+"/"+name, "settings");
-		fm.createFile(location+"/"+name+"/settings", "project-settings.txt");
-		fm.createDir(location+"/"+name, "src");
-		fm.createFile(location+"/"+name+"/src",ep);
+		char separator = File.separatorChar;
+		fm.createDir(location, separator+name);
+		fm.createDir(location+separator+name, "settings");
+		fm.createFile(location+separator+name+"/settings", "project-settings.txt");
+		fm.createDir(location+separator+name, "src");
+		fm.createFile(location+separator+name+"/src",ep);
 		
-		createProjectData();
+		createProjectData(name, location, ep);
 	}
 	
 	private void loadProjectData() {
 		String data = fm.getProjectData();
 		this.projects = getProjects(data);
+		System.out.println("Loaded " + this.projects.size() + " projects!");
 	}
 	
-	private void createProjectData() {
+	private void createProjectData(String name,String location,String ep) {
+		Project project = new Project();
+		Calendar date = Calendar.getInstance();
 		
+		project.setData("name", name);
+		project.setData("location", location);
+		project.setData("ep", ep);
+		project.setData("dateCreated", date.getTime().toString());
+		project.setData("dateModified", date.getTime().toString());
+		
+		this.projects.add(project);
+		fm.addProjectData(project.getProjectData());
 	}
 	
 	private List<Project> getProjects(String data){
@@ -52,6 +70,47 @@ public class ProjectManager {
 		
 		return temp;
 	}
+	
+	public List<Map<String,String>> getRecentProject() throws ParseException{
+		List<Map<String,String>> recent = new ArrayList<Map<String,String>>();
+		int n = Math.min(5, projects.size());
+		projects.sort(new Comparator<Project>() {
+			@Override
+			public int compare(Project a,Project b) {
+				SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+				Calendar aDate = Calendar.getInstance();
+				try {
+					aDate.setTime(sdf.parse(a.getProjectMap().get("dateModified")));
+				} catch (ParseException e) {
+					return 0;
+				}
+				Calendar bDate = Calendar.getInstance();
+				try {
+					aDate.setTime(sdf.parse(b.getProjectMap().get("dateModified")));
+				} catch (ParseException e) {
+					return 0;
+				}
+				
+				return (aDate.after(bDate)?1:0);
+			}
+		});
+		for(int i=0;i<n;++i)
+			recent.add(projects.get(i).getProjectMap());
+		/*Project last = projects.get(0);
+		Calendar lastDate = Calendar.getInstance();
+		Calendar temp = Calendar.getInstance();
+		
+		lastDate.setTime(sdf.parse(last.getProjectMap().get("dateModified")));
+		for(int i=1;i<projects.size();++i) {
+			temp.setTime(sdf.parse(projects.get(i).getProjectMap().get("dateModified")));
+			if(temp.after(lastDate)) {
+				last = projects.get(i);
+				lastDate.setTime(sdf.parse(last.getProjectMap().get("dateModified")));
+			}
+		}*/
+		
+		return recent;
+	}
 }
 
 class Project{
@@ -68,11 +127,11 @@ class Project{
 	private Map<String,String> getProjectBase(){
 		Map<String,String> temp = new LinkedHashMap<String, String>();
 		
-		temp.put("id","");
 		temp.put("location", "");
 		temp.put("name", "");
 		temp.put("dateCreated", "");
 		temp.put("dateModified", "");
+		temp.put("ep", "");
 		
 		return temp;
 	}
@@ -104,15 +163,21 @@ class Project{
 	public String getProjectData() {
 		String pData = "";
 		
-		for(Map.Entry<String, String> entry : data.entrySet()) {
-			pData += (entry.getValue()+"%|%");
+		for(Map.Entry<String, String> entry : this.data.entrySet()) {
+			pData+=((String)entry.getValue()+"%|%");
 		}
+		
+		pData+="@|@";
 		
 		return pData;
 	}
 	
 	public Map<String, String> getProjectMap() {
 		return this.data;
+	}
+	
+	public void setData(String dataName,String value) {
+		this.data.put(dataName, value);
 	}
 	
 }

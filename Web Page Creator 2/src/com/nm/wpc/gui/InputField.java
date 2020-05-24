@@ -1,3 +1,9 @@
+/*
+ * Class: com.nm.wpc.gui.InputField
+ * Superclass :  com.nm.wpc.gui.GUIObject
+ * Used for: getting text data from user
+ */
+
 package com.nm.wpc.gui;
 
 import java.awt.Color;

@@ -1,3 +1,16 @@
+/*
+ * Web Page Creator [v2.0.0]
+ * Created by:
+ * Date: 9/2/2020
+ * Time: 16:50
+ * */
+
+/*
+ * Classname: com.nm.wpc.window.Window
+ * Superclass:
+ * Used for: Creating frame of app
+ */
+
 package com.nm.wpc.window;
 
 import java.awt.event.ComponentEvent;
@@ -7,19 +20,6 @@ import javax.swing.JFrame;
 
 import com.nm.wpc.filesystem.FileManager;
 import com.nm.wpc.screen.MainScreen;
-
-/*
- * Web Page Creator [v2.0.0]
- * Created by:
- * Date: 9/2/2020
- * Time: 16:50
- * */
-
-/*
- * Classname: Window
- * Used for: Creating frame of app
- */
-
 
 public class Window extends JFrame implements Runnable{
 	private static final long serialVersionUID = 1L;

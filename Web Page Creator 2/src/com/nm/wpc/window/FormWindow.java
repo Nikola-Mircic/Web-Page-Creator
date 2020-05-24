@@ -69,6 +69,7 @@ public class FormWindow extends JFrame{
 		ProjectManager pm = new ProjectManager();
 		List<GUIObject> inputs = p.getObjects();
 		pm.createNewProject(((InputField)inputs.get(0)).getText(), ((InputField)inputs.get(1)).getText(), ((InputField)inputs.get(3)).getText());
+		this.dispose();
 	}
 }
 

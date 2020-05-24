@@ -1,3 +1,9 @@
+/*
+ * Class: com.nm.wpc.screen.MainScreen
+ * Superclass : com.nm.wpc.screen.Screen 
+ * Used for: Organizing content of app
+ */
+
 package com.nm.wpc.screen;
 
 import java.awt.Dimension;
@@ -6,11 +12,6 @@ import java.awt.event.KeyEvent;
 
 import com.nm.wpc.input.InputListener;
 import com.nm.wpc.window.Window;
-
-/*
- * Classname: Screen
- * Used for: Organizing content of app
- */
 
 public class MainScreen extends Screen{
 	private static final long serialVersionUID = 1L;
@@ -52,6 +53,7 @@ public class MainScreen extends Screen{
 	
 	@Override
 	public void paint(Graphics g) {
+		System.out.println("Painting main screen");
 		if(work) {
 			this.content = working.getContent();
 		}else {
@@ -60,8 +62,8 @@ public class MainScreen extends Screen{
 		g.drawImage(this.content, 0, 0, null);
 		if(panelsActivity)
 			drawPanels(g);
-		else if(panelsActivity==false){
-			panels.removeAll(panels);
+		else{
+			panels.clear();
 		}
 		g.dispose();
 	}
@@ -73,12 +75,9 @@ public class MainScreen extends Screen{
 	}
 	
 	public void changeContent() {
+		System.out.println("Changed content");
+		panelsActivity = false;
 		work = !work;
-		if(work) {
-			this.content = working.getContent();
-		}else {
-			this.content = start.getContent();
-		}
 		repaint();
 	}
 	
@@ -108,11 +107,21 @@ public class MainScreen extends Screen{
 	
 	@Override
 	public void onMousePressed(int x,int y) {
-		if(work)
-			working.onMousePressed(x, y);
-		else
-			start.onMousePressed(x, y);
-		
+		InputPanel panel = null;
+		if(panelsActivity) {
+			panel = getClicked(x, y);
+			if(panel==null) {
+				panelsActivity = false;
+				panels.clear();
+			}else {
+				panel.onMousePressed(x, y);
+			}
+		}else {
+			if(work)
+				working.onMousePressed(x, y);
+			else
+				start.onMousePressed(x, y);
+		}
 		repaint();
 	}
 	
@@ -128,6 +137,11 @@ public class MainScreen extends Screen{
 	
 	@Override
 	public void onMouseRelease() {
+		if(panelsActivity) {
+			for(InputPanel panel:panels) {
+				panel.onMouseRelease();
+			}
+		}
 		if(work)
 			working.onMouseRelease();
 		else
@@ -145,4 +159,20 @@ public class MainScreen extends Screen{
 		
 		repaint();
 	}
+	
+	public InputPanel getClicked(int x,int y) {
+		for(InputPanel panel : panels) {
+			int x1 = panel.getX();
+			int y1 =  panel.getY();
+			int x2 = x1+panel.getW();
+			int y2 = y1+panel.getH();
+			if(x1<x && x<x2 && y1<y && y<y2) {
+				return panel;
+			}else {
+				return panel.getClicked(x, y);
+			}
+		}
+		return null;
+	}
+	
 }

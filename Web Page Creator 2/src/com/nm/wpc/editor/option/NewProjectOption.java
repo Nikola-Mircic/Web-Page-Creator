@@ -8,6 +8,12 @@ import com.nm.wpc.gui.InputField;
 import com.nm.wpc.screen.MainScreen;
 import com.nm.wpc.window.FormWindow;
 
+/*
+ * Class: com.nm.wpc.editor.option.CreateProjectOption
+ * Superclass : com.nm.wpc.editor.option.Option
+ * Used for: Making window for creating new empty project with a single blank page
+ */
+
 public class NewProjectOption extends Option{
 	
 	public NewProjectOption() {

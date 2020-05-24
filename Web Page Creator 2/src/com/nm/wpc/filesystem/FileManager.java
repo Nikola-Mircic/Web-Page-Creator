@@ -1,3 +1,9 @@
+/*
+ * Class: com.nm.wpc.filesystem.FileManager
+ * Superclass : 
+ * Used for: work with files and directories
+ */
+
 package com.nm.wpc.filesystem;
 
 import java.io.BufferedReader;
@@ -27,29 +33,30 @@ public class FileManager {
 	}
 	
 	public boolean validatePath(String path) {
-		int idx = path.indexOf('/');
+		char folderSeparator = File.separatorChar;
+		int idx = path.indexOf(folderSeparator);
 		File root = new File(path.substring(0, idx));
 		File temp = null;
 		path = path.substring(idx+1);
-		idx = path.indexOf('/');
+		idx = path.indexOf(folderSeparator);
 		while(idx != -1) {
 			temp = findDirectory(root, path.substring(0, idx));
 			if(temp != null){
 				root = temp;
 			}else {
-				temp = new File(root.getAbsolutePath()+"/"+path.substring(0, idx));
+				temp = new File(root.getAbsolutePath()+folderSeparator+path.substring(0, idx));
 				if(!temp.mkdir())
 					return false;
 				root = temp;
 			}
 			path = path.substring(idx+1);
-			idx = path.indexOf('/');
+			idx = path.indexOf(folderSeparator);
 		}
 		temp = findDirectory(root, path);
 		if(temp != null){
 			return true;
 		}else {
-			temp = new File(root.getAbsolutePath()+"/"+path);
+			temp = new File(root.getAbsolutePath()+folderSeparator+path);
 			if(!temp.mkdir())
 				return false;
 		}
@@ -62,7 +69,6 @@ public class FileManager {
 		try {
 			file.createNewFile();
 		} catch (IOException e) {
-			System.out.println("Error while creating file!");
 		}
 	}
 	
@@ -78,18 +84,17 @@ public class FileManager {
 	}
 	
 	/*Creating file as a directory*/
+	@SuppressWarnings("unused")
 	public void createDir(String dirname) {
 		File file = new File(absolutePath+"/"+dirname);
-		if(!file.mkdir())
-			System.out.println("Error while creating file!");
+		boolean create = file.mkdir();
 	}
-	
+	@SuppressWarnings("unused")
 	public void createDir(String root,String dirname) {
 		if(!validatePath(root))
 			return;
 		File file = new File(root+'/'+dirname);
-		if(!file.mkdir())
-			System.out.println("Error while creating file!");
+		boolean create = file.mkdir();
 	}
 	
 	/*Finding specific file or directory:
@@ -253,7 +258,7 @@ public class FileManager {
 	
 	public void addProjectData(String data) {
 		String fileData = getProjectData();
-		fileData += (data+'\n');
+		fileData+=data;
 		try {
 			Files.write(Paths.get(findFile("projects.dat").getAbsolutePath()), fileData.getBytes());
 		} catch (Exception e) {

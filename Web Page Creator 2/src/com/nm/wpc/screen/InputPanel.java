@@ -19,7 +19,6 @@ public class InputPanel extends Screen{
 		this.x = x;
 		this.y = y;
 		this.setSource(source);
-		getDimensions();
 		
 		this.TITLE = "";
 		drawContent();
@@ -91,6 +90,7 @@ public class InputPanel extends Screen{
 	
 	@Override
 	public void onMousePressed(int x,int y) {
+		System.out.println("presssssed");
 		this.panelsActivity = false;
 		InputPanel temp = null;
 		
@@ -99,6 +99,7 @@ public class InputPanel extends Screen{
 		if(temp != null) {
 			temp.onMousePressed(x, y);
 			this.drawContent(this.width, this.height);
+			return;
 		}else {
 			panels.removeAll(panels);
 		}
@@ -108,7 +109,7 @@ public class InputPanel extends Screen{
 			if(object instanceof InputField) {
 				object.mousePressed(x, y);
 			}else {
-				object.mousePressed(x, y);
+				object.mousePressed();
 				last = object;
 			}
 		}
@@ -127,15 +128,22 @@ public class InputPanel extends Screen{
 			last = null;
 		}
 		
+		
 		drawContent(this.width,this.height);
 	}
 	
 	private void getDimensions() {
-		int height = 50;
-		if(!controler.getObjects().isEmpty())
-			height = controler.getObjects().get(controler.getObjects().size()-1).getY()-this.y+controler.getObjects().get(controler.getObjects().size()-1).getHeight()+10;
+		this.height = 50;
 		this.width = 180;
-		this.height = height;
+		if(!controler.getObjects().isEmpty()) {
+			this.height = controler.getObjects().get(controler.getObjects().size()-1).getY()-this.y+controler.getObjects().get(controler.getObjects().size()-1).getHeight()+10;
+			this.width = controler.getObjects().get(0).getWidth();
+			for(GUIObject object:controler.getObjects()) {
+				if(object.getWidth()>this.width){
+					this.width = object.getWidth();
+				}
+			}
+		}
 	}
 	
 	public String getTITLE() {

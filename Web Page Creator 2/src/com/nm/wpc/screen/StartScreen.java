@@ -1,3 +1,9 @@
+/*
+ * Classname: com.nm.wpc.screen.StartScreen
+ * Superclass: com.nm.wpc.screen.Screen
+ * Used for: Displays screen with starting options
+ */
+
 package com.nm.wpc.screen;
 
 import java.awt.Color;
@@ -36,8 +42,9 @@ public class StartScreen extends Screen{
 	}
 	
 	@Override
-	public void drawContent(int width,int height) {
-		
+	public void drawContent(int w,int h) {
+		this.width = w;
+		this.height = h;
 		this.content = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics g = this.content.getGraphics();
 		g.setColor(Color.WHITE);

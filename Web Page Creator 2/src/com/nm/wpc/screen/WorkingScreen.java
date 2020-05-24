@@ -1,3 +1,9 @@
+/*
+ * Class: com.nm.wpc.screen.WorkinScreen
+ * Superclass : 
+ * Used for: Editing content in a project
+ */
+
 package com.nm.wpc.screen;
 
 import java.awt.Color;
@@ -16,7 +22,9 @@ public class WorkingScreen extends Screen{
 	}
 	
 	@Override
-	public void drawContent(int width,int height) {
+	public void drawContent(int w,int h) {
+		this.width = w;
+		this.height = h;
 		this.content = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics g = this.content.getGraphics();
 		g.setColor(Color.GREEN);

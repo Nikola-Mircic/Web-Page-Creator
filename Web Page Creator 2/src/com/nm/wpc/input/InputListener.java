@@ -1,3 +1,9 @@
+/*
+ * Class: com.nm.wpc.input.InputListener
+ * Superclass :  
+ * Used for: getting input form user
+ */
+
 package com.nm.wpc.input;
 
 import java.awt.event.KeyEvent;

@@ -1,3 +1,9 @@
+/*
+ * Class: com.nm.wpc.gui.GUIObject
+ * Superclass :  
+ * Used for: defining gui object that can interact with the user(i.e. buttons)
+ */
+
 package com.nm.wpc.gui;
 
 import java.awt.Color;
@@ -5,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import com.nm.wpc.screen.Screen;
+
 
 public class GUIObject {
 	protected int x, y, width, height;

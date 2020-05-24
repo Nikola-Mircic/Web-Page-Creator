@@ -1,9 +1,14 @@
+/*
+ * Class: com.nm.wpc.gui.GUIControler
+ * Superclass :  
+ * Used for: Organizing subclasses of GUIObject
+ */
+
 package com.nm.wpc.gui;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.nm.wpc.screen.InputPanel;
 
 public class GUIControler {

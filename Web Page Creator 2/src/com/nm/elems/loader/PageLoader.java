@@ -2,6 +2,12 @@ package com.nm.elems.loader;
 
 import com.nm.elems.Page;
 
+/*
+ * Class: com.nm.elems.loader.PageLoader
+ * Superclass :
+ * Used for: Create new blank page or read data from existing page.
+ */
+
 public class PageLoader {
 	public PageLoader() {}
 	

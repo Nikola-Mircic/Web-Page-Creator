@@ -1,3 +1,9 @@
+/*
+ * Class: com.nm.wpc.gui.Button
+ * Superclass :  com.nm.wpc.gui.GUIObject
+ * Used for: Creating buttons with given options
+ */
+
 package com.nm.wpc.gui;
 
 import java.awt.Color;

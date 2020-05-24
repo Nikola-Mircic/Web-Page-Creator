@@ -5,6 +5,13 @@ import java.util.List;
 
 import com.nm.elems.loader.PageLoader;
 
+/*
+ * Class: com.nm.elems.Page
+ * Superclass :
+ * Used for: saves data and convert it to HTML format
+ */
+
+
 public class Page {
 	private String TITLE;
 	private List<PageElement> elements;

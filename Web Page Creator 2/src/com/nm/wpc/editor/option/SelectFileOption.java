@@ -1,3 +1,9 @@
+/*
+ * Class: com.nm.wpc.editor.option.SelectFileOption
+ * Superclass : com.nm.wpc.editor.option.Option;
+ * Used for: Finding files and directories in filesystem
+ */
+
 package com.nm.wpc.editor.option;
 
 import java.io.File;
@@ -6,6 +12,7 @@ import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 
 import com.nm.wpc.gui.*;
+
 
 public class SelectFileOption extends Option{
 	private int mode;
