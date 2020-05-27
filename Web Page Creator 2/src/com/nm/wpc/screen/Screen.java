@@ -14,7 +14,7 @@ import com.nm.wpc.gui.InputField;
 import com.nm.wpc.window.Window;
 
 
-public class Screen extends JPanel{
+public abstract class Screen extends JPanel{
 	private static final long serialVersionUID = 1L;
 	
 	protected Window window;
@@ -43,6 +43,16 @@ public class Screen extends JPanel{
 	}
 
 	public Screen(int width,int height,Window window) {
+		setW(width);
+		setH(height);
+		setWindow(window);
+		this.controler = new GUIControler();
+		this.panels = new ArrayList<InputPanel>();
+	}
+	
+	public Screen(int x,int y,int width,int height) {
+		setX(x);
+		setY(y);
 		setW(width);
 		setH(height);
 		setWindow(window);

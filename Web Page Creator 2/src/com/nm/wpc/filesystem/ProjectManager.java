@@ -36,7 +36,6 @@ public class ProjectManager {
 	private void loadProjectData() {
 		String data = fm.getProjectData();
 		this.projects = getProjects(data);
-		System.out.println("Loaded " + this.projects.size() + " projects!");
 	}
 	
 	private void createProjectData(String name,String location,String ep) {
@@ -96,18 +95,6 @@ public class ProjectManager {
 		});
 		for(int i=0;i<n;++i)
 			recent.add(projects.get(i).getProjectMap());
-		/*Project last = projects.get(0);
-		Calendar lastDate = Calendar.getInstance();
-		Calendar temp = Calendar.getInstance();
-		
-		lastDate.setTime(sdf.parse(last.getProjectMap().get("dateModified")));
-		for(int i=1;i<projects.size();++i) {
-			temp.setTime(sdf.parse(projects.get(i).getProjectMap().get("dateModified")));
-			if(temp.after(lastDate)) {
-				last = projects.get(i);
-				lastDate.setTime(sdf.parse(last.getProjectMap().get("dateModified")));
-			}
-		}*/
 		
 		return recent;
 	}

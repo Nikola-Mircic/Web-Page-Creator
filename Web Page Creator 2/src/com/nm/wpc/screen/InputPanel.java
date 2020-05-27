@@ -90,7 +90,6 @@ public class InputPanel extends Screen{
 	
 	@Override
 	public void onMousePressed(int x,int y) {
-		System.out.println("presssssed");
 		this.panelsActivity = false;
 		InputPanel temp = null;
 		
@@ -136,7 +135,10 @@ public class InputPanel extends Screen{
 		this.height = 50;
 		this.width = 180;
 		if(!controler.getObjects().isEmpty()) {
-			this.height = controler.getObjects().get(controler.getObjects().size()-1).getY()-this.y+controler.getObjects().get(controler.getObjects().size()-1).getHeight()+10;
+			if(this.TITLE=="")
+				this.height = controler.getObjects().get(controler.getObjects().size()-1).getY()-this.y+controler.getObjects().get(controler.getObjects().size()-1).getHeight();
+			else
+				this.height += controler.getObjects().get(controler.getObjects().size()-1).getY()-this.y+controler.getObjects().get(controler.getObjects().size()-1).getHeight();
 			this.width = controler.getObjects().get(0).getWidth();
 			for(GUIObject object:controler.getObjects()) {
 				if(object.getWidth()>this.width){

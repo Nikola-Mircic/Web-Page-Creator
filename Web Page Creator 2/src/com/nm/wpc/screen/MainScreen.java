@@ -21,7 +21,7 @@ public class MainScreen extends Screen{
 	
 	private InputListener listener;
 	
-	private boolean work = false;
+	private boolean work = true;
 	
 	public MainScreen(int w,int h) {
 		super(w, h);
@@ -33,8 +33,8 @@ public class MainScreen extends Screen{
 		
 		this.panelsActivity = false;
 		
-		work=false;
-		this.content = start.getContent();
+		work=true;
+		//this.content = start.getContent();
 	}
 	
 	public MainScreen(int w,int h,Window window) {
@@ -47,13 +47,12 @@ public class MainScreen extends Screen{
 		
 		this.panelsActivity = false;
 		
-		work=false;
+		work=true;
 		this.content = start.getContent();
 	}
 	
 	@Override
 	public void paint(Graphics g) {
-		System.out.println("Painting main screen");
 		if(work) {
 			this.content = working.getContent();
 		}else {
@@ -75,7 +74,6 @@ public class MainScreen extends Screen{
 	}
 	
 	public void changeContent() {
-		System.out.println("Changed content");
 		panelsActivity = false;
 		work = !work;
 		repaint();

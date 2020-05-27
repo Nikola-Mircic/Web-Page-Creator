@@ -1,22 +1,31 @@
-package com.nm.wpc.editor;
-
-import java.awt.image.BufferedImage;
-import java.util.List;
-
-import com.nm.wpc.editor.option.Option;
-
 /*
  * Class: com.nm.wpc.editor.Editor
  * Superclass :
  * Used for: allows you to change different pages or elements
  */
+package com.nm.wpc.editor;
 
-public class Editor{
-	protected BufferedImage image;
-	protected List<Option> opts;
+import com.nm.wpc.screen.*;
+
+public class Editor extends Screen{
+	private static final long serialVersionUID = 1L;
 	
-	protected BufferedImage getImage() {
-		return image;
+	private WorkingScreen ws;
+	
+	public Editor(int x,int y,int width,int height,WorkingScreen ws) {
+		super(x,y,width,height);
+		this.setWs(ws);
 	}
-	protected void drawImage() {}
+	
+	public void callback(Screen destination) {
+		
+	}
+
+	public WorkingScreen getWs() {
+		return ws;
+	}
+
+	public void setWs(WorkingScreen ws) {
+		this.ws = ws;
+	}
 }
