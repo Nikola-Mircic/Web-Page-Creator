@@ -24,26 +24,25 @@ public class WorkingScreen extends Screen{
 		super(w, h);
 		this.ms = ms;
 		
-		this.editorsSize = 1;
+		this.editorsSize = 5;
 		this.editors = new Editor[editorsSize];
-		editors[0] = new ElementEditor((int)(w*0.80), (int)(h*0.135), (int)(w*0.20), (int)(h*0.865), this);
-		
+		editors[0] = new OptionsBar(0, 0, w, (int)(h*0.035), this);
+		editors[1] = new ElementSelector((int)(w*0.80), (int)(h*0.135), (int)(w*0.20), (int)(h*0.865), this);
+		editors[2] = new WorkingPane(0, (int)(h*0.135), (int)(w*0.80), (int)(h*0.865), this);
+		editors[3] = new PageEditor(0, (int)(h*0.035), w, (int)(h*0.10), this);
+		editors[4] = new ElementEditor(0, (int)(h*0.035), w, (int)(h*0.10), this);
 		this.drawContent(w,h);
 	}
 	
 	@Override
 	public void drawContent(int w,int h) {
+		if(this.width != w || this.height != h)
+			updateSize(w, h);
 		this.width = w;
 		this.height = h;
 		
 		this.content = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics g = this.content.getGraphics();
-		
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, w, h);
-		g.setColor(Color.BLACK);
-		g.drawRect(0, 0, w, (int)(h*0.035));
-		g.drawRect(0, (int)(h*0.035), w, (int)(h*0.10));
 		
 		drawEditors(g);
 		
@@ -56,7 +55,27 @@ public class WorkingScreen extends Screen{
 	private void drawEditors(Graphics g) {
 		for(int i=0;i<editorsSize;++i) {
 			g.drawImage(this.editors[i].getContent(), this.editors[i].getX(), this.editors[i].getY(), null);
+			if(editors[i] instanceof WorkingPane) {
+				if(((WorkingPane)editors[i]).getFocused() != null) {
+					i++;
+				}else {
+					g.drawImage(this.editors[++i].getContent(), this.editors[i].getX(), this.editors[i].getY(), null);
+					break;
+				}
+			}
+			
 		}
+	}
+	
+	private void updateSize(int newWidth,int newHeight) {
+		for(int i=0;i<editorsSize;++i) {
+			editors[i].drawContent(newWidth, newHeight);
+		}
+		editors[0] = new OptionsBar(0, 0, newWidth, (int)(newHeight*0.035), this);
+		editors[1] = new ElementSelector((int)(newWidth*0.80), (int)(newHeight*0.135), (int)(newWidth*0.20), (int)(newHeight*0.865), this);
+		editors[2] = new WorkingPane(0, (int)(newHeight*0.135), (int)(newWidth*0.80), (int)(newHeight*0.865), this);
+		editors[3] = new PageEditor(0, (int)(newHeight*0.035), newWidth, (int)(newHeight*0.10), this);
+		editors[4] = new ElementEditor(0, (int)(newHeight*0.035), newWidth, (int)(newHeight*0.10), this);
 	}
 	
 	@Override

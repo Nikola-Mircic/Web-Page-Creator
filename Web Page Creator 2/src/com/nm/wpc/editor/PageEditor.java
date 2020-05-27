@@ -1,9 +1,3 @@
-/*
- * Class: com.nm.wpc.editor.ElementEditor
- * Superclass : com.nm.editor.Editor
- * Used for: allows you to change and dispalys attributes of single element
- */
-
 package com.nm.wpc.editor;
 
 import java.awt.Color;
@@ -13,19 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.nm.elems.Attribute;
-import com.nm.wpc.screen.*;
+import com.nm.wpc.screen.WorkingScreen;
 
-public class ElementEditor extends Editor{
+public class PageEditor extends Editor {
 	private static final long serialVersionUID = 1L;
 	
-	private List<Attribute> elementAttributes;
+	private List<Attribute> pageAttributes;
 	private Color bckg;
 	
-	public ElementEditor(int x, int y, int width, int height, WorkingScreen ws) {
+	public PageEditor(int x, int y, int width, int height, WorkingScreen ws) {
 		super(x, y, width, height, ws);
 		
-		this.setElementAttributes(new ArrayList<Attribute>());
-		bckg = new Color(185, 186, 189);
+		this.setPageAttributes(new ArrayList<Attribute>());
+		bckg = new Color(118, 0, 114);
 		drawContent(width, height);
 	}
 	
@@ -41,21 +35,21 @@ public class ElementEditor extends Editor{
 	
 	@Override
 	public void onMousePressed(int x,int y) {
-		bckg = new Color(135, 136, 139);
+		bckg = new Color(78, 146, 74);
 		drawContent(width, height);
 	}
 	
 	@Override
 	public void onMouseRelease() {
-		bckg = new Color(185, 186, 189);
+		bckg = new Color(118, 186, 114);
 		drawContent(width, height);
 	}
 
-	public List<Attribute> getElementAttributes() {
-		return elementAttributes;
+	public List<Attribute> getPageAttributes() {
+		return pageAttributes;
 	}
 
-	public void setElementAttributes(List<Attribute> elementAttributes) {
-		this.elementAttributes = elementAttributes;
+	public void setPageAttributes(List<Attribute> pageAttributes) {
+		this.pageAttributes = pageAttributes;
 	}
 }
