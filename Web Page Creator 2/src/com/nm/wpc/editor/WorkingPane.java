@@ -1,3 +1,9 @@
+/*
+ * Class: com.nm.wpc.editor.WorkingPane
+ * Superclass : com.nm.editor.Editor
+ * Used for: Showing the preview of the page
+ */
+
 package com.nm.wpc.editor;
 
 import java.awt.Color;

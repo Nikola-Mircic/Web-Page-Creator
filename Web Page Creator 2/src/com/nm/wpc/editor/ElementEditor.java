@@ -1,7 +1,7 @@
 /*
  * Class: com.nm.wpc.editor.ElementEditor
  * Superclass : com.nm.editor.Editor
- * Used for: allows you to change and dispalys attributes of single element
+ * Used for: allows you to change attributes of single element and displays it
  */
 
 package com.nm.wpc.editor;

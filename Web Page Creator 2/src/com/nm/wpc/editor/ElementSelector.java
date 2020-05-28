@@ -1,3 +1,9 @@
+/*
+ * Class: com.nm.wpc.editor.ElementSelector
+ * Superclass : com.nm.editor.Editor
+ * Used for: Creating a list of elements that the user can add to the page
+ */
+
 package com.nm.wpc.editor;
 
 import java.awt.Color;

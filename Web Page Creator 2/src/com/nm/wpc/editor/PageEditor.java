@@ -1,3 +1,9 @@
+/*
+ * Class: com.nm.wpc.editor.PageEditor
+ * Superclass : com.nm.editor.Editor
+ * Used for: displays settings of your project and allows you to change them
+ */
+
 package com.nm.wpc.editor;
 
 import java.awt.Color;
