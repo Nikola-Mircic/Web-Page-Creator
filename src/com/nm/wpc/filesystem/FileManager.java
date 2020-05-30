@@ -17,6 +17,8 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.nm.elems.Attribute;
+
 public class FileManager {
 	private String absolutePath;
 	
@@ -272,6 +274,10 @@ public class FileManager {
 		} catch (IOException e) {
 			return "";
 		}
+	}
+	
+	public Attribute[] getAttributes() {
+		return new Attribute[0];
 	}
 	
 }
