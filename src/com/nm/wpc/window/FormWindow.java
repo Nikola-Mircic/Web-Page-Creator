@@ -66,6 +66,7 @@ public class FormWindow extends JFrame{
 	}
 	
 	public void submit() {
+		System.out.println("Submiting...");
 		ProjectManager pm = new ProjectManager();
 		List<GUIObject> inputs = p.getObjects();
 		pm.createNewProject(((InputField)inputs.get(0)).getText(), ((InputField)inputs.get(1)).getText(), ((InputField)inputs.get(3)).getText());
@@ -113,10 +114,7 @@ class Panel extends Screen{
 			last = object;
 		}
 		
-		if(last instanceof InputField)
-			last.mousePressed(x, y);
-		else if(last instanceof Button)
-			last.mousePressed();
+		last.mousePressed(x, y);
 		
 		repaint();
 	}

@@ -35,7 +35,7 @@ public class NewProjectOption extends Option{
 		fw.addInputField(input);
 		input = new InputField("Project location:", 20, 110, 260,80,1);
 		fw.addInputField(input);
-		btn = new Button(225, 115, 30, 30, new SelectFileOption(JFileChooser.DIRECTORIES_ONLY));
+		btn = new Button("Browse",225, 115, 30, 30, new SelectFileOption(JFileChooser.DIRECTORIES_ONLY));
 		btn.setGuiObject(input);
 		fw.addButton(btn);
 		input = new InputField("Entry point:", 20, 200, 260,80,1);

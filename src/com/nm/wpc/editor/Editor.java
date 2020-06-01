@@ -10,7 +10,7 @@ import com.nm.wpc.screen.*;
 public class Editor extends Screen{
 	private static final long serialVersionUID = 1L;
 	
-	private WorkingScreen ws;
+	protected WorkingScreen ws;
 	
 	public Editor(int x,int y,int width,int height,WorkingScreen ws) {
 		super(x,y,width,height);

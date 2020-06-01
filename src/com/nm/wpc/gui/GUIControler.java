@@ -58,7 +58,23 @@ public class GUIControler {
 		return clicked;
 	}
 	
+	public void activateOnClick(int x,int y) {
+		for(GUIObject object:objects) {
+			if(x>=object.getX() && x<=object.getX()+object.getWidth() && y>=object.getY() && y<=object.getY()+object.getHeight()) {
+				object.mousePressed(x, y);
+			}
+		}
+	}
+	
+	public void releaseObjects() {
+		for(GUIObject object:objects) {
+			object.mouseReleased();
+		}
+	}
+	
 	public void drawObjects(Graphics g, int x, int y) {
+		if(this.objects == null)
+			return;
 		int n = this.objects.size();
 		for(int i=0;i<n;i++) {
 			g.drawImage(objects.get(i).getImg(), objects.get(i).getX()-x, objects.get(i).getY()-y, null);

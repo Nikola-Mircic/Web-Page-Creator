@@ -98,4 +98,12 @@ public class WorkingScreen extends Screen{
 			this.editors[i].onMouseRelease();
 		}
 	}
+
+	public MainScreen getMs() {
+		return ms;
+	}
+
+	public void setMs(MainScreen ms) {
+		this.ms = ms;
+	}
 }

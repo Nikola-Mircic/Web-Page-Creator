@@ -59,9 +59,9 @@ public class MainScreen extends Screen{
 			this.content = start.getContent();
 		}
 		g.drawImage(this.content, 0, 0, null);
-		if(panelsActivity)
+		if(panelsActivity) {
 			drawPanels(g);
-		else{
+		}else{
 			panels.clear();
 		}
 		g.dispose();
@@ -69,7 +69,7 @@ public class MainScreen extends Screen{
 	
 	private void drawPanels(Graphics g) {
 		for (InputPanel panel : panels) {
-			g.drawImage(panel.getContent(), panel.getSource().getX()+panel.getSource().getWidth(), panel.getSource().getY(), null);
+			g.drawImage(panel.getContent(), panel.getX(), panel.getY(), null);
 		}
 	}
 	

@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import com.nm.wpc.gui.Button;
 import com.nm.wpc.gui.GUIObject;
 import com.nm.wpc.gui.InputField;
 
@@ -105,12 +106,10 @@ public class InputPanel extends Screen{
 		
 		GUIObject object = checkOnClick(x, y);
 		if(object != null) {
-			if(object instanceof InputField) {
-				object.mousePressed(x, y);
-			}else {
-				object.mousePressed();
+			if(object instanceof Button) {
 				last = object;
 			}
+			object.mousePressed(x, y);
 		}
 		
 		drawContent(this.width,this.height);
