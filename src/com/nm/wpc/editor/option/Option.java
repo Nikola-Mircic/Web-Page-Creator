@@ -9,7 +9,7 @@ import com.nm.wpc.screen.MainScreen;
  * Used for: Defining options
  */
 
-public class Option {
+public abstract class Option {
   	protected String optName;
   	protected MainScreen ms;
   	

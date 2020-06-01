@@ -78,7 +78,7 @@ public class Button extends GUIObject{
 	}
 
 	@Override
-	public void mousePressed() {
+	public void mousePressed(int x,int y) {
 		this.bckg = new Color(230,230,230);
 		this.createImage();
 		option.make(this);

@@ -25,7 +25,7 @@ public class PageEditor extends Editor {
 		super(x, y, width, height, ws);
 		
 		this.setPageAttributes(new ArrayList<Attribute>());
-		bckg = new Color(118, 0, 114);
+		bckg = new Color(118, 186, 114);
 		drawContent(width, height);
 	}
 	

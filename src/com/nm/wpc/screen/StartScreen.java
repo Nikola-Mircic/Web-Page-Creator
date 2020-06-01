@@ -114,7 +114,7 @@ public class StartScreen extends Screen{
 				object.mousePressed(x, y);
 				editing = (InputField)object;
 			}else {
-				object.mousePressed();
+				object.mousePressed(x, y);
 				last = object;
 			}
 		}
