@@ -15,6 +15,7 @@ import java.util.List;
 import com.nm.wpc.screen.InputPanel;
 import com.nm.wpc.screen.WorkingScreen;
 import com.nm.wpc.gui.*;
+import com.nm.elems.Attribute;
 import com.nm.elems.tagsystem.*;
 import com.nm.wpc.editor.option.*;
 
@@ -57,10 +58,15 @@ public class ElementSelector extends Editor{
 							Button tempBtn;
 							int s = findHeading(tags);
 							for(int j=0;j<6;++j) {
+								int s2 = j;
 								tempBtn = new Button(tags[s+j].name(), ip.getX(), ip.getY()+j*h, w*9/10, h, new Option(){
 									@Override
 									public void make(GUIObject source) {
+										List<Attribute> elemAttrs = tags[s+s2].getAttributes();
 										System.out.println(((Button)source).getOption().getOptName());
+										for(int k=0;k<elemAttrs.size();++k) {
+											System.out.println(" *"+elemAttrs.get(k).getName());
+										}
 									}
 								});
 								ip.addGUIObject(tempBtn);
@@ -73,10 +79,15 @@ public class ElementSelector extends Editor{
 				}
 			}
 			if(btn==null){
-				btn = new Button(tags[i].name(), this.x, this.y+i*h, w, h, new Option(){
+				int s = i;
+				btn = new Button(tags[s].name(), this.x, this.y+i*h, w, h, new Option(){
 					@Override
 					public void make(GUIObject source) {
+						List<Attribute> elemAttrs = tags[s].getAttributes();
 						System.out.println(((Button)source).getOption().getOptName());
+						for(int k=0;k<elemAttrs.size();++k) {
+							System.out.println(" *"+elemAttrs.get(k).getName());
+						}
 					}
 				});
 			}
