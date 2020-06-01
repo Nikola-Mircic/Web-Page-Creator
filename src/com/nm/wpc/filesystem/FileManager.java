@@ -170,6 +170,7 @@ public class FileManager {
 	/*Functions dealing with WPC configuration files
 	 * lines 170-239 : dealing with .properties
 	 * lines 241-271 : dealing with projects.dat
+	 * lines 280- : dealing with attribute.dat
 	 * */
 	
 	public void createDefaultConfiguration() {
@@ -277,7 +278,22 @@ public class FileManager {
 	}
 	
 	public Attribute[] getAttributes() {
-		return new Attribute[0];
+		Attribute[] attrs = new Attribute[13];
+		String attributes = "";
+		try {
+			attributes = readFile(findFile("attribute.dat"));
+		} catch (IOException e) {
+			return new Attribute[0];
+		}
+		int i=0,idx = attributes.indexOf('\n');
+		while(idx>0) {
+			String line = attributes.substring(0, idx);
+			if(line.charAt(0) != '#')
+				attrs[i++] = new Attribute(line.substring(0, line.indexOf(":,")),"");
+			attributes = attributes.substring(idx+1);
+			idx = attributes.indexOf('\n');
+		}
+		return attrs;
 	}
 	
 }
