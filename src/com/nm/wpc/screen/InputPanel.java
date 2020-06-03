@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 
 import com.nm.wpc.gui.Button;
 import com.nm.wpc.gui.GUIObject;
-import com.nm.wpc.gui.InputField;
 
 public class InputPanel extends Screen{
 	private static final long serialVersionUID = 1L;

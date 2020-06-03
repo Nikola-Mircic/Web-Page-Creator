@@ -7,14 +7,14 @@ import com.nm.elems.*;
 import com.nm.wpc.filesystem.FileManager;
 
 public enum Tag {
-	BOX("<div></div>", 8191),
-	TEXT_BOX("<p></p>", 8191),
-	HEADING_1("<h1></h1>", 8191),
-	HEADING_2("<h2></h2>", 8191),
-	HEADING_3("<h3></h3>", 8191),
-	HEADING_4("<h4></h4>", 8191),
-	HEADING_5("<h5></h5>", 8191),
-	HEADING_6("<h6></h6>", 8191);
+	BOX("<div></div>", 4095),
+	TEXT_BOX("<p></p>", 4095),
+	HEADING_1("<h1></h1>", 4095),
+	HEADING_2("<h2></h2>", 4095),
+	HEADING_3("<h3></h3>", 4095),
+	HEADING_4("<h4></h4>", 4095),
+	HEADING_5("<h5></h5>", 4095),
+	HEADING_6("<h6></h6>", 4095);
 	
 	private final List<Attribute> attributes;
 	
@@ -23,13 +23,15 @@ public enum Tag {
 		attributes = generateAttributes(attributeBitmask);
 	}
 	
+	//Generate list of attributes from given bitmask
 	private List<Attribute> generateAttributes(int bitmask){
-		FileManager files = new FileManager();
-		Attribute[] attrList = files.getAttributes();
-		System.out.println(attrList[0].getName());
-		List<Attribute> temp = new ArrayList<Attribute>();
+		FileManager files = new FileManager();//for getting all attributes from attribute.dat file
+		Attribute[] attrList = files.getAttributes();//storing attributes to list
+		List<Attribute> temp = new ArrayList<Attribute>();//return data
+		int d;//for storing position of the byte
 		for(int i=0;i<attrList.length;++i) {
-			if((bitmask & (1<<i))>>i == 1)
+			d = attrList.length-i-1;
+			if((bitmask & (1<<d))>>d == 1)
 				temp.add(attrList[i]);
 		}
 		

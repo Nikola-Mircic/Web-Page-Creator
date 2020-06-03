@@ -278,13 +278,14 @@ public class FileManager {
 	}
 	
 	public Attribute[] getAttributes() {
-		Attribute[] attrs = new Attribute[13];
+		Attribute[] attrs = new Attribute[12];
 		String attributes = "";
 		try {
 			attributes = readFile(findFile("attribute.dat"));
 		} catch (IOException e) {
 			return new Attribute[0];
 		}
+		
 		int i=0,idx = attributes.indexOf('\n');
 		while(idx>0) {
 			String line = attributes.substring(0, idx);
@@ -293,6 +294,7 @@ public class FileManager {
 			attributes = attributes.substring(idx+1);
 			idx = attributes.indexOf('\n');
 		}
+
 		return attrs;
 	}
 	

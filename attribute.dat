@@ -1,5 +1,5 @@
 #px
-## %
+#%
 color:,
 background-color:,
 height:,
@@ -8,7 +8,6 @@ margin-bottom:,
 margin-left:,
 margin-right:,
 margin-top:,
-href:,
 padding-bottom:,
 padding-left:,
 padding-right:,

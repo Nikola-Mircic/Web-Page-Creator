@@ -9,7 +9,6 @@ package com.nm.wpc.editor;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.nm.wpc.screen.InputPanel;
@@ -65,6 +64,7 @@ public class ElementSelector extends Editor{
 										List<Attribute> elemAttrs = tags[s+s2].getAttributes();
 										System.out.println(((Button)source).getOption().getOptName());
 										for(int k=0;k<elemAttrs.size();++k) {
+											System.out.println("k:"+k);
 											System.out.println(" *"+elemAttrs.get(k).getName());
 										}
 									}
