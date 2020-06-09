@@ -28,6 +28,7 @@ public class ElementSelector extends Editor{
 		
 		bckg = Color.WHITE;
 		generateButtons();
+		drawContent(width, height);
 	}
 	
 	@Override
@@ -64,9 +65,9 @@ public class ElementSelector extends Editor{
 										List<Attribute> elemAttrs = tags[s+s2].getAttributes();
 										System.out.println(((Button)source).getOption().getOptName());
 										for(int k=0;k<elemAttrs.size();++k) {
-											System.out.println("k:"+k);
 											System.out.println(" *"+elemAttrs.get(k).getName());
 										}
+										ws.pickElement(tags[s+s2]);
 									}
 								});
 								ip.addGUIObject(tempBtn);
@@ -88,6 +89,7 @@ public class ElementSelector extends Editor{
 						for(int k=0;k<elemAttrs.size();++k) {
 							System.out.println(" *"+elemAttrs.get(k).getName());
 						}
+						ws.pickElement(tags[s]);
 					}
 				});
 			}

@@ -29,6 +29,10 @@ public class Page {
 		this.elements = new ArrayList<PageElement>();
 	}
 	
+	public void addElement(PageElement newElement) {
+		this.elements.add(newElement);
+	}
+	
 	public String getElementsContent() {
 		return "";
 	}

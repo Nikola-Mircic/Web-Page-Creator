@@ -10,6 +10,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import com.nm.elems.PageElement;
+import com.nm.elems.tagsystem.Tag;
 import com.nm.wpc.editor.*;
 
 public class WorkingScreen extends Screen{
@@ -46,36 +48,38 @@ public class WorkingScreen extends Screen{
 		
 		drawEditors(g);
 		
-		g.setColor(new Color(1.0f, 0.0f, 0.0f, 0.5f));
-		g.fillRect(100, 200, 150, 150);
 		g.setColor(Color.GREEN);
 		g.fillRect(width-66, height-64, 50, 25);
 	}
 	
 	private void drawEditors(Graphics g) {
-		for(int i=0;i<editorsSize;++i) {
-			g.drawImage(this.editors[i].getContent(), this.editors[i].getX(), this.editors[i].getY(), null);
-			if(editors[i] instanceof WorkingPane) {
-				if(((WorkingPane)editors[i]).getFocused() != null) {
-					i++;
-				}else {
-					g.drawImage(this.editors[++i].getContent(), this.editors[i].getX(), this.editors[i].getY(), null);
-					break;
-				}
-			}
-			
+		for(int i=0;i<3;++i) {
+			g.drawImage(editors[i].getContent(), editors[i].getX(), editors[i].getY(), null);
 		}
+		if(((WorkingPane)editors[2]).getFocused() != null)
+			g.drawImage(editors[3].getContent(), editors[3].getX(), editors[3].getY(), null);
+		else
+			g.drawImage(editors[4].getContent(), editors[4].getX(), editors[4].getY(), null);
 	}
 	
 	private void updateSize(int newWidth,int newHeight) {
-		for(int i=0;i<editorsSize;++i) {
-			editors[i].drawContent(newWidth, newHeight);
-		}
 		editors[0] = new OptionsBar(0, 0, newWidth, (int)(newHeight*0.035), this);
 		editors[1] = new ElementSelector((int)(newWidth*0.80), (int)(newHeight*0.135), (int)(newWidth*0.20), (int)(newHeight*0.865), this);
 		editors[2] = new WorkingPane(0, (int)(newHeight*0.135), (int)(newWidth*0.80), (int)(newHeight*0.865), this);
 		editors[3] = new PageEditor(0, (int)(newHeight*0.035), newWidth, (int)(newHeight*0.10), this);
 		editors[4] = new ElementEditor(0, (int)(newHeight*0.035), newWidth, (int)(newHeight*0.10), this);
+		for(int i=0;i<editorsSize;++i) {
+			editors[i].drawContent(newWidth, newHeight);
+		}
+	}
+	
+	public void pickElement(Tag newTag) {
+		System.out.println("Creating ["+newTag.getTagname()+"] element...");
+		PageElement newElement = new PageElement(newTag);
+		System.out.println("Displaying element...");
+		((WorkingPane)editors[2]).addNew(newElement);
+		System.out.println("Creating editor...");
+		((ElementEditor)editors[4]).setElementAttributes(newElement);
 	}
 	
 	@Override

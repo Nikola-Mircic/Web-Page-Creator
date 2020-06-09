@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.nm.elems.Attribute;
+import com.nm.elems.PageElement;
 import com.nm.wpc.screen.*;
 
 public class ElementEditor extends Editor{
@@ -54,7 +55,11 @@ public class ElementEditor extends Editor{
 	public List<Attribute> getElementAttributes() {
 		return elementAttributes;
 	}
-
+	
+	public void setElementAttributes(PageElement element) {
+		this.elementAttributes = element.getAttributes();
+	}
+	
 	public void setElementAttributes(List<Attribute> elementAttributes) {
 		this.elementAttributes = elementAttributes;
 	}

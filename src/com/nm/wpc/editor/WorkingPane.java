@@ -25,7 +25,7 @@ public class WorkingPane extends Editor {
 		super(x, y, width, height, ws);
 		bckg = new Color(136, 225, 247);
 		
-		this.page = null;//for now
+		this.page = new Page();
 		this.focused = null;
 		this.setTyping(false);
 	}
@@ -38,6 +38,19 @@ public class WorkingPane extends Editor {
 		g.fillRect(0, 0, width, height);
 		g.setColor(Color.BLACK);
 		g.drawRect(0, 0, width, height);
+	}
+	
+	public void addNew(PageElement newElement) {
+		if(focused!=null) {
+			focused.addElement(newElement);
+			System.out.println("Added element :" + newElement.getElementTag().getTagname() + " to element!!");
+		}
+		else {
+			page.addElement(newElement);
+			System.out.println("Added element :" + newElement.getElementTag().getTagname() + " to page!!");
+		}
+		System.out.println("Added element :"+newElement.getElementTag().getTagname());
+		setFocused(newElement);
 	}
 	
 	@Override

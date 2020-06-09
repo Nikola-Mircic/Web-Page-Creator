@@ -17,9 +17,11 @@ public enum Tag {
 	HEADING_6("<h6></h6>", 4095);
 	
 	private final List<Attribute> attributes;
+	private final String tagname;
 	
 	//attributeBitmaks is bitmask which represent attributes which can be added to an element
 	private Tag(String tag,int attributeBitmask) {
+		this.tagname = tag;
 		attributes = generateAttributes(attributeBitmask);
 	}
 	
@@ -40,5 +42,9 @@ public enum Tag {
 	
 	public List<Attribute> getAttributes(){
 		return this.attributes;
+	}
+
+	public String getTagname() {
+		return tagname;
 	}
 }
