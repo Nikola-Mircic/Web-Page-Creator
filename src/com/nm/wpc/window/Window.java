@@ -13,6 +13,7 @@
 
 package com.nm.wpc.window;
 
+import java.awt.Dimension;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
@@ -31,7 +32,8 @@ public class Window extends JFrame implements Runnable{
 	private static MainScreen ms;
 	
 	public Window() {
-		setSize(WIDTH, HEIGHT);
+		setExtendedState(MAXIMIZED_BOTH);
+		setMinimumSize(new Dimension(WIDTH,HEIGHT));
 		setTitle(TITLE);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(true);

@@ -111,10 +111,8 @@ class Panel extends Screen{
 		
 		GUIObject object = checkOnClick(x, y);
 		if(object != null) {
-			last = object;
+			object.mousePressed(x, y);
 		}
-		
-		last.mousePressed(x, y);
 		
 		repaint();
 	}

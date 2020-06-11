@@ -41,7 +41,7 @@ public class Button extends GUIObject{
 		g.fillRect(0, 0, width, height);
 		this.drawBorder(g,0,0,width,height);
 		g.setFont(new Font("",Font.PLAIN,20));
-		g.drawString(this.option.getOptName(), 3, height-2*border);
+		g.drawString(this.option.getOptName(), (width-this.option.getOptName().length()*10)/4, height-(height-20)/2);
 	}
 	
 	public void fitText(int method) {

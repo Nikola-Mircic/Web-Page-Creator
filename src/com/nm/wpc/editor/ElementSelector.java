@@ -39,22 +39,24 @@ public class ElementSelector extends Editor{
 		g.fillRect(0, 0, width, height);
 		g.setColor(Color.BLACK);
 		g.drawRect(0, 0, width, height);
-		drawObjects(g);
+		this.drawObjects(g);
 	}
 	
 	private	void generateButtons() {
+		System.out.println("Generating list of elements...");
 		Button btn;
 		Tag[] tags = Tag.values();
-		int w = this.width,h = Math.min(this.height/tags.length, 50);
+		int w = Math.min(this.width/tags.length,400),h = this.height;
 		int i;
+		
 		for(i=0;i<tags.length;++i) {
 			btn = null;
 			if(tags[i].name().length()>7) {
 				if(tags[i].name().substring(0,7).equals("HEADING")){
-					btn = new Button("HEADING", this.x, this.y+i*h, w, h, new Option(this.ws.getMs()){
+					btn = new Button("HEADING", this.x+i*w, this.y, w, h, new Option(this.ws.getMs()){
 						@Override
 						public void make(GUIObject source) {
-							InputPanel ip = new InputPanel(source,source.getX()-width/2,source.getY(),w*9/10,h*6);
+							InputPanel ip = new InputPanel(source,source.getX(),source.getY()+source.getHeight()/2,w*9/10,h*6);
 							Button tempBtn;
 							int s = findHeading(tags);
 							for(int j=0;j<6;++j) {
@@ -81,7 +83,7 @@ public class ElementSelector extends Editor{
 			}
 			if(btn==null){
 				int s = i;
-				btn = new Button(tags[s].name(), this.x, this.y+i*h, w, h, new Option(){
+				btn = new Button(tags[s].name(), this.x+i*w, this.y, w, h, new Option(){
 					@Override
 					public void make(GUIObject source) {
 						List<Attribute> elemAttrs = tags[s].getAttributes();

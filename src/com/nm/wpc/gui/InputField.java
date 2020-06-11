@@ -21,6 +21,7 @@ public class InputField extends GUIObject{
 	private int cursorPos;
 	
 	private int border;
+	private int font;
 	
 	private boolean editing = false;
 	
@@ -48,37 +49,34 @@ public class InputField extends GUIObject{
 		//Frame drawing
 		this.img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics g = this.img.getGraphics();
-		border=0;
-		if(type==0)
-			border = (height+20)/20;
-		else if(type == 1)
-			border = (height/2+20)/20;
+		border=1;
+		font = 20;
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, width, height);
 		this.drawBorder(g,0,0, width, height);
 		//Label drawing
 		if(LABEL != "") {
 			if(type==0) {
-				g.setFont(new Font("",Font.PLAIN,20));
-				g.drawString(this.LABEL, 3, height-2*border);
+				g.setFont(new Font("",Font.PLAIN,font));
+				g.drawString(this.LABEL, 3, height-(height-font)/2);
 			}else if(type==1) {
-				g.setFont(new Font("",Font.PLAIN,20));
-				g.drawString(this.LABEL, 3, height/2-border);
+				g.setFont(new Font("",Font.PLAIN,font));
+				g.drawString(this.LABEL, 3, height/2-(height/2-font)/2);
 			}
 		}
 		//Text drawing
 		String toDraw = getTextShown();
 		if(type == 0) {
-			this.textField = new BufferedImage((width-((LABEL.length()/2)*20))-4*border, height-4*border, BufferedImage.TYPE_INT_RGB);
+			this.textField = new BufferedImage((width-(LABEL.length()/2)*font)-2*border, height-2*border, BufferedImage.TYPE_INT_RGB);
 			Graphics g2 = this.textField.getGraphics();
 			g2.setColor(new Color(230, 230, 230));
 			g2.fillRect(0, 0, this.textField.getWidth(), this.textField.getHeight());
-			this.drawBorder(g2, 0, 0, (width-((LABEL.length()/2)*height))-4*border, height-4*border);
-			g2.setFont(new Font("",Font.PLAIN,20));
+			this.drawBorder(g2, 0, 0, this.textField.getWidth(), this.textField.getHeight());
+			g2.setFont(new Font("",Font.PLAIN,font));
 			g2.drawString(toDraw, border, height*8/10-2*border);
 			if(editing && toDraw != "")
 				g2.drawString(toDraw.substring(0,cursorPos-ptOffset)+"|", border, height*8/10-2*border);
-			g.drawImage(textField, ((LABEL.length()/2)*20)+2*border, 2*border, null);
+			g.drawImage(textField, ((LABEL.length()/2)*font)+border, border, null);
 			
 		}else {
 			this.textField = new BufferedImage(width-2*border, height/2-2*border, BufferedImage.TYPE_INT_RGB);
@@ -86,10 +84,10 @@ public class InputField extends GUIObject{
 			g2.setColor(new Color(230, 230, 230));
 			g2.fillRect(0, 0, this.textField.getWidth(), this.textField.getHeight());
 			this.drawBorder(g2, 0, 0, width-2*border, height/2-2*border);
-			g2.setFont(new Font("",Font.PLAIN,20));
-			g2.drawString(toDraw, border, height*8/20-border);
+			g2.setFont(new Font("",Font.PLAIN,font));
+			g2.drawString(toDraw, border, height*8/font-border);
 			if(editing && toDraw != "")
-				g2.drawString(toDraw.substring(0,cursorPos-ptOffset)+"|", border, height*8/20-border);
+				g2.drawString(toDraw.substring(0,cursorPos-ptOffset)+"|", border, height*8/font-border);
 			g.drawImage(textField, border, height/2, null);
 		}
 	}
@@ -120,7 +118,7 @@ public class InputField extends GUIObject{
 	
 	private void findMaxCharsNumber() {
 		if(type == 0)
-			this.ptLenght = Math.min(textData.length(), ((width-((LABEL.length()/2)*20))-4*border)/10);
+			this.ptLenght = Math.min(textData.length(), ((width-((LABEL.length()/2)*font))-4*border)/10);
 		else
 			this.ptLenght = Math.min(textData.length(), (width-2*border)/10);
 	}
@@ -162,11 +160,13 @@ public class InputField extends GUIObject{
 	
 	@Override
 	public void mousePressed(int x,int y) {
+		System.out.println("Clicked on an InputField");
 		if(type == 0) {
-			if(x>(this.x+width-((LABEL.length()/2)*20))){
+			if(x>(this.x+width-((LABEL.length()/2)*font))){
 				setEditing(true);
 			}
 		}else {
+			System.out.println("Testing: "+y+" "+(this.y+height/2));
 			if(y>(this.y+height/2))
 				setEditing(true);
 		}

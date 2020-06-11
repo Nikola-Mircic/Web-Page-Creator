@@ -49,13 +49,14 @@ public class WorkingPane extends Editor {
 			page.addElement(newElement);
 			System.out.println("Added element :" + newElement.getElementTag().getTagname() + " to page!!");
 		}
-		System.out.println("Added element :"+newElement.getElementTag().getTagname());
+		
 		setFocused(newElement);
 	}
 	
 	@Override
 	public void onMousePressed(int x,int y) {
 		bckg = new Color(136, 181, 181);
+		focused = null;//
 		drawContent(width, height);
 	}
 	
