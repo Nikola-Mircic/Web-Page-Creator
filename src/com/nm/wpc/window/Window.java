@@ -34,6 +34,8 @@ public class Window extends JFrame implements Runnable{
 	public Window() {
 		setExtendedState(MAXIMIZED_BOTH);
 		setMinimumSize(new Dimension(WIDTH,HEIGHT));
+		this.WIDTH = this.getContentPane().getWidth();
+		this.HEIGHT = this.getContentPane().getHeight();
 		setTitle(TITLE);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(true);

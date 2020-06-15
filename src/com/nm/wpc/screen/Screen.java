@@ -80,6 +80,12 @@ public abstract class Screen extends JPanel{
 	}
 	
 	public InputField findEditingField() {
+		for(GUIObject obj:controler.getObjects()) {
+			if(obj instanceof InputField) {
+				if(((InputField) obj).isEditing())
+					return ((InputField)obj);
+			}
+		}
 		return controler.findEditingField(panels);
 	}
 	

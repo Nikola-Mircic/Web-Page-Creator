@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import com.nm.elems.PageElement;
 import com.nm.elems.tagsystem.Tag;
 import com.nm.wpc.editor.*;
+import com.nm.wpc.gui.InputField;
 
 public class WorkingScreen extends Screen{
 	private static final long serialVersionUID = 1L;
@@ -109,6 +110,17 @@ public class WorkingScreen extends Screen{
 		for(int i=0;i<this.editorsSize;++i) {
 			this.editors[i].onMouseRelease();
 		}
+	}
+	
+	@Override
+	public InputField findEditingField() {
+		InputField inf = null; 
+		for(int i=0;i<editorsSize;++i) {
+			inf = editors[i].findEditingField();
+			if(inf != null)
+				return inf;
+		}
+		return inf;
 	}
 
 	public MainScreen getMs() {

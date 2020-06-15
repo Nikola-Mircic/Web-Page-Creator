@@ -81,10 +81,15 @@ public class ElementEditor extends Editor{
 				controler.addButton(new Button(findGroup(toShow.get(pos).get(0).getName()), this.x, this.y+pos*fHeight, fWidth, fHeight, new Option(ws.getMs()) {
 					@Override
 					public void make(GUIObject source) {
-						InputPanel ip = new InputPanel(source, 
-														source.getX()-source.getWidth()*8/10, 
-														source.getY(),source.getWidth()*8/10,
-														toShow.get(pos).size()*w);
+						int ipw = source.getWidth()*8/10;
+						int iph = toShow.get(pos).size()*h;
+						int ipx = source.getX()-ipw*8/10;
+						int ipy = source.getY();
+						System.out.println((ipy+iph)+" ? "+(height));
+						if(ipy+iph>height) {
+							ipy = height-iph;
+						}
+						InputPanel ip = new InputPanel(source,ipx,ipy,ipw,iph);
 						for(int j=0;j<toShow.get(pos).size();++j) {
 							ip.addGUIObject(new InputField(toShow.get(pos).get(j).getName(), ip.getX(), ip.getY()+h*j, w, h, 1));
 						}
@@ -106,9 +111,11 @@ public class ElementEditor extends Editor{
 		}
 		return attrName;
 	}
-	
+	int clickx,clicky;
 	@Override
 	public void onMousePressed(int x,int y) {
+		clickx = x;
+		clicky = y;
 		bckg = new Color(135, 136, 139);
 		controler.activateOnClick(x, y);
 		drawContent(width, height);
@@ -118,6 +125,13 @@ public class ElementEditor extends Editor{
 	public void onMouseRelease() {
 		bckg = new Color(185, 186, 189);
 		controler.releaseObjects();
+		if(controler.checkOnClick(clickx, clicky)!=null) {
+			if(controler.checkOnClick(clickx, clicky) instanceof InputField) {
+				if(((InputField)controler.checkOnClick(clickx, clicky)).isEditing()) {
+					System.out.println("Working fine!!!!");
+				}
+			}
+		}
 		drawContent(width, height);
 	}
 

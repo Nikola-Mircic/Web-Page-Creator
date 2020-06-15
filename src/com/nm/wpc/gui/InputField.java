@@ -166,14 +166,15 @@ public class InputField extends GUIObject{
 				setEditing(true);
 			}
 		}else {
-			System.out.println("Testing: "+y+" "+(this.y+height/2));
-			if(y>(this.y+height/2))
+			System.out.println("Testing for click: "+this.y+" "+(this.y+this.height/2));
+			if(y>(this.y+this.height/2))
 				setEditing(true);
 		}
 		drawImage();
 	}
 	
 	public void addLetter(char c) {
+		System.out.println("Added character:"+c);
 		this.textData = insertChar(this.textData, c, cursorPos);
 		cursorPos++;
 		drawImage();

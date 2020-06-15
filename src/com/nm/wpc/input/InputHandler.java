@@ -37,8 +37,12 @@ public class InputHandler {
 	
 	public void handle(KeyEvent e) {
 		InputField editing = null;
-		if(screen instanceof MainScreen)
+		if(screen instanceof MainScreen) {
 			editing = ((MainScreen)screen).getActiveScreen().findEditingField();
+			if(editing == null) {
+				editing = ((MainScreen)screen).findEditingField();
+			}
+		}
 		else {
 			editing = screen.findEditingField();
 		}
