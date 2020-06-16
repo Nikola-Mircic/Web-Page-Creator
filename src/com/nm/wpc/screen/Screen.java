@@ -151,4 +151,12 @@ public abstract class Screen extends JPanel{
 	public void setH(int height) {
 		this.height = height;
 	}
+
+	public GUIControler getControler() {
+		return controler;
+	}
+
+	public void setControler(GUIControler controler) {
+		this.controler = controler;
+	}
 }

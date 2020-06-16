@@ -112,7 +112,7 @@ public class MainScreen extends Screen{
 				panelsActivity = false;
 				panels.clear();
 			}else {
-				panel.onMousePressed(x, y);
+				panel.getControler().activateOnClick(x, y);
 			}
 		}else {
 			if(work)

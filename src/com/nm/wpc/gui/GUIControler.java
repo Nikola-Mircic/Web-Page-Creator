@@ -59,11 +59,19 @@ public class GUIControler {
 	}
 	
 	public void activateOnClick(int x,int y) {
+		GUIObject obj = null;
 		for(GUIObject object:objects) {
 			if(x>=object.getX() && x<=object.getX()+object.getWidth() && y>=object.getY() && y<=object.getY()+object.getHeight()) {
-				object.mousePressed(x, y);
+				obj = object;
+			}else {
+				if(object instanceof InputField) {
+					if(((InputField)object).isEditing())
+						((InputField)object).setEditing(false);
+				}
 			}
 		}
+		if(obj != null)
+			obj.mousePressed(x, y);
 	}
 	
 	public void releaseObjects() {

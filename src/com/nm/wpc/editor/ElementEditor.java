@@ -91,7 +91,7 @@ public class ElementEditor extends Editor{
 						}
 						InputPanel ip = new InputPanel(source,ipx,ipy,ipw,iph);
 						for(int j=0;j<toShow.get(pos).size();++j) {
-							ip.addGUIObject(new InputField(toShow.get(pos).get(j).getName(), ip.getX(), ip.getY()+h*j, w, h, 1));
+							ip.addGUIObject(new InputField(toShow.get(pos).get(j).getName(), ip.getX(), ip.getY()+h*j, ip.getW(), h, 1));
 						}
 						ms.drawPanel(ip);
 					}

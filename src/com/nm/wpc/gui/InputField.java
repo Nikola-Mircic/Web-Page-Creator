@@ -160,21 +160,21 @@ public class InputField extends GUIObject{
 	
 	@Override
 	public void mousePressed(int x,int y) {
-		System.out.println("Clicked on an InputField");
 		if(type == 0) {
-			if(x>(this.x+width-((LABEL.length()/2)*font))){
+			if(x>(this.x+width-((LABEL.length()/2)*font)))
 				setEditing(true);
-			}
+			else 
+				setEditing(false);
 		}else {
-			System.out.println("Testing for click: "+this.y+" "+(this.y+this.height/2));
 			if(y>(this.y+this.height/2))
 				setEditing(true);
+			else 
+				setEditing(false);
 		}
 		drawImage();
 	}
 	
 	public void addLetter(char c) {
-		System.out.println("Added character:"+c);
 		this.textData = insertChar(this.textData, c, cursorPos);
 		cursorPos++;
 		drawImage();
