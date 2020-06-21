@@ -43,7 +43,6 @@ public class ElementSelector extends Editor{
 	}
 	
 	private	void generateButtons() {
-		System.out.println("Generating list of elements...");
 		Button btn;
 		Tag[] tags = Tag.values();
 		int w = Math.min(this.width/tags.length,400),h = this.height;

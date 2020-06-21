@@ -24,12 +24,15 @@ public class ElementEditor extends Editor{
 	private static final long serialVersionUID = 1L;
 	
 	private List<Attribute> elementAttributes;
+	private List<List<GUIObject>> toShow;
 	private Color bckg;
 	
 	public ElementEditor(int x, int y, int width, int height, WorkingScreen ws) {
 		super(x, y, width, height, ws);
 		
 		this.setElementAttributes(new ArrayList<Attribute>());
+		this.setToShow(new ArrayList<List<GUIObject>>());
+		
 		bckg = new Color(185, 186, 189);
 		drawContent(width, height);
 	}
@@ -38,6 +41,7 @@ public class ElementEditor extends Editor{
 	public void drawContent(int width,int height) {
 		this.content = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics g = content.getGraphics();
+		
 		g.setColor(bckg);
 		g.fillRect(0, 0, width, height);
 		g.setColor(Color.BLACK);
@@ -46,31 +50,27 @@ public class ElementEditor extends Editor{
 	}
 	
 	private void generateObjects() {
-		System.out.println("Genearating "+elementAttributes.size()+" fields...");
 		controler.setObjects(new ArrayList<GUIObject>());
-		int fWidth=0,fHeight=0;
-		System.out.println(this.width+" "+this.height);
-		List<List<Attribute>> toShow = new ArrayList<List<Attribute>>();
-		for(int i=0;i<elementAttributes.size();++i) {
-			toShow.add(new ArrayList<Attribute>());
-		}
+		int fWidth=this.width,fHeight=80;
+		
+		toShow.add(new ArrayList<GUIObject>());
+		
 		String lastName = elementAttributes.get(0).getName();
-		toShow.get(0).add(elementAttributes.get(0));
+		toShow.get(0).add(new InputField(elementAttributes.get(0).getName(),this.x,this.y,fWidth,fHeight,1));
 		int idx = 0;
 		for(int i=1;i<elementAttributes.size();++i) {
 			if(findGroup(elementAttributes.get(i).getName()).equals(lastName)) {
-				toShow.get(idx).add(elementAttributes.get(i));
+				if(toShow.get(idx).size() == 1)
+					toShow.get(idx).get(0).setWidth(fWidth*8/10);
+				toShow.get(idx).add(new InputField(elementAttributes.get(i).getName(),this.x,this.y+toShow.get(idx).size()*fHeight,fWidth,fHeight,1));
 			}else {
+				toShow.add(new ArrayList<GUIObject>());
 				idx++;
-				toShow.get(idx).add(elementAttributes.get(i));
+				toShow.get(idx).add(new InputField(elementAttributes.get(i).getName(),this.x,this.y+idx*fHeight,fWidth,fHeight,1));
 				lastName = findGroup(elementAttributes.get(i).getName());
 			}
 		}
-		for(int i=0;i<toShow.size();++i) {
-			System.out.println("toShow["+i+"]:"+toShow.get(i).size());
-		}
-		fWidth = this.width;
-		fHeight = 80;
+		
 		for(int i=0;i<toShow.size();++i) {
 			if(toShow.get(i).isEmpty())
 				break;
@@ -78,28 +78,33 @@ public class ElementEditor extends Editor{
 				int pos = i;
 				int w = fWidth;
 				int h = fHeight;
-				controler.addButton(new Button(findGroup(toShow.get(pos).get(0).getName()), this.x, this.y+pos*fHeight, fWidth, fHeight, new Option(ws.getMs()) {
+				controler.addButton(new Button(findGroup(((InputField)toShow.get(pos).get(0)).getLabel()), this.x, this.y+pos*fHeight, fWidth, fHeight, new Option(ws.getMs()) {
 					@Override
 					public void make(GUIObject source) {
 						int ipw = source.getWidth()*8/10;
 						int iph = toShow.get(pos).size()*h;
 						int ipx = source.getX()-ipw*8/10;
 						int ipy = source.getY();
-						System.out.println((ipy+iph)+" ? "+(height));
 						if(ipy+iph>height) {
 							ipy = height-iph;
 						}
+						
 						InputPanel ip = new InputPanel(source,ipx,ipy,ipw,iph);
 						for(int j=0;j<toShow.get(pos).size();++j) {
-							ip.addGUIObject(new InputField(toShow.get(pos).get(j).getName(), ip.getX(), ip.getY()+h*j, ip.getW(), h, 1));
+							toShow.get(pos).get(j).setWidth(ipw);
+							toShow.get(pos).get(j).setX(ipx);
+							toShow.get(pos).get(j).setY(ipy+j*h);
+							ip.addGUIObject(toShow.get(pos).get(j));
 						}
+						
 						ms.drawPanel(ip);
 					}
 				}));
 			}else {
-				controler.addObject(new InputField(toShow.get(i).get(0).getName(), this.x, this.y+i*fHeight, fWidth, fHeight, 1));
+				controler.addObject(toShow.get(i).get(0));
 			}
 		}
+		
 		drawContent(width, height);
 	}
 	
@@ -111,28 +116,27 @@ public class ElementEditor extends Editor{
 		}
 		return attrName;
 	}
-	int clickx,clicky;
+	
+	private void checkValues() {
+		
+	}
+	
 	@Override
 	public void onMousePressed(int x,int y) {
-		clickx = x;
-		clicky = y;
-		bckg = new Color(135, 136, 139);
 		controler.activateOnClick(x, y);
+		
 		drawContent(width, height);
 	}
 	
 	@Override
 	public void onMouseRelease() {
-		bckg = new Color(185, 186, 189);
 		controler.releaseObjects();
-		if(controler.checkOnClick(clickx, clicky)!=null) {
-			if(controler.checkOnClick(clickx, clicky) instanceof InputField) {
-				if(((InputField)controler.checkOnClick(clickx, clicky)).isEditing()) {
-					System.out.println("Working fine!!!!");
-				}
-			}
-		}
+		checkValues();
 		drawContent(width, height);
+	}
+	
+	public void submitAttributeChange() {
+		//Finish
 	}
 
 	public List<Attribute> getElementAttributes() {
@@ -146,5 +150,13 @@ public class ElementEditor extends Editor{
 	
 	public void setElementAttributes(List<Attribute> elementAttributes) {
 		this.elementAttributes = elementAttributes;
+	}
+
+	public List<List<GUIObject>> getToShow() {
+		return toShow;
+	}
+
+	public void setToShow(List<List<GUIObject>> toShow) {
+		this.toShow = toShow;
 	}
 }

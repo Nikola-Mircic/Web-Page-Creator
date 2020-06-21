@@ -75,7 +75,7 @@ public class InputField extends GUIObject{
 			g2.setFont(new Font("",Font.PLAIN,font));
 			g2.drawString(toDraw, border, height*8/10-2*border);
 			if(editing && toDraw != "")
-				g2.drawString(toDraw.substring(0,cursorPos-ptOffset)+"|", border, height*8/10-2*border);
+				g2.drawString(toDraw.substring(0,cursorPos-ptOffset)+"_", border, height*8/10-2*border);
 			g.drawImage(textField, ((LABEL.length()/2)*font)+border, border, null);
 			
 		}else {
@@ -87,7 +87,7 @@ public class InputField extends GUIObject{
 			g2.setFont(new Font("",Font.PLAIN,font));
 			g2.drawString(toDraw, border, height*8/font-border);
 			if(editing && toDraw != "")
-				g2.drawString(toDraw.substring(0,cursorPos-ptOffset)+"|", border, height*8/font-border);
+				g2.drawString(toDraw.substring(0,cursorPos-ptOffset)+"_", border, height*8/font-border);
 			g.drawImage(textField, border, height/2, null);
 		}
 	}
@@ -96,7 +96,7 @@ public class InputField extends GUIObject{
 		String printingText = textData;
 		findMaxCharsNumber();
 		if(editing) {
-			/*if(textData.indexOf("|") == -1)
+			/*if(textData.indexOf("_") == -1)
 				textData = insertChar(textData, '|', cursorPos);*/
 			if(cursorPos <=  ptLenght) {
 				resizeTextLeft(textData);
@@ -111,7 +111,7 @@ public class InputField extends GUIObject{
 			}
 		}
 		printingText = textData.substring(ptOffset, ptOffset+ptLenght);
-		if(textData.indexOf("|") != -1)
+		if(textData.indexOf("_") != -1)
 			textData = removeChar(textData, cursorPos);
 		return printingText;
 	}
@@ -220,10 +220,19 @@ public class InputField extends GUIObject{
 			editing = true;
 		}else {
 			resizeTextLeft(textData);
-			if(textData.indexOf("|") != -1)
+			if(textData.indexOf("_") != -1)
 				textData = removeChar(textData, cursorPos);
 			editing = false;
 		}
+		
 		drawImage();
+	}
+
+	public String getLabel() {
+		return LABEL;
+	}
+
+	public void setLabel(String label) {
+		this.LABEL = label;
 	}
 }

@@ -32,10 +32,9 @@ public class Window extends JFrame implements Runnable{
 	private static MainScreen ms;
 	
 	public Window() {
-		setExtendedState(MAXIMIZED_BOTH);
 		setMinimumSize(new Dimension(WIDTH,HEIGHT));
-		this.WIDTH = this.getContentPane().getWidth();
-		this.HEIGHT = this.getContentPane().getHeight();
+		setExtendedState(MAXIMIZED_BOTH);
+		
 		setTitle(TITLE);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(true);
@@ -69,12 +68,10 @@ public class Window extends JFrame implements Runnable{
 	}
 	
 	public static void main(String[] args) {
-		
 		FileManager fm = new FileManager();
 		fm.createDefaultConfiguration();
 		
 		ms = new MainScreen(WIDTH, HEIGHT);
-		ms.updateSize(WIDTH, HEIGHT);
 		Window window = new Window();
 		
 		window.add(ms);
@@ -85,8 +82,6 @@ public class Window extends JFrame implements Runnable{
 
 	@Override
 	public void run() {
-		//this.add(ms);
-		//this.addMouseListener(ms.getListener());
 	}
 
 }

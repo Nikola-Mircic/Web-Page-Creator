@@ -79,7 +79,7 @@ public class MainScreen extends Screen{
 		repaint();
 	}
 	
-	public void updateSize(int width,int height) {
+	public synchronized void updateSize(int width,int height) {
 		start.drawContent(width, height);
 		working.drawContent(width, height);
 		repaint();

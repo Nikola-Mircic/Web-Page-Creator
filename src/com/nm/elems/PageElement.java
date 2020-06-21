@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.nm.elems.tagsystem.Tag;
@@ -53,7 +54,8 @@ public class PageElement {
 	private void drawContent() {
 		this.img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics g = img.getGraphics();
-		g.setColor(getColor(getAttribute("background-color")));
+		g.setColor(getColor(getAttributeValue("background-color")));
+		
 		g.fillRect(0, 0, width, height);
 	}
 
@@ -73,14 +75,39 @@ public class PageElement {
 			return new Color(r, g, b, a);
 		}
 	}
-
-	private String getAttribute(String attrName) {
+	
+	public Attribute getAttribute(String attrName) {
+		Attribute temp;
+		for(Iterator<Attribute> itr = attributes.iterator();itr.hasNext();) {
+			temp = itr.next();
+			if(temp.getName().equals(attrName))
+				return temp;
+		}
+		return null;
+	}
+	
+	public String getAttributeValue(String attrName) {
 		String value = "";
-		for(int i=0;i<attributes.size();++i) {
-			if(attributes.get(i).getName().equals(attrName))
-				value = attributes.get(i).getValue();
+		Attribute temp;
+		for(Iterator<Attribute> itr = attributes.iterator();itr.hasNext();) {
+			temp = itr.next();
+			if(temp.getName().equals(attrName)) {
+				value = temp.getValue();
+				break;
+			}	
 		}
 		return value;
+	}
+	
+	private void generateDefaultAttributes(Tag tag) {
+		switch (tag) {
+		case BOX:
+			
+			break;
+
+		default:
+			break;
+		}
 	}
 	
 	public void addElement(PageElement newElement) {
