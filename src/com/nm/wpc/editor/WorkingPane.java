@@ -38,6 +38,14 @@ public class WorkingPane extends Editor {
 		g.fillRect(0, 0, width, height);
 		g.setColor(Color.BLACK);
 		g.drawRect(0, 0, width, height);
+		for(int i=0;i<page.getElements().size();++i) {
+			g.drawImage(page.getElements().get(i).getImg(), page.getElements().get(i).getX(), page.getElements().get(i).getY(), null);
+		}
+		//Border for focusing element
+		if(focused ==null)
+			return;
+		g.setColor(Color.BLUE);
+		g.drawRect(focused.getX(), focused.getY(), focused.getWidth(), focused.getHeight());
 	}
 	
 	public void addNew(PageElement newElement) {
@@ -55,15 +63,14 @@ public class WorkingPane extends Editor {
 	
 	@Override
 	public void onMousePressed(int x,int y) {
-		bckg = new Color(136, 181, 181);
-		focused = null;//
+		x-=this.x;
+		y-=this.y;
+		focused = page.findSelectedElement(x,y);
 		drawContent(width, height);
 	}
 	
 	@Override
 	public void onMouseRelease() {
-		bckg = new Color(136, 225, 247);
-		drawContent(width, height);
 	}
 
 	public Page getPage() {

@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.nm.elems.Attribute;
@@ -51,22 +52,23 @@ public class ElementEditor extends Editor{
 	
 	private void generateObjects() {
 		controler.setObjects(new ArrayList<GUIObject>());
+		toShow = new ArrayList<List<GUIObject>>();
 		int fWidth=this.width,fHeight=80;
 		
 		toShow.add(new ArrayList<GUIObject>());
 		
 		String lastName = elementAttributes.get(0).getName();
-		toShow.get(0).add(new InputField(elementAttributes.get(0).getName(),this.x,this.y,fWidth,fHeight,1));
+		toShow.get(0).add((new InputField(elementAttributes.get(0).getName(),this.x,this.y,fWidth,fHeight,1)).setValue(elementAttributes.get(0).getValue()));
 		int idx = 0;
 		for(int i=1;i<elementAttributes.size();++i) {
 			if(findGroup(elementAttributes.get(i).getName()).equals(lastName)) {
 				if(toShow.get(idx).size() == 1)
 					toShow.get(idx).get(0).setWidth(fWidth*8/10);
-				toShow.get(idx).add(new InputField(elementAttributes.get(i).getName(),this.x,this.y+toShow.get(idx).size()*fHeight,fWidth,fHeight,1));
+				toShow.get(idx).add((new InputField(elementAttributes.get(i).getName(),this.x,this.y+toShow.get(idx).size()*fHeight,fWidth,fHeight,1)).setValue(elementAttributes.get(i).getValue()));
 			}else {
 				toShow.add(new ArrayList<GUIObject>());
 				idx++;
-				toShow.get(idx).add(new InputField(elementAttributes.get(i).getName(),this.x,this.y+idx*fHeight,fWidth,fHeight,1));
+				toShow.get(idx).add((new InputField(elementAttributes.get(i).getName(),this.x,this.y+idx*fHeight,fWidth,fHeight,1)).setValue(elementAttributes.get(i).getValue()));
 				lastName = findGroup(elementAttributes.get(i).getName());
 			}
 		}

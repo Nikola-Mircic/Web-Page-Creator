@@ -9,6 +9,7 @@ package com.nm.wpc.input;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+import com.nm.elems.PageElement;
 import com.nm.wpc.gui.InputField;
 import com.nm.wpc.screen.*;
 
@@ -65,6 +66,31 @@ public class InputHandler {
 				if(Character.isDefined(c))
 					editing.addLetter(c);
 				break;
+			}
+			screen.repaint();
+		}else {
+			PageElement focusedElement = null;
+			Screen activeScreen = ((MainScreen)screen).getActiveScreen();
+			if(activeScreen instanceof WorkingScreen) {
+				focusedElement = ((WorkingScreen)activeScreen).findFocusedElement();
+			}
+			if(focusedElement != null) {
+				switch (e.getKeyCode()) {
+					case KeyEvent.VK_LEFT:
+						focusedElement.setX(focusedElement.getX()-10);
+						break;
+					case KeyEvent.VK_RIGHT:
+						focusedElement.setX(focusedElement.getX()+10);
+						break;
+					case KeyEvent.VK_UP:
+						focusedElement.setY(focusedElement.getY()-10);
+						break;
+					case KeyEvent.VK_DOWN:
+						focusedElement.setY(focusedElement.getY()+10);
+						break;
+					default:
+						break;
+				}
 			}
 			screen.repaint();
 		}

@@ -1,6 +1,7 @@
 package com.nm.elems;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.nm.elems.loader.PageLoader;
@@ -27,6 +28,21 @@ public class Page {
 		pl.createBlankPage(this);
 		
 		this.elements = new ArrayList<PageElement>();
+	}
+	
+	public PageElement findSelectedElement(int x,int y) {
+		PageElement temp;
+		for(Iterator<PageElement> iter = elements.iterator();iter.hasNext();) {
+			temp = iter.next();
+			if(temp.getX()<x && (temp.getX()+temp.getWidth())>x && temp.getY()<y && (temp.getY()+temp.getHeight())>y) {
+				return temp;
+			}else {
+				temp = temp.findSelectedElement(x, y);
+				if(temp != null)
+					return temp;
+			}
+		}
+		return null;
 	}
 	
 	public void addElement(PageElement newElement) {

@@ -161,7 +161,8 @@ public class FileManager {
 
 		String line;
 		while ((line = br.readLine()) != null) {
-			sb.append(line + System.lineSeparator());
+			if(line.charAt(0)!='#')
+				sb.append(line + System.lineSeparator());
 		}
 		
 		br.close();

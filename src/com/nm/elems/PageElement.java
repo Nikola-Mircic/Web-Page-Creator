@@ -28,14 +28,20 @@ public class PageElement {
 		this.childs = new ArrayList<PageElement>();
 		this.elementTag = generateTag(tagname);
 		this.attributes = elementTag.getAttributes();
-		//drawContent();
+		generateDefaultAttributes(elementTag);
+		setX(0);
+		setY(0);
+		drawContent();
 	}
 	
 	public PageElement(Tag tag) {
 		this.childs = new ArrayList<PageElement>();
 		this.elementTag = tag;
 		this.attributes = elementTag.getAttributes();
-		//drawContent();
+		generateDefaultAttributes(elementTag);
+		setX(0);
+		setY(0);
+		drawContent();
 	}
 	
 	private Tag generateTag(String tagname) {
@@ -52,10 +58,11 @@ public class PageElement {
 	}
 	
 	private void drawContent() {
+		this.width = Integer.parseInt(getAttributeValue("width"));
+		this.height = Integer.parseInt(getAttributeValue("height"));
 		this.img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics g = img.getGraphics();
 		g.setColor(getColor(getAttributeValue("background-color")));
-		
 		g.fillRect(0, 0, width, height);
 	}
 
@@ -64,14 +71,15 @@ public class PageElement {
 			return new Color(0, 0, 0, 0);
 		else {
 			
-			String source = attribute.substring(attribute.indexOf('('), attribute.indexOf(')'));
+			String source = attribute.substring(attribute.indexOf('(')+1, attribute.indexOf(')'));
 			int r = Integer.parseInt(source.substring(0,source.indexOf(',')));
 			source = source.substring(source.indexOf(',')+1);
 			int g = Integer.parseInt(source.substring(0,source.indexOf(',')));
 			source = source.substring(source.indexOf(',')+1);
 			int b = Integer.parseInt(source.substring(0,source.indexOf(',')));
 			source = source.substring(source.indexOf(',')+1);
-			int a = Integer.parseInt(source);
+			int a = (int)(Float.parseFloat(source)*255);
+			System.out.println("New color is "+r+" , "+g+" , "+b+" , "+a);
 			return new Color(r, g, b, a);
 		}
 	}
@@ -101,13 +109,40 @@ public class PageElement {
 	
 	private void generateDefaultAttributes(Tag tag) {
 		switch (tag) {
-		case BOX:
-			
+			case BOX:
+				getAttribute("color").setValue("rgba(0,0,0,1.0)");
+				getAttribute("background-color").setValue("rgba(150,150,150,1.0)");
+				getAttribute("width").setValue("200");
+				getAttribute("height").setValue("100");
 			break;
-
-		default:
-			break;
+			case TEXT_BOX:
+				getAttribute("color").setValue("rgba(0,0,0,1.0)");
+				getAttribute("background-color").setValue("rgba(0,130,160,1.0)");
+				getAttribute("width").setValue("100");
+				getAttribute("height").setValue("80");
+				break;
+			default:
+				getAttribute("color").setValue("rgba(0,0,0,1.0)");
+				getAttribute("background-color").setValue("rgba(255,255,255,1.0)");
+				getAttribute("width").setValue("300");
+				getAttribute("height").setValue("80");
+				break;
 		}
+	}
+	
+	public PageElement findSelectedElement(int x,int y) {
+		PageElement temp;
+		for(Iterator<PageElement> iter = childs.iterator();iter.hasNext();) {
+			temp = iter.next();
+			if(temp.getX()<x && (temp.getX()+temp.getWidth())>x && temp.getY()<y && (temp.getY()+temp.getHeight())>y) {
+				return temp;
+			}else {
+				temp = temp.findSelectedElement(x, y);
+				if(temp!=null)
+					return temp;
+			}
+		}
+		return null;
 	}
 	
 	public void addElement(PageElement newElement) {

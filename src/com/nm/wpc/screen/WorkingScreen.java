@@ -76,7 +76,7 @@ public class WorkingScreen extends Screen{
 	}
 	
 	public void pickElement(Tag newTag) {
-		System.out.println("Creating ["+newTag.getTagname()+"] element...");
+		System.out.println("Creating ["+newTag.getTagname()+"]["+newTag.name()+"] element...");
 		PageElement newElement = new PageElement(newTag);
 		System.out.println("Displaying element...");
 		((WorkingPane)editors[wpIdx]).addNew(newElement);
@@ -121,6 +121,10 @@ public class WorkingScreen extends Screen{
 				return inf;
 		}
 		return inf;
+	}
+	
+	public PageElement findFocusedElement() {
+		return ((WorkingPane)editors[wpIdx]).getFocused();
 	}
 
 	public MainScreen getMs() {

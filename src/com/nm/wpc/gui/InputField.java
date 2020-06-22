@@ -37,6 +37,7 @@ public class InputField extends GUIObject{
 	public InputField(String label,int x,int y,int width,int height,int type) {
 		super(x,y,width,height);
 		this.LABEL = label;
+		
 		this.textData = "";
 		this.ptOffset = 0;
 		this.ptLenght = 0;
@@ -207,6 +208,12 @@ public class InputField extends GUIObject{
 		this.textData = text;
 		ptOffset = 0;
 		drawImage();
+	}
+	
+	public InputField setValue(String newValue) {
+		this.textData = newValue;
+		drawImage();
+		return this;
 	}
 
 	public boolean isEditing() {
