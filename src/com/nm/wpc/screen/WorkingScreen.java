@@ -65,14 +65,11 @@ public class WorkingScreen extends Screen{
 	}
 	
 	private void updateSize(int newWidth,int newHeight) {
-		editors[obIdx] = new OptionsBar(0, 0, newWidth, (int)(newHeight*0.035), this);
-		editors[esIdx] = new ElementSelector(0, (int)(newHeight*0.035), newWidth, (int)(newHeight*0.10), this);
-		editors[wpIdx] = new WorkingPane(0, (int)(newHeight*0.135), (int)(newWidth*0.80), (int)(newHeight*0.865), this);
-		editors[peIdx] = new PageEditor((int)(newWidth*0.80), (int)(newHeight*0.135), (int)(newWidth*0.20), (int)(newHeight*0.865), this);
-		editors[eeIdx] = new ElementEditor((int)(newWidth*0.80), (int)(newHeight*0.135), (int)(newWidth*0.20), (int)(newHeight*0.865), this);
-		for(int i=0;i<editorsSize;++i) {
-			editors[i].drawContent(newWidth, newHeight);
-		}
+		editors[obIdx].update(0, 0, newWidth, (int)(newHeight*0.035), this);
+		editors[esIdx].update(0, (int)(newHeight*0.035), newWidth, (int)(newHeight*0.10), this);
+		editors[wpIdx].update(0, (int)(newHeight*0.135), (int)(newWidth*0.80), (int)(newHeight*0.865), this);
+		editors[peIdx].update((int)(newWidth*0.80), (int)(newHeight*0.135), (int)(newWidth*0.20), (int)(newHeight*0.865), this);
+		editors[eeIdx].update((int)(newWidth*0.80), (int)(newHeight*0.135), (int)(newWidth*0.20), (int)(newHeight*0.865), this);
 	}
 	
 	public void pickElement(Tag newTag) {

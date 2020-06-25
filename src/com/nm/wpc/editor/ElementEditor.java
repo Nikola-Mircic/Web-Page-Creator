@@ -40,6 +40,9 @@ public class ElementEditor extends Editor{
 	
 	@Override
 	public void drawContent(int width,int height) {
+		if(!elementAttributes.isEmpty())
+			generateObjects();
+		
 		this.content = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics g = content.getGraphics();
 		
@@ -106,8 +109,6 @@ public class ElementEditor extends Editor{
 				controler.addObject(toShow.get(i).get(0));
 			}
 		}
-		
-		drawContent(width, height);
 	}
 	
 	//Group contain attributes with the same beginning 
@@ -148,6 +149,7 @@ public class ElementEditor extends Editor{
 	public void setElementAttributes(PageElement element) {
 		this.elementAttributes = element.getAttributes();
 		generateObjects();
+		drawContent(width, height);
 	}
 	
 	public void setElementAttributes(List<Attribute> elementAttributes) {

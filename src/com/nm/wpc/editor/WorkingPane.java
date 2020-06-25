@@ -32,15 +32,16 @@ public class WorkingPane extends Editor {
 	
 	@Override
 	public void drawContent(int width,int height) {
+		setW(width);
+		setH(height);
 		this.content = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics g = content.getGraphics();
 		g.setColor(bckg);
 		g.fillRect(0, 0, width, height);
 		g.setColor(Color.BLACK);
 		g.drawRect(0, 0, width, height);
-		for(int i=0;i<page.getElements().size();++i) {
-			g.drawImage(page.getElements().get(i).getImg(), page.getElements().get(i).getX(), page.getElements().get(i).getY(), null);
-		}
+		//Elements drawing
+		page.drawElements(g);
 		//Border for focusing element
 		if(focused ==null)
 			return;

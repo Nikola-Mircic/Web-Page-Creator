@@ -17,6 +17,15 @@ public class Editor extends Screen{
 		this.setWs(ws);
 	}
 	
+	public void update(int x,int y,int width,int height,WorkingScreen ws) {
+		setX(x);
+		setY(y);
+		setW(width);
+		setH(height);
+		setWs(ws);
+		drawContent(width, height);
+	}
+	
 	public void callback(Screen destination) {
 		
 	}

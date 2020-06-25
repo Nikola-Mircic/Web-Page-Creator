@@ -131,18 +131,26 @@ public class PageElement {
 	}
 	
 	public PageElement findSelectedElement(int x,int y) {
+		System.out.println("testing "+this.elementTag+" element...");
+		PageElement temp,temp2;
+		for(Iterator<PageElement> iter = childs.iterator();iter.hasNext();) {
+			temp = iter.next();
+			temp2 = temp.findSelectedElement(x, y);
+			if(temp2 != null)
+				return temp2;
+		}
+		if(this.x<x && (this.x + this.width)>x && this.y<y && (this.y + this.height)>y)
+			return this;
+		return null;
+	}
+	
+	public void drawContent(Graphics g) {
+		g.drawImage(this.img, this.x, this.y, null);
 		PageElement temp;
 		for(Iterator<PageElement> iter = childs.iterator();iter.hasNext();) {
 			temp = iter.next();
-			if(temp.getX()<x && (temp.getX()+temp.getWidth())>x && temp.getY()<y && (temp.getY()+temp.getHeight())>y) {
-				return temp;
-			}else {
-				temp = temp.findSelectedElement(x, y);
-				if(temp!=null)
-					return temp;
-			}
+			temp.drawContent(g);
 		}
-		return null;
 	}
 	
 	public void addElement(PageElement newElement) {

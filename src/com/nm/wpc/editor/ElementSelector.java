@@ -9,6 +9,7 @@ package com.nm.wpc.editor;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.nm.wpc.screen.InputPanel;
@@ -27,12 +28,12 @@ public class ElementSelector extends Editor{
 		super(x, y, width, height, ws);
 		
 		bckg = Color.WHITE;
-		generateButtons();
 		drawContent(width, height);
 	}
 	
 	@Override
 	public void drawContent(int width,int height) {
+		generateButtons();
 		this.content = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics g = content.getGraphics();
 		g.setColor(bckg);
@@ -43,6 +44,7 @@ public class ElementSelector extends Editor{
 	}
 	
 	private	void generateButtons() {
+		controler.setObjects(new ArrayList<GUIObject>());
 		Button btn;
 		Tag[] tags = Tag.values();
 		int w = Math.min(this.width/tags.length,400),h = this.height;

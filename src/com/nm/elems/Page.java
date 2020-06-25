@@ -1,5 +1,6 @@
 package com.nm.elems;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -31,18 +32,21 @@ public class Page {
 	}
 	
 	public PageElement findSelectedElement(int x,int y) {
+		PageElement temp=null,temp2=null;
+		for(Iterator<PageElement> iter = elements.iterator();iter.hasNext();) {
+			temp = iter.next().findSelectedElement(x, y);
+			if(temp!=null)
+				temp2 = temp;
+		}
+		return temp2;
+	}
+	
+	public void drawElements(Graphics g) {
 		PageElement temp;
 		for(Iterator<PageElement> iter = elements.iterator();iter.hasNext();) {
 			temp = iter.next();
-			if(temp.getX()<x && (temp.getX()+temp.getWidth())>x && temp.getY()<y && (temp.getY()+temp.getHeight())>y) {
-				return temp;
-			}else {
-				temp = temp.findSelectedElement(x, y);
-				if(temp != null)
-					return temp;
-			}
+			temp.drawContent(g);
 		}
-		return null;
 	}
 	
 	public void addElement(PageElement newElement) {
