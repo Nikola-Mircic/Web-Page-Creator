@@ -14,6 +14,7 @@
 package com.nm.wpc.window;
 
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
@@ -32,8 +33,11 @@ public class Window extends JFrame implements Runnable{
 	private static MainScreen ms;
 	
 	public Window() {
+		Dimension startDimension = Toolkit.getDefaultToolkit().getScreenSize();
 		setMinimumSize(new Dimension(WIDTH,HEIGHT));
 		setExtendedState(MAXIMIZED_BOTH);
+		
+		ms = new MainScreen(startDimension.width, startDimension.height);
 		
 		setTitle(TITLE);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -70,8 +74,7 @@ public class Window extends JFrame implements Runnable{
 	public static void main(String[] args) {
 		FileManager fm = new FileManager();
 		fm.createDefaultConfiguration();
-		
-		ms = new MainScreen(WIDTH, HEIGHT);
+
 		Window window = new Window();
 		
 		window.add(ms);

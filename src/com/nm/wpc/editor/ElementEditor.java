@@ -40,7 +40,7 @@ public class ElementEditor extends Editor{
 	
 	@Override
 	public void drawContent(int width,int height) {
-		if(!elementAttributes.isEmpty())
+		if(toShow.isEmpty())
 			generateObjects();
 		
 		this.content = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -54,6 +54,9 @@ public class ElementEditor extends Editor{
 	}
 	
 	private void generateObjects() {
+		if(elementAttributes.isEmpty())
+			return;
+		
 		controler.setObjects(new ArrayList<GUIObject>());
 		toShow = new ArrayList<List<GUIObject>>();
 		int fWidth=this.width,fHeight=80;
@@ -127,7 +130,7 @@ public class ElementEditor extends Editor{
 	@Override
 	public void onMousePressed(int x,int y) {
 		controler.activateOnClick(x, y);
-		
+	
 		drawContent(width, height);
 	}
 	

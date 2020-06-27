@@ -131,7 +131,6 @@ public class PageElement {
 	}
 	
 	public PageElement findSelectedElement(int x,int y) {
-		System.out.println("testing "+this.elementTag+" element...");
 		PageElement temp,temp2;
 		for(Iterator<PageElement> iter = childs.iterator();iter.hasNext();) {
 			temp = iter.next();
