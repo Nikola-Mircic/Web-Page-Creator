@@ -1,3 +1,6 @@
-## WPC(Web Page Creator)
+# Web Page Creator
+#### Author: [Nikola-Mircic](https://github.com/Nikola-Mircic)
 
-Still in progress...
+Licensed under the [GNU General Public License v3.0](LICENSE)
+
+> Project is still in progress
