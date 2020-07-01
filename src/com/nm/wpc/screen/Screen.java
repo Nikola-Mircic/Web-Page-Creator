@@ -59,7 +59,11 @@ public abstract class Screen extends JPanel{
 		this.controler = new GUIControler();
 		this.panels = new ArrayList<InputPanel>();
 	}
-		
+	
+	public void drawContent() {
+		this.drawContent(width, height);
+	}
+	
 	protected void drawContent(int width,int height) {}
 	
 	public void onMousePressed(int x,int y) {}

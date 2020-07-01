@@ -94,6 +94,12 @@ public class PageElement {
 		return null;
 	}
 	
+	public String getAttributeValue(int index) {
+		if(index>=attributes.size() || index<0)
+			return "";
+		return attributes.get(index).getValue();
+	}
+	
 	public String getAttributeValue(String attrName) {
 		String value = "";
 		Attribute temp;
@@ -105,6 +111,13 @@ public class PageElement {
 			}	
 		}
 		return value;
+	}
+	
+	public void setAttributeValue(int index,String newValue) {
+		if(index>=attributes.size() || index<0)
+			return;
+		attributes.get(index).setValue(newValue);
+		drawContent();
 	}
 	
 	private void generateDefaultAttributes(Tag tag) {
@@ -131,16 +144,19 @@ public class PageElement {
 	}
 	
 	public PageElement findSelectedElement(int x,int y) {
-		PageElement temp,temp2;
-		for(Iterator<PageElement> iter = childs.iterator();iter.hasNext();) {
-			temp = iter.next();
-			temp2 = temp.findSelectedElement(x, y);
-			if(temp2 != null)
-				return temp2;
+		PageElement temp = null,temp2 = null;
+		
+		for(PageElement elem : childs) {
+			temp2 = elem.findSelectedElement(x, y);
+			if(temp2!=null) {
+				temp = temp2;
+			}
 		}
+		
 		if(this.x<x && (this.x + this.width)>x && this.y<y && (this.y + this.height)>y)
 			return this;
-		return null;
+		
+		return temp;
 	}
 	
 	public void drawContent(Graphics g) {
@@ -157,7 +173,7 @@ public class PageElement {
 	}
 
 	public List<Attribute> getAttributes() {
-		return attributes;
+		return this.attributes;
 	}
 
 	public void setAttributes(List<Attribute> attributes) {
@@ -205,6 +221,7 @@ public class PageElement {
 	}
 
 	public BufferedImage getImg() {
+		drawContent();
 		return img;
 	}
 

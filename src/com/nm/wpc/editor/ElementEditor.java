@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.w3c.dom.Attr;
+
 import com.nm.elems.Attribute;
 import com.nm.elems.PageElement;
 import com.nm.wpc.gui.Button;
@@ -84,7 +86,6 @@ public class ElementEditor extends Editor{
 				break;
 			if(toShow.get(i).size()>1) {
 				int pos = i;
-				int w = fWidth;
 				int h = fHeight;
 				controler.addButton(new Button(findGroup(((InputField)toShow.get(pos).get(0)).getLabel()), this.x, this.y+pos*fHeight, fWidth, fHeight, new Option(ws.getMs()) {
 					@Override
@@ -123,12 +124,24 @@ public class ElementEditor extends Editor{
 		return attrName;
 	}
 	
-	private void checkValues() {
-		
+	public void checkValues(PageElement focused) {
+		if(focused==null)
+			return;
+		int idx = 0;
+		for(List<GUIObject> list : toShow) {
+			for(GUIObject field : list) {
+				if(!((InputField)field).getText().equals(focused.getAttributeValue(idx)))
+					focused.setAttributeValue(idx,((InputField)field).getText());
+				idx++;
+			}
+		}
 	}
 	
 	@Override
 	public void onMousePressed(int x,int y) {
+		if(x<this.x || y<this.y) {
+			controler.releaseObjects();
+		}
 		controler.activateOnClick(x, y);
 	
 		drawContent(width, height);
@@ -137,7 +150,6 @@ public class ElementEditor extends Editor{
 	@Override
 	public void onMouseRelease() {
 		controler.releaseObjects();
-		checkValues();
 		drawContent(width, height);
 	}
 	
@@ -150,6 +162,10 @@ public class ElementEditor extends Editor{
 	}
 	
 	public void setElementAttributes(PageElement element) {
+		for(Attribute attr:element.getAttributes()) {
+			System.out.println("Loaded attr ["+element.getAttributes().indexOf(attr)+"] "+attr.getName()+":"+attr.getValue());
+		}
+		
 		this.elementAttributes = element.getAttributes();
 		generateObjects();
 		drawContent(width, height);

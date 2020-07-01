@@ -82,10 +82,20 @@ public class WorkingScreen extends Screen{
 		drawContent(width, height);
 	}
 	
+	public void checkValues(PageElement focused) {
+		((ElementEditor)this.editors[eeIdx]).checkValues(focused);
+		drawContent(width, height);
+	}
+	
+	public void createEditor(PageElement element) {
+		((ElementEditor)editors[eeIdx]).setElementAttributes(element);
+	}
+	
 	@Override
 	public void onMousePressed(int x,int y) {
 		if(x>(width-66) && y>(height-64))
 			ms.changeContent();
+		
 		Editor temp;
 		for(int i=0;i<this.editorsSize;++i) {
 			if(i==peIdx && ((WorkingPane)editors[wpIdx]).getFocused()!=null)
@@ -102,6 +112,7 @@ public class WorkingScreen extends Screen{
 			}
 		}
 	}
+	
 	@Override
 	public void onMouseRelease() {
 		for(int i=0;i<this.editorsSize;++i) {

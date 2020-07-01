@@ -32,19 +32,20 @@ public class Page {
 	}
 	
 	public PageElement findSelectedElement(int x,int y) {
-		PageElement temp=null,temp2=null;
-		for(Iterator<PageElement> iter = elements.iterator();iter.hasNext();) {
-			temp = iter.next().findSelectedElement(x, y);
-			if(temp!=null)
-				temp2 = temp;
+		PageElement temp = null,temp2 = null;
+		
+		for(PageElement elem:elements) {
+			temp2 = elem.findSelectedElement(x, y);
+			if(temp2!=null) {
+				temp = temp2;
+			}
 		}
-		return temp2;
+		
+		return temp;
 	}
 	
 	public void drawElements(Graphics g) {
-		PageElement temp;
-		for(Iterator<PageElement> iter = elements.iterator();iter.hasNext();) {
-			temp = iter.next();
+		for(PageElement temp : elements) {
 			temp.drawContent(g);
 		}
 	}

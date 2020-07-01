@@ -66,7 +66,16 @@ public class WorkingPane extends Editor {
 	public void onMousePressed(int x,int y) {
 		x-=this.x;
 		y-=this.y;
-		this.focused = page.findSelectedElement(x,y);
+		
+		this.ws.checkValues(focused);
+		
+		PageElement newFocused = page.findSelectedElement(x,y);
+		
+		if(newFocused != null) {
+			this.ws.createEditor(newFocused);
+		}
+			
+		focused = newFocused;
 		drawContent(width, height);
 	}
 	
