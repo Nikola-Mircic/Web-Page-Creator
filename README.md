@@ -1,3 +1,5 @@
-## WPC(Web Page Creator)
+# Web Page Creator
+#### Author: [Nikola-Mircic](https://github.com/Nikola-Mircic)
 
-Still in progress...
+
+> Project is still in progress
