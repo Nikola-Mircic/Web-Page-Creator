@@ -62,14 +62,10 @@ public class ElementSelector extends Editor{
 							int s = findHeading(tags);
 							for(int j=0;j<6;++j) {
 								int s2 = j;
-								tempBtn = new Button(tags[s+j].name(), ip.getX()+10, ip.getY()+j*h, w, h, new Option(){
+								tempBtn = new Button(tags[s+j].name(), ip.getX(), ip.getY()+j*h, w, h, new Option(){
 									@Override
 									public void make(GUIObject source) {
 										List<Attribute> elemAttrs = tags[s+s2].getAttributes();
-										System.out.println(((Button)source).getOption().getOptName());
-										for(int k=0;k<elemAttrs.size();++k) {
-											System.out.println(" *"+elemAttrs.get(k).getName());
-										}
 										ws.pickElement(tags[s+s2]);
 									}
 								});
@@ -88,10 +84,6 @@ public class ElementSelector extends Editor{
 					@Override
 					public void make(GUIObject source) {
 						List<Attribute> elemAttrs = tags[s].getAttributes();
-						System.out.println(((Button)source).getOption().getOptName());
-						for(int k=0;k<elemAttrs.size();++k) {
-							System.out.println(" *"+elemAttrs.get(k).getName());
-						}
 						ws.pickElement(tags[s]);
 					}
 				});

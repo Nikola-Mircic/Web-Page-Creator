@@ -126,14 +126,15 @@ public class ElementEditor extends Editor{
 	}
 	
 	public void checkValues() {
-		System.out.println("Checkikng values...");
 		if(edited==null)
 			return;
 		int idx = 0;
 		for(List<GUIObject> list : toShow) {
 			for(GUIObject field : list) {
-				if(!((InputField)field).getText().equals(edited.getAttributeValue(idx)))
+				if(!((InputField)field).getText().equals(edited.getAttributeValue(idx))) {
 					edited.setAttributeValue(idx,((InputField)field).getText());
+					((InputField)field).setEditing(false);
+				}
 				idx++;
 			}
 		}
@@ -141,9 +142,6 @@ public class ElementEditor extends Editor{
 	
 	@Override
 	public void onMousePressed(int x,int y) {
-		if(findEditingField()!=null)
-			checkValues();
-		
 		if(x<this.x || y<this.y) {
 			controler.releaseObjects();
 		}
@@ -175,7 +173,6 @@ public class ElementEditor extends Editor{
 	}
 	
 	public void setElementAttributes(PageElement element) {
-		System.out.println("Creating new editor...");
 		this.setEdited(element);
 		
 		generateObjects();

@@ -21,6 +21,8 @@ public class WorkingPane extends Editor {
 	private PageElement focused;
 	private boolean typing;
 	
+	private int lastX=0,lastY=0;
+	
 	public WorkingPane(int x, int y, int width, int height, WorkingScreen ws) {
 		super(x, y, width, height, ws);
 		bckg = new Color(136, 225, 247);
@@ -52,11 +54,8 @@ public class WorkingPane extends Editor {
 	public void addNew(PageElement newElement) {
 		if(focused!=null) {
 			focused.addElement(newElement);
-			System.out.println("Added element :" + newElement.getElementTag().getTagname() + " to element!!");
-		}
-		else {
+		}else {
 			page.addElement(newElement);
-			System.out.println("Added element :" + newElement.getElementTag().getTagname() + " to page!!");
 		}
 		
 		setFocused(newElement);
@@ -64,10 +63,10 @@ public class WorkingPane extends Editor {
 	
 	@Override
 	public void onMousePressed(int x,int y) {
+		this.lastX = x;
+		this.lastY = y;
 		x-=this.x;
 		y-=this.y;
-		
-		//this.ws.checkValues();
 		
 		PageElement newFocused = page.findSelectedElement(x,y);
 		
@@ -81,6 +80,21 @@ public class WorkingPane extends Editor {
 	
 	@Override
 	public void onMouseRelease() {
+		this.lastX = 0;
+		this.lastY = 0;
+	}
+	
+	@Override
+	public void onMouseDragged(int x, int y) {
+		if(!(x>this.x && x<(this.x + this.width) && y>this.y && y<(this.y + this.height)))
+			return;
+		if(focused.isClicked(x-this.x,y-this.y)) {
+			focused.setX(focused.getX()+x-lastX);
+			focused.setY(focused.getY()+y-lastY);
+			lastX = x;
+			lastY = y;
+		}
+		drawContent(width,height);
 	}
 
 	public Page getPage() {

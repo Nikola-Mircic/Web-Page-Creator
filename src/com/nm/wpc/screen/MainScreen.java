@@ -30,11 +30,12 @@ public class MainScreen extends Screen{
 		
 		this.setListener(new InputListener(this));
 		this.addMouseListener(listener);
+		this.addMouseMotionListener(listener);
+		this.addMouseWheelListener(listener);
 		
 		this.panelsActivity = false;
 		
 		work=true;
-		//this.content = start.getContent();
 	}
 	
 	public MainScreen(int w,int h,Window window) {
@@ -44,6 +45,8 @@ public class MainScreen extends Screen{
 		this.setListener(new InputListener(this));
 		
 		this.addMouseListener(listener);
+		this.addMouseMotionListener(listener);
+		this.addMouseWheelListener(listener);
 		
 		this.panelsActivity = false;
 		
@@ -79,7 +82,7 @@ public class MainScreen extends Screen{
 		repaint();
 	}
 	
-	public synchronized void updateSize(int width,int height) {
+	public void updateSize(int width,int height) {
 		start.drawContent(width, height);
 		working.drawContent(width, height);
 		repaint();
@@ -126,9 +129,9 @@ public class MainScreen extends Screen{
 	@Override
 	public void onMouseDragged(int x,int y) {
 		if(work)
-			working.onMousePressed(x, y);
+			working.onMouseDragged(x, y);
 		else
-			start.onMousePressed(x, y);
+			start.onMouseDragged(x, y);
 		
 		repaint();
 	}

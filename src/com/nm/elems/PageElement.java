@@ -125,7 +125,6 @@ public class PageElement {
 	public void setAttributeValue(int index,String newValue) {
 		if(index>=attributes.size() || index<0)
 			return;
-		System.out.println(attributes.get(index).getName()+" : "+attributes.get(index).getValue()+" -> "+newValue);
 		attributes.get(index).setValue(newValue);
 		drawContent();
 	}
@@ -163,10 +162,14 @@ public class PageElement {
 			}
 		}
 		
-		if(this.x<x && (this.x + this.width)>x && this.y<y && (this.y + this.height)>y)
+		if(isClicked(x, y))
 			return this;
 		
 		return temp;
+	}
+	
+	public boolean isClicked(int x,int y) {
+		return (x>this.x && x<(this.x + this.width) && y>this.y && y<(this.y+this.height));
 	}
 	
 	public void drawContent(Graphics g) {

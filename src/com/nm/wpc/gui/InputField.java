@@ -168,7 +168,6 @@ public class InputField extends GUIObject{
 				setEditing(false);
 		}else {
 			if(y>(this.y+this.height/2)) {
-				System.out.println("Pressed on the inputField");
 				setEditing(true);
 			}
 			else 

@@ -73,17 +73,9 @@ public class WorkingScreen extends Screen{
 	}
 	
 	public void pickElement(Tag newTag) {
-		System.out.println("Creating ["+newTag.getTagname()+"]["+newTag.name()+"] element...");
 		PageElement newElement = new PageElement(newTag);
-		System.out.println("Displaying element...");
 		((WorkingPane)editors[wpIdx]).addNew(newElement);
-		System.out.println("Creating editor...");
 		((ElementEditor)editors[eeIdx]).setElementAttributes(newElement);
-		drawContent(width, height);
-	}
-	
-	public void checkValues() {
-		((ElementEditor)this.editors[eeIdx]).checkValues();
 		drawContent(width, height);
 	}
 	
@@ -95,6 +87,9 @@ public class WorkingScreen extends Screen{
 	public void onMousePressed(int x,int y) {
 		if(x>(width-66) && y>(height-64))
 			ms.changeContent();
+		
+		if(editors[eeIdx].findEditingField()!=null)
+			((ElementEditor)this.editors[eeIdx]).checkValues();
 		
 		Editor temp;
 		for(int i=0;i<this.editorsSize;++i) {
@@ -118,6 +113,12 @@ public class WorkingScreen extends Screen{
 		for(int i=0;i<this.editorsSize;++i) {
 			this.editors[i].onMouseRelease();
 		}
+	}
+	
+	@Override
+	public void onMouseDragged(int x, int y) {
+		editors[wpIdx].onMouseDragged(x, y);
+		drawContent(width, height);
 	}
 	
 	@Override
