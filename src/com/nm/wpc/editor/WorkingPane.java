@@ -43,10 +43,10 @@ public class WorkingPane extends Editor {
 		//Elements drawing
 		page.drawElements(g);
 		//Border for focusing element
-		if(focused ==null)
-			return;
-		g.setColor(Color.BLUE);
-		g.drawRect(focused.getX(), focused.getY(), focused.getWidth(), focused.getHeight());
+		if(focused != null) {
+			g.setColor(Color.BLUE);
+			g.drawRect(focused.getX(), focused.getY(), focused.getWidth(), focused.getHeight());
+		}
 	}
 	
 	public void addNew(PageElement newElement) {
@@ -67,7 +67,7 @@ public class WorkingPane extends Editor {
 		x-=this.x;
 		y-=this.y;
 		
-		this.ws.checkValues(focused);
+		//this.ws.checkValues();
 		
 		PageElement newFocused = page.findSelectedElement(x,y);
 		
@@ -75,7 +75,7 @@ public class WorkingPane extends Editor {
 			this.ws.createEditor(newFocused);
 		}
 			
-		focused = newFocused;
+		setFocused(newFocused);
 		drawContent(width, height);
 	}
 	

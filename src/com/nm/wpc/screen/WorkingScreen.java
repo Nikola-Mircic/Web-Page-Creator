@@ -82,8 +82,8 @@ public class WorkingScreen extends Screen{
 		drawContent(width, height);
 	}
 	
-	public void checkValues(PageElement focused) {
-		((ElementEditor)this.editors[eeIdx]).checkValues(focused);
+	public void checkValues() {
+		((ElementEditor)this.editors[eeIdx]).checkValues();
 		drawContent(width, height);
 	}
 	

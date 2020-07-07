@@ -79,15 +79,12 @@ public class PageElement {
 			int b = Integer.parseInt(source.substring(0,source.indexOf(',')));
 			source = source.substring(source.indexOf(',')+1);
 			int a = (int)(Float.parseFloat(source)*255);
-			System.out.println("New color is "+r+" , "+g+" , "+b+" , "+a);
 			return new Color(r, g, b, a);
 		}
 	}
 	
 	public Attribute getAttribute(String attrName) {
-		Attribute temp;
-		for(Iterator<Attribute> itr = attributes.iterator();itr.hasNext();) {
-			temp = itr.next();
+		for(Attribute temp : attributes) {
 			if(temp.getName().equals(attrName))
 				return temp;
 		}
@@ -101,21 +98,18 @@ public class PageElement {
 	}
 	
 	public String getAttributeValue(String attrName) {
-		String value = "";
-		Attribute temp;
-		for(Iterator<Attribute> itr = attributes.iterator();itr.hasNext();) {
-			temp = itr.next();
+		for(Attribute temp : attributes){
 			if(temp.getName().equals(attrName)) {
-				value = temp.getValue();
-				break;
+				return temp.getValue();
 			}	
 		}
-		return value;
+		return "";
 	}
 	
 	public void setAttributeValue(int index,String newValue) {
 		if(index>=attributes.size() || index<0)
 			return;
+		System.out.println(attributes.get(index).getName()+" : "+attributes.get(index).getValue()+" -> "+newValue);
 		attributes.get(index).setValue(newValue);
 		drawContent();
 	}

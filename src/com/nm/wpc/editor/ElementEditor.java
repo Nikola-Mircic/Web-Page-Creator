@@ -26,14 +26,15 @@ import com.nm.wpc.editor.option.*;
 public class ElementEditor extends Editor{
 	private static final long serialVersionUID = 1L;
 	
-	private List<Attribute> elementAttributes;
+	//private List<Attribute> elementAttributes;
+	private PageElement edited;
 	private List<List<GUIObject>> toShow;
 	private Color bckg;
 	
 	public ElementEditor(int x, int y, int width, int height, WorkingScreen ws) {
 		super(x, y, width, height, ws);
 		
-		this.setElementAttributes(new ArrayList<Attribute>());
+		//this.setElementAttributes(new ArrayList<Attribute>());
 		this.setToShow(new ArrayList<List<GUIObject>>());
 		
 		bckg = new Color(185, 186, 189);
@@ -42,7 +43,7 @@ public class ElementEditor extends Editor{
 	
 	@Override
 	public void drawContent(int width,int height) {
-		if(toShow.isEmpty())
+		if(toShow.isEmpty() && edited != null)
 			generateObjects();
 		
 		this.content = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -56,7 +57,7 @@ public class ElementEditor extends Editor{
 	}
 	
 	private void generateObjects() {
-		if(elementAttributes.isEmpty())
+		if(edited.getAttributes().isEmpty())
 			return;
 		
 		controler.setObjects(new ArrayList<GUIObject>());
@@ -65,19 +66,19 @@ public class ElementEditor extends Editor{
 		
 		toShow.add(new ArrayList<GUIObject>());
 		
-		String lastName = elementAttributes.get(0).getName();
-		toShow.get(0).add((new InputField(elementAttributes.get(0).getName(),this.x,this.y,fWidth,fHeight,1)).setValue(elementAttributes.get(0).getValue()));
+		String lastName = edited.getAttributes().get(0).getName();
+		toShow.get(0).add((new InputField(edited.getAttributes().get(0).getName(),this.x,this.y,fWidth,fHeight,1)).setValue(edited.getAttributes().get(0).getValue()));
 		int idx = 0;
-		for(int i=1;i<elementAttributes.size();++i) {
-			if(findGroup(elementAttributes.get(i).getName()).equals(lastName)) {
+		for(int i=1;i<edited.getAttributes().size();++i) {
+			if(findGroup(edited.getAttributes().get(i).getName()).equals(lastName)) {
 				if(toShow.get(idx).size() == 1)
 					toShow.get(idx).get(0).setWidth(fWidth*8/10);
-				toShow.get(idx).add((new InputField(elementAttributes.get(i).getName(),this.x,this.y+toShow.get(idx).size()*fHeight,fWidth,fHeight,1)).setValue(elementAttributes.get(i).getValue()));
+				toShow.get(idx).add((new InputField(edited.getAttributes().get(i).getName(),this.x,this.y+toShow.get(idx).size()*fHeight,fWidth,fHeight,1)).setValue(edited.getAttributes().get(i).getValue()));
 			}else {
 				toShow.add(new ArrayList<GUIObject>());
 				idx++;
-				toShow.get(idx).add((new InputField(elementAttributes.get(i).getName(),this.x,this.y+idx*fHeight,fWidth,fHeight,1)).setValue(elementAttributes.get(i).getValue()));
-				lastName = findGroup(elementAttributes.get(i).getName());
+				toShow.get(idx).add((new InputField(edited.getAttributes().get(i).getName(),this.x,this.y+idx*fHeight,fWidth,fHeight,1)).setValue(edited.getAttributes().get(i).getValue()));
+				lastName = findGroup(edited.getAttributes().get(i).getName());
 			}
 		}
 		
@@ -124,14 +125,15 @@ public class ElementEditor extends Editor{
 		return attrName;
 	}
 	
-	public void checkValues(PageElement focused) {
-		if(focused==null)
+	public void checkValues() {
+		System.out.println("Checkikng values...");
+		if(edited==null)
 			return;
 		int idx = 0;
 		for(List<GUIObject> list : toShow) {
 			for(GUIObject field : list) {
-				if(!((InputField)field).getText().equals(focused.getAttributeValue(idx)))
-					focused.setAttributeValue(idx,((InputField)field).getText());
+				if(!((InputField)field).getText().equals(edited.getAttributeValue(idx)))
+					edited.setAttributeValue(idx,((InputField)field).getText());
 				idx++;
 			}
 		}
@@ -139,11 +141,14 @@ public class ElementEditor extends Editor{
 	
 	@Override
 	public void onMousePressed(int x,int y) {
+		if(findEditingField()!=null)
+			checkValues();
+		
 		if(x<this.x || y<this.y) {
 			controler.releaseObjects();
 		}
 		controler.activateOnClick(x, y);
-	
+
 		drawContent(width, height);
 	}
 	
@@ -157,22 +162,24 @@ public class ElementEditor extends Editor{
 		//Finish
 	}
 
+	public PageElement getEdited() {
+		return edited;
+	}
+
+	public void setEdited(PageElement edited) {
+		this.edited = edited;
+	}
+
 	public List<Attribute> getElementAttributes() {
-		return elementAttributes;
+		return edited.getAttributes();
 	}
 	
 	public void setElementAttributes(PageElement element) {
-		for(Attribute attr:element.getAttributes()) {
-			System.out.println("Loaded attr ["+element.getAttributes().indexOf(attr)+"] "+attr.getName()+":"+attr.getValue());
-		}
+		System.out.println("Creating new editor...");
+		this.setEdited(element);
 		
-		this.elementAttributes = element.getAttributes();
 		generateObjects();
 		drawContent(width, height);
-	}
-	
-	public void setElementAttributes(List<Attribute> elementAttributes) {
-		this.elementAttributes = elementAttributes;
 	}
 
 	public List<List<GUIObject>> getToShow() {

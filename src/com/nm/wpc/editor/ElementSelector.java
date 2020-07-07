@@ -62,7 +62,7 @@ public class ElementSelector extends Editor{
 							int s = findHeading(tags);
 							for(int j=0;j<6;++j) {
 								int s2 = j;
-								tempBtn = new Button(tags[s+j].name(), ip.getX(), ip.getY()+j*h, w*9/10, h, new Option(){
+								tempBtn = new Button(tags[s+j].name(), ip.getX()+10, ip.getY()+j*h, w, h, new Option(){
 									@Override
 									public void make(GUIObject source) {
 										List<Attribute> elemAttrs = tags[s+s2].getAttributes();
