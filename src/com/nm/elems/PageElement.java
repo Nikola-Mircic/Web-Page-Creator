@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.nm.elems.tagsystem.Tag;
+import com.nm.wpc.filesystem.FileManager;
 
 /*
  * Class: com.nm.elems.PageElement
@@ -27,7 +28,7 @@ public class PageElement {
 	public PageElement(String tagname) {
 		this.childs = new ArrayList<PageElement>();
 		this.elementTag = generateTag(tagname);
-		this.attributes = elementTag.getAttributes();
+		this.attributes = generateAttributes(elementTag.getBitmask());
 		generateDefaultAttributes(elementTag);
 		setX(0);
 		setY(0);
@@ -37,7 +38,7 @@ public class PageElement {
 	public PageElement(Tag tag) {
 		this.childs = new ArrayList<PageElement>();
 		this.elementTag = tag;
-		this.attributes = elementTag.getAttributes();
+		this.attributes = generateAttributes(elementTag.getBitmask());
 		generateDefaultAttributes(elementTag);
 		setX(0);
 		setY(0);
@@ -52,6 +53,21 @@ public class PageElement {
 				temp = tag;
 				break;
 			}
+		}
+		
+		return temp;
+	}
+	
+	//Generate list of attributes from given bitmask
+	private List<Attribute> generateAttributes(int bitmask){
+		FileManager files = new FileManager();//for getting all attributes from attribute.dat file
+		Attribute[] attrList = files.getAttributes();//storing attributes to list
+		List<Attribute> temp = new ArrayList<Attribute>();//return data
+		int d;//for storing position of the byte
+		for(int i=0;i<attrList.length;++i) {
+			d = attrList.length-i-1;
+			if((bitmask & (1<<d))>>d == 1)
+				temp.add(attrList[i]);
 		}
 		
 		return temp;

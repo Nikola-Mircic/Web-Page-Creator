@@ -18,11 +18,13 @@ public enum Tag {
 	
 	private final List<Attribute> attributes;
 	private final String tagname;
+	private final int bitmask;
 	
 	//attributeBitmaks is bitmask which represent attributes which can be added to an element
 	private Tag(String tag,int attributeBitmask) {
 		this.tagname = tag;
-		attributes = generateAttributes(attributeBitmask);
+		this.bitmask = attributeBitmask;
+		this.attributes = generateAttributes(attributeBitmask);
 	}
 	
 	//Generate list of attributes from given bitmask
@@ -46,5 +48,9 @@ public enum Tag {
 
 	public String getTagname() {
 		return tagname;
+	}
+	
+	public int getBitmask() {
+		return bitmask;
 	}
 }
