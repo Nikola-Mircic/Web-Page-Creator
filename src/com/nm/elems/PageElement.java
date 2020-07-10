@@ -168,6 +168,23 @@ public class PageElement {
 		return temp;
 	}
 	
+	public boolean deleteElement(PageElement delete) {
+		PageElement toDelete = null;
+		for(PageElement element : childs) {
+			if(element.equals(delete)) {
+				toDelete = element;
+				break;
+			}else if(element.deleteElement(delete))
+				return true;
+		}
+		if(toDelete!=null) {
+			childs.addAll(toDelete.childs);
+			childs.remove(toDelete);
+			return true;
+		}
+		return false;
+	}
+	
 	public boolean isClicked(int x,int y) {
 		return (x>this.x && x<(this.x + this.width) && y>this.y && y<(this.y+this.height));
 	}
@@ -253,6 +270,14 @@ public class PageElement {
 
 	public void setElementTag(Tag elementTag) {
 		this.elementTag = elementTag;
+	}
+
+	public List<PageElement> getChilds() {
+		return childs;
+	}
+
+	public void setChilds(List<PageElement> childs) {
+		this.childs = childs;
 	}
 
 	public BufferedImage getImg() {

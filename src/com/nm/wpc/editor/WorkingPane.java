@@ -70,6 +70,11 @@ public class WorkingPane extends Editor {
 		setFocused(newElement);
 	}
 	
+	public void deleteFocusedElement() {
+		page.deleteElement(focused);
+		setFocused(null);
+	}
+	
 	@Override
 	public void onMousePressed(int x,int y) {
 		this.lastX = x;

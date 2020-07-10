@@ -83,6 +83,10 @@ public class WorkingScreen extends Screen{
 		((ElementEditor)editors[eeIdx]).setElementAttributes(element);
 	}
 	
+	public void deleteFocusedElement() {
+		((WorkingPane)editors[wpIdx]).deleteFocusedElement();
+	}
+	
 	@Override
 	public void onMousePressed(int x,int y) {
 		if(x>(width-66) && y>(height-64))

@@ -44,6 +44,22 @@ public class Page {
 		return temp;
 	}
 	
+	public void deleteElement(PageElement delete) {
+		PageElement toDelete = null;
+		for(PageElement element : elements) {
+			if(element.equals(delete)) {
+				toDelete = element;
+				break;
+			}else if(element.deleteElement(delete))
+				return;
+		}
+		if(toDelete!=null) {
+			elements.addAll(toDelete.getChilds());
+			elements.remove(toDelete);
+		}
+			
+	}
+	
 	public void drawElements(Graphics g) {
 		for(PageElement temp : elements) {
 			temp.drawContent(g);

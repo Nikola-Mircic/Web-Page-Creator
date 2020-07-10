@@ -88,6 +88,10 @@ public class InputHandler {
 					case KeyEvent.VK_DOWN:
 						focusedElement.setY(focusedElement.getY()+10);
 						break;
+					case KeyEvent.VK_DELETE:
+						if(activeScreen instanceof WorkingScreen)
+							((WorkingScreen)activeScreen).deleteFocusedElement();
+						break;
 					default:
 						break;
 				}
