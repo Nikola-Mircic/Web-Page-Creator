@@ -22,6 +22,7 @@ public class WorkingPane extends Editor {
 	private boolean typing;
 	
 	private int lastX=0,lastY=0;
+	private byte actionCode = -1;
 	
 	public WorkingPane(int x, int y, int width, int height, WorkingScreen ws) {
 		super(x, y, width, height, ws);
@@ -47,7 +48,15 @@ public class WorkingPane extends Editor {
 		//Border for focusing element
 		if(focused != null) {
 			g.setColor(Color.BLUE);
-			g.drawRect(focused.getX(), focused.getY(), focused.getWidth(), focused.getHeight());
+			int x = focused.getX();
+			int y = focused.getY();
+			int w = focused.getWidth();
+			int h = focused.getHeight();
+			g.drawRect(x, y, w, h);
+			g.fillRect(x-5, y-5, 10, 10);
+			g.fillRect(x+w-5, y-5, 10, 10);
+			g.fillRect(x+w-5, y+h-5, 10, 10);
+			g.fillRect(x-5, y+h-5, 10, 10);
 		}
 	}
 	
@@ -68,6 +77,12 @@ public class WorkingPane extends Editor {
 		x-=this.x;
 		y-=this.y;
 		
+		if(focused!=null) {
+			actionCode = focused.getActionCode(x, y);
+			if(actionCode != -1)
+				return;
+		}
+		
 		PageElement newFocused = page.findSelectedElement(x,y);
 		
 		if(newFocused != null) {
@@ -82,18 +97,61 @@ public class WorkingPane extends Editor {
 	public void onMouseRelease() {
 		this.lastX = 0;
 		this.lastY = 0;
+		if(actionCode != -1) {
+			this.ws.createEditor(focused);
+			this.actionCode = -1;
+		}
 	}
 	
 	@Override
 	public void onMouseDragged(int x, int y) {
 		if(!(x>this.x && x<(this.x + this.width) && y>this.y && y<(this.y + this.height)))
 			return;
-		if(focused.isClicked(x-this.x,y-this.y)) {
+		if(focused == null)
+			return;
+		
+		if(actionCode == -1)
+			focused.getActionCode(x-this.x, y-this.y);
+		
+		switch (actionCode) {
+		case 0:
+			focused.setX(focused.getX()+x-lastX);
+			focused.setY(focused.getY()+y-lastY);
+			break;
+		case 1:
+			focused.setX(focused.getX()+x-lastX);
+			focused.setY(focused.getY()+y-lastY);
+			focused.setWidth(focused.getWidth()+lastX-x);
+			focused.setHeight(focused.getHeight()+lastY-y);
+			break;
+		case 2:
+			focused.setY(focused.getY()+y-lastY);
+			focused.setWidth(focused.getWidth()+x-lastX);
+			focused.setHeight(focused.getHeight()-y+lastY);
+			break;
+		case 3:
+			focused.setWidth(focused.getWidth()+x-lastX);
+			focused.setHeight(focused.getHeight()+y-lastY);
+			break;
+		case 4:
+			focused.setX(focused.getX()+x-lastX);
+			focused.setWidth(focused.getWidth()-x+lastX);
+			focused.setHeight(focused.getHeight()+y-lastY);
+			break;
+		default:
+			break;
+		}
+		
+		lastX = x;
+		lastY = y;
+		
+		/*if(focused.isClicked(x-this.x,y-this.y)) {
 			focused.setX(focused.getX()+x-lastX);
 			focused.setY(focused.getY()+y-lastY);
 			lastX = x;
 			lastY = y;
-		}
+		}*/
+		
 		drawContent(width,height);
 	}
 

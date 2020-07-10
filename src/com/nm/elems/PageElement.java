@@ -172,6 +172,20 @@ public class PageElement {
 		return (x>this.x && x<(this.x + this.width) && y>this.y && y<(this.y+this.height));
 	}
 	
+	public byte getActionCode(int x,int y) {
+		if(this.x-10<=x && x<=this.x+10 && this.y-10<=y && y<=this.y+10)
+			return 1;
+		if(this.x+width-10<=x && x<=this.x+width+10 && this.y-10<=y && y<=this.y+10)
+			return 2;
+		if(this.x+width-10<=x && x<=this.x+width+10 && this.y+height-10<=y && y<=this.y+height+10)
+			return 3;
+		if(this.x-10<=x && x<=this.x+10 && this.y+height-10<=y && y<=this.y+height+10)
+			return 4;
+		if(isClicked(x, y))
+			return 0;
+		return -1;
+	}
+	
 	public void drawContent(Graphics g) {
 		g.drawImage(this.img, this.x, this.y, null);
 		PageElement temp;
@@ -215,6 +229,10 @@ public class PageElement {
 
 	public void setWidth(int width) {
 		this.width = width;
+		if(width<30)
+			this.width = 30;
+		this.getAttribute("width").setValue(Integer.toString(this.width));
+		this.drawContent();
 	}
 
 	public int getHeight() {
@@ -223,6 +241,10 @@ public class PageElement {
 
 	public void setHeight(int height) {
 		this.height = height;
+		if(height<30)
+			this.height = 30;
+		this.getAttribute("height").setValue(Integer.toString(this.height));
+		this.drawContent();
 	}
 
 	public Tag getElementTag() {
