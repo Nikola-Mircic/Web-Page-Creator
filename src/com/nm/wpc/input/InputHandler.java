@@ -61,6 +61,11 @@ public class InputHandler {
 			case KeyEvent.VK_SPACE:
 				editing.addLetter(' ');
 				break;
+			case KeyEvent.VK_ENTER:
+				if(screen instanceof MainScreen)
+					((WorkingScreen)((MainScreen)screen).getActiveScreen()).checkValues();
+				else
+					screen.findEditingField().setEditing(false);
 			default:
 				char c = e.getKeyChar();
 				if(Character.isDefined(c))
