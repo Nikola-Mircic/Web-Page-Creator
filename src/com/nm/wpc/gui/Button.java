@@ -40,8 +40,8 @@ public class Button extends GUIObject{
 		g.setColor(bckg);
 		g.fillRect(0, 0, width, height);
 		this.drawBorder(g,0,0,width,height);
-		g.setFont(new Font("",Font.PLAIN,20));
-		g.drawString(this.option.getOptName(), (width-this.option.getOptName().length()*10)/4, height-(height-20)/2);
+		g.setFont(new Font("",Font.PLAIN,Math.max(height/3,20)));
+		g.drawString(this.option.getOptName(), (width-this.option.getOptName().length()*10)/4, height-(height-20)/2-border);
 	}
 	
 	public void fitText(int method) {

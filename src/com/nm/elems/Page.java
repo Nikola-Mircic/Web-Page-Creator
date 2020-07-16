@@ -2,7 +2,6 @@ package com.nm.elems;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import com.nm.elems.loader.PageLoader;

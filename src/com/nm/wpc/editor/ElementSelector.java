@@ -10,12 +10,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.List;
 
-import com.nm.wpc.screen.InputPanel;
-import com.nm.wpc.screen.WorkingScreen;
+import com.nm.wpc.screen.*;
 import com.nm.wpc.gui.*;
-import com.nm.elems.Attribute;
 import com.nm.elems.tagsystem.*;
 import com.nm.wpc.editor.option.*;
 
@@ -65,7 +62,6 @@ public class ElementSelector extends Editor{
 								tempBtn = new Button(tags[s+j].name(), ip.getX(), ip.getY()+j*h, w, h, new Option(){
 									@Override
 									public void make(GUIObject source) {
-										List<Attribute> elemAttrs = tags[s+s2].getAttributes();
 										ws.pickElement(tags[s+s2]);
 									}
 								});
@@ -83,7 +79,6 @@ public class ElementSelector extends Editor{
 				btn = new Button(tags[s].name(), this.x+i*w, this.y, w, h, new Option(){
 					@Override
 					public void make(GUIObject source) {
-						List<Attribute> elemAttrs = tags[s].getAttributes();
 						ws.pickElement(tags[s]);
 					}
 				});
