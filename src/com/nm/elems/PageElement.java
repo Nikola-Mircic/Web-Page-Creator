@@ -162,7 +162,7 @@ public class PageElement {
 			}
 		}
 		
-		if(isClicked(x, y))
+		if(isClicked(x, y) && temp == null)
 			return this;
 		
 		return temp;

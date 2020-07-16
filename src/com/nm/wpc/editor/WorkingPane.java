@@ -81,20 +81,21 @@ public class WorkingPane extends Editor {
 		this.lastY = y;
 		x-=this.x;
 		y-=this.y;
-		
+	
 		if(focused!=null) {
 			actionCode = focused.getActionCode(x, y);
-			if(actionCode != -1)
-				return;
 		}
 		
-		PageElement newFocused = page.findSelectedElement(x,y);
-		
-		if(newFocused != null) {
-			this.ws.createEditor(newFocused);
-		}
+		if(actionCode < 1) {
+			PageElement newFocused = page.findSelectedElement(x,y);
 			
-		setFocused(newFocused);
+			if(newFocused != null) {
+				this.ws.createEditor(newFocused);
+			}
+				
+			setFocused(newFocused);
+		}
+		
 		drawContent(width, height);
 	}
 	
