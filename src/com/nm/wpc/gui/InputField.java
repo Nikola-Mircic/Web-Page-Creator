@@ -48,6 +48,8 @@ public class InputField extends GUIObject{
 	}
 	
 	private void drawImage() {
+		if(width<=0 || height<=0)
+			return;
 		//Frame drawing
 		this.img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics g = this.img.getGraphics();
@@ -55,8 +57,8 @@ public class InputField extends GUIObject{
 		font = 20;
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, width, height);
-		this.drawBorder(g,0,0, width, height);
 		//Label drawing
+		g.setColor(Color.BLACK);
 		if(LABEL != "") {
 			if(type==0) {
 				g.setFont(new Font("",Font.PLAIN,font));
@@ -97,6 +99,8 @@ public class InputField extends GUIObject{
 			g.setColor(Color.RED);
 			g.drawRect(2*border, 2*border, width-4*border, height-4*border);
 		}
+		
+		this.drawBorder(g,0,0, width-1, height-1);
 	}
 	
 	private String getTextShown() {
@@ -179,7 +183,6 @@ public class InputField extends GUIObject{
 			else 
 				setEditing(false);
 		}
-		drawImage();
 	}
 	
 	public void addLetter(char c) {
@@ -253,5 +256,11 @@ public class InputField extends GUIObject{
 
 	public void setLabel(String label) {
 		this.LABEL = label;
+	}
+	
+	@Override
+	public void setWidth(int newWidth) {
+		this.width = newWidth;
+		drawImage();
 	}
 }

@@ -72,7 +72,7 @@ public class ElementEditor extends Editor{
 			if(findGroup(edited.getAttributes().get(i).getName()).equals(lastName)) {
 				if(toShow.get(idx).size() == 1)
 					toShow.get(idx).get(0).setWidth(fWidth*8/10);
-				toShow.get(idx).add((new InputField(edited.getAttributes().get(i).getName(),this.x,this.y+toShow.get(idx).size()*fHeight,fWidth,fHeight,1)).setValue(edited.getAttributes().get(i).getValue()));
+				toShow.get(idx).add((new InputField(edited.getAttributes().get(i).getName(),this.x,this.y+toShow.get(idx).size()*fHeight,fWidth*8/10,fHeight,1)).setValue(edited.getAttributes().get(i).getValue()));
 			}else {
 				toShow.add(new ArrayList<GUIObject>());
 				idx++;
