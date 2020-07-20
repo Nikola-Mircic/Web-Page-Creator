@@ -15,11 +15,12 @@ import com.nm.elems.loader.PageLoader;
 
 public class Page {
 	private String TITLE;
-	private List<PageElement> elements;
+	//private List<PageElement> elements;
 	private String pageContent;
 	private String pageHead;
-	private String pageBody;
 	private String pageLocation;
+	
+	private PageElement body;
 	
 	private PageLoader pl;
 	
@@ -27,50 +28,30 @@ public class Page {
 		pl = new PageLoader();
 		pl.createBlankPage(this);
 		
-		this.elements = new ArrayList<PageElement>();
+		//this.elements = new ArrayList<PageElement>();
+		this.body = new PageElement("<body></body>");
 	}
 	
 	public PageElement findSelectedElement(int x,int y) {
-		PageElement temp = null,temp2 = null;
-		
-		for(PageElement elem:elements) {
-			temp2 = elem.findSelectedElement(x, y);
-			if(temp2!=null) {
-				temp = temp2;
-			}
-		}
-		
-		return temp;
+		PageElement temp = body.findSelectedElement(x, y);
+		return (temp.equals(body)?null:temp);
 	}
 	
 	public void deleteElement(PageElement delete) {
-		PageElement toDelete = null;
-		for(PageElement element : elements) {
-			if(element.equals(delete)) {
-				toDelete = element;
-				break;
-			}else if(element.deleteElement(delete))
-				return;
-		}
-		if(toDelete!=null) {
-			elements.addAll(toDelete.getChilds());
-			elements.remove(toDelete);
-		}
-			
+		body.deleteElement(delete);
 	}
 	
 	public void drawElements(Graphics g) {
-		for(PageElement temp : elements) {
-			temp.drawContent(g);
-		}
+		for(PageElement element : body.getChilds())
+			element.drawContent(g);
 	}
 	
 	public void addElement(PageElement newElement) {
-		this.elements.add(newElement);
+		body.addElement(newElement);
 	}
 	
 	public String getElementsContent() {
-		return "";
+		return "";//FIN
 	}
 
 	public String getPageContent() {
@@ -97,13 +78,13 @@ public class Page {
 		this.pageHead = pageHead;
 	}
 
-	public String getPageBody() {
+	/*public String getPageBody() {
 		return pageBody;
 	}
 
 	public void setPageBody(String pageBody) {
 		this.pageBody = pageBody;
-	}
+	}*/
 
 	public String getLocation() {
 		return pageLocation;
@@ -114,10 +95,10 @@ public class Page {
 	}
 
 	public List<PageElement> getElements() {
-		return elements;
+		return body.getChilds();
 	}
 
-	public void setElements(List<PageElement> elements) {
-		this.elements = elements;
-	}
+	/*public void setElements(List<PageElement> elements) {
+		body.setChilds(elements);
+	}*/
 }

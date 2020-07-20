@@ -24,6 +24,7 @@ public class InputField extends GUIObject{
 	private int font;
 	
 	private boolean editing = false;
+	private boolean alert = false;
 	
 	private BufferedImage textField;
 	
@@ -90,6 +91,11 @@ public class InputField extends GUIObject{
 			if(editing && toDraw != "")
 				g2.drawString(toDraw.substring(0,cursorPos-ptOffset)+"_", border, height*8/font-border);
 			g.drawImage(textField, border, height/2, null);
+		}
+		
+		if(this.alert) {
+			g.setColor(Color.RED);
+			g.drawRect(2*border, 2*border, width-4*border, height-4*border);
 		}
 	}
 	
@@ -198,6 +204,11 @@ public class InputField extends GUIObject{
 		if(cursorPos<0) {
 			cursorPos = 0;
 		}
+		drawImage();
+	}
+	
+	public void setAlert(boolean a) {
+		this.alert = a;
 		drawImage();
 	}
 

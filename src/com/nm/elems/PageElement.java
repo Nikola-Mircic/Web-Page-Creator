@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.nm.elems.tagsystem.Tag;
 import com.nm.wpc.filesystem.FileManager;
+import com.sun.org.apache.xalan.internal.xsltc.runtime.Attributes;
 
 /*
  * Class: com.nm.elems.PageElement
@@ -20,6 +21,7 @@ public class PageElement {
 	private Tag elementTag;
 	private List<Attribute> attributes;
 	private List<PageElement> childs;
+	private PageElement parentElement;
 	
 	private int x,y;
 	private int width,height;
@@ -122,11 +124,47 @@ public class PageElement {
 		return "";
 	}
 	
-	public void setAttributeValue(int index,String newValue) {
+	public boolean setAttributeValue(int index,String newValue) {
 		if(index>=attributes.size() || index<0)
-			return;
+			return true;
 		attributes.get(index).setValue(newValue);
+		Attribute temp = attributes.get(index);
+		switch(temp.getName()) {
+			case "position":
+					switch (temp.getValue()) {
+					case "absulute":
+						getAttribute("margin-top").setValue(Integer.toString(this.y));
+						getAttribute("margin-left").setValue(Integer.toString(this.x));
+						break;
+					default:
+						//return true;
+					}
+				break;
+			case "margin-top":
+				switch (getAttribute("position").getValue()) {
+				case "absolute":
+					this.y = Integer.parseInt(temp.getValue());
+					break;
+
+				default:
+					break;
+				}
+				break;
+			case "margin-left":
+				switch (getAttribute("position").getValue()) {
+				case "absolute":
+					this.x = Integer.parseInt(temp.getValue());
+					break;
+
+				default:
+					break;
+				}
+				break;
+			default:
+				break;
+		}
 		drawContent();
+		return false;
 	}
 	
 	private void generateDefaultAttributes(Tag tag) {
@@ -136,18 +174,56 @@ public class PageElement {
 				getAttribute("background-color").setValue("rgba(150,150,150,1.0)");
 				getAttribute("width").setValue("200");
 				getAttribute("height").setValue("100");
+				getAttribute("margin-top").setValue("0");
+				getAttribute("margin-right").setValue("0");
+				getAttribute("margin-bottom").setValue("0");
+				getAttribute("margin-left").setValue("0");
+				getAttribute("padding-top").setValue("0");
+				getAttribute("padding-right").setValue("0");
+				getAttribute("padding-bottom").setValue("0");
+				getAttribute("padding-left").setValue("0");
 			break;
 			case TEXT_BOX:
 				getAttribute("color").setValue("rgba(0,0,0,1.0)");
 				getAttribute("background-color").setValue("rgba(0,130,160,1.0)");
 				getAttribute("width").setValue("100");
 				getAttribute("height").setValue("80");
+				getAttribute("margin-top").setValue("0");
+				getAttribute("margin-right").setValue("0");
+				getAttribute("margin-bottom").setValue("0");
+				getAttribute("margin-left").setValue("0");
+				getAttribute("padding-top").setValue("0");
+				getAttribute("padding-right").setValue("0");
+				getAttribute("padding-bottom").setValue("0");
+				getAttribute("padding-left").setValue("0");
+				break;
+			case BODY:
+				getAttribute("color").setValue("rgba(0,0,0,1.0)");
+				getAttribute("background-color").setValue("rgba(255,255,255,1.0)");
+				getAttribute("width").setValue("1000");
+				getAttribute("height").setValue("700");
+				getAttribute("margin-top").setValue("0");
+				getAttribute("margin-right").setValue("0");
+				getAttribute("margin-bottom").setValue("0");
+				getAttribute("margin-left").setValue("0");
+				getAttribute("padding-top").setValue("0");
+				getAttribute("padding-right").setValue("0");
+				getAttribute("padding-bottom").setValue("0");
+				getAttribute("padding-left").setValue("0");
 				break;
 			default:
 				getAttribute("color").setValue("rgba(0,0,0,1.0)");
 				getAttribute("background-color").setValue("rgba(255,255,255,1.0)");
 				getAttribute("width").setValue("300");
 				getAttribute("height").setValue("80");
+				getAttribute("margin-top").setValue("0");
+				getAttribute("margin-right").setValue("0");
+				getAttribute("margin-bottom").setValue("0");
+				getAttribute("margin-left").setValue("0");
+				getAttribute("padding-top").setValue("0");
+				getAttribute("padding-right").setValue("0");
+				getAttribute("padding-bottom").setValue("0");
+				getAttribute("padding-left").setValue("0");
 				break;
 		}
 	}
@@ -178,6 +254,8 @@ public class PageElement {
 				return true;
 		}
 		if(toDelete!=null) {
+			for(PageElement element : toDelete.childs)
+				element.setParent(this);
 			childs.addAll(toDelete.childs);
 			childs.remove(toDelete);
 			return true;
@@ -213,9 +291,22 @@ public class PageElement {
 	}
 	
 	public void addElement(PageElement newElement) {
-		childs.add(newElement);
+		childs.add(newElement.setParentElement(this));
 	}
-
+	
+	public PageElement setParentElement(PageElement parent) {
+		this.parentElement = parent;
+		return this;
+	}
+	
+	public void setParent(PageElement parent) {
+		this.parentElement = parent;
+	}
+	
+	public PageElement getParent() {
+		return this.parentElement;
+	}
+	
 	public List<Attribute> getAttributes() {
 		return this.attributes;
 	}
@@ -230,6 +321,14 @@ public class PageElement {
 
 	public void setX(int x) {
 		this.x = x;
+		switch (getAttribute("position").getValue()) {
+		case "absolute":
+			getAttribute("margin-left").setValue(Integer.toString(this.x));
+			break;
+
+		default:
+			break;
+		}
 	}
 
 	public int getY() {
@@ -238,6 +337,14 @@ public class PageElement {
 
 	public void setY(int y) {
 		this.y = y;
+		switch (getAttribute("position").getValue()) {
+		case "absolute":
+			getAttribute("margin-top").setValue(Integer.toString(this.y));
+			break;
+
+		default:
+			break;
+		}
 	}
 
 	public int getWidth() {

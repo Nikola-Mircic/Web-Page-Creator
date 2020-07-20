@@ -66,6 +66,7 @@ public class InputHandler {
 					((WorkingScreen)((MainScreen)screen).getActiveScreen()).checkValues();
 				else
 					screen.findEditingField().setEditing(false);
+				break;
 			default:
 				char c = e.getKeyChar();
 				if(Character.isDefined(c))

@@ -279,7 +279,7 @@ public class FileManager {
 	}
 	
 	public Attribute[] getAttributes() {
-		Attribute[] attrs = new Attribute[12];
+		Attribute[] attrs = new Attribute[13];
 		String attributes = "";
 		try {
 			attributes = readFile(findFile("attribute.dat"));
@@ -291,7 +291,7 @@ public class FileManager {
 		while(idx>0) {
 			String line = attributes.substring(0, idx);
 			if(line.charAt(0) != '#')
-				attrs[i++] = new Attribute(line.substring(0, line.indexOf(":,")),"");
+				attrs[i++] = new Attribute(line.substring(0, line.indexOf(":")),line.substring(line.indexOf(":")+1,line.indexOf(",")));
 			attributes = attributes.substring(idx+1);
 			idx = attributes.indexOf('\n');
 		}

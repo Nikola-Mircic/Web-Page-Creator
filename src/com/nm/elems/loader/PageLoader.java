@@ -30,7 +30,7 @@ public class PageLoader {
 				   		  "</head>";
 		p.setPageHead(pageHead);
 		String pageBody = "<body>"+p.getElementsContent()+"</body>";
-		p.setPageBody(pageBody);
+		//p.setPageBody(pageBody);
 		String pageContent = "<!DOCTYPE html><html>"+pageHead+pageBody+"</html>";
 		p.setPageContent(pageContent);
 	}

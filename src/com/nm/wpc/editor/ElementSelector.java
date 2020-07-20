@@ -44,12 +44,13 @@ public class ElementSelector extends Editor{
 		controler.setObjects(new ArrayList<GUIObject>());
 		Button btn;
 		Tag[] tags = Tag.values();
+		
 		int w = Math.min(this.width/tags.length,400),h = this.height;
 		int i;
 		
-		for(i=0;i<tags.length;++i) {
+		for(i=0;i<tags.length-1;++i) {
 			btn = null;
-			if(tags[i].name().length()>7) {
+			if(tags[i].name().indexOf("_")!=-1) {
 				if(tags[i].name().substring(0,7).equals("HEADING")){
 					btn = new Button("HEADING", this.x+i*w, this.y, w, h, new Option(this.ws.getMs()){
 						@Override

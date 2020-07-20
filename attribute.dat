@@ -2,8 +2,9 @@
 #%
 color:,
 background-color:,
-height:,
 width:,
+height:,
+position:absolute,
 margin-top:,
 margin-right:,
 margin-bottom:,
