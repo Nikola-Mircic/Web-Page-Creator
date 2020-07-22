@@ -186,6 +186,8 @@ public class PageElement {
 				getAttribute("padding-left").setValue("0");
 			break;
 			case TEXT_BOX:
+				getAttribute("font-size").setValue("20");
+				getAttribute("font-family").setValue("Times New Roman");
 				getAttribute("color").setValue("rgba(0,0,0,1.0)");
 				getAttribute("background-color").setValue("rgba(0,0,0,0.0)");
 				getAttribute("width").setValue("250");
@@ -214,6 +216,8 @@ public class PageElement {
 				getAttribute("padding-left").setValue("0");
 				break;
 			default:
+				getAttribute("font-size").setValue("50");
+				getAttribute("font-family").setValue("Times New Roman");
 				getAttribute("color").setValue("rgba(0,0,0,1.0)");
 				getAttribute("background-color").setValue("rgba(255,255,255,1.0)");
 				getAttribute("width").setValue("300");

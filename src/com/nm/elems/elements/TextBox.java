@@ -9,6 +9,7 @@ import com.nm.elems.tagsystem.Tag;
 public class TextBox extends PageElement {
 	protected String textData = "TEXT_DATA_TEST";
 	protected int ptLenght;
+	protected int cursorPos;
 	protected boolean editing;
 	
 	protected String fontFamily;
@@ -20,6 +21,7 @@ public class TextBox extends PageElement {
 		//setTextData("");
 		setPtLenght(0);
 		setEditing(true);
+		setCursorPos(0);
 	}
 
 	public TextBox(Tag tag) {
@@ -28,6 +30,7 @@ public class TextBox extends PageElement {
 		//setTextData("");
 		setPtLenght(0);
 		setEditing(true);
+		setCursorPos(0);
 	}
 	
 	@Override
@@ -44,15 +47,15 @@ public class TextBox extends PageElement {
 			g.setFont(new Font(fontFamily,Font.PLAIN,fontSize));
 			g.drawString(textData, 0, fontSize);
 			if(editing)
-				g.drawString(textData+"_", 0, fontSize);
+				g.drawString(textData.substring(0, cursorPos)+"_", 0, fontSize);
 		}
 	}
 	
-	private void findMaxCharsNumber() {
-			this.ptLenght = Math.min(textData.length(), (width)/10);
+	protected void findMaxCharsNumber() {
+			this.ptLenght = Math.min(textData.length(), (width)/fontSize*2);
 	}
 	
-	private String insertChar(String base,char c,int pos) {
+	protected String insertChar(String base,char c,int pos) {
 		if(pos<0 && pos>base.length())
 			return base;
 		if(pos == base.length()) {
@@ -66,7 +69,7 @@ public class TextBox extends PageElement {
 		}
 	}
 	
-	private String removeChar(String base,int pos) {
+	protected String removeChar(String base,int pos) {
 		if(pos < 0)
 			return base;
 		if(pos == base.length()-1)
@@ -75,6 +78,31 @@ public class TextBox extends PageElement {
 			return base.substring(1);
 		else
 			return (base.substring(0, pos)+base.substring(pos+1));
+	}
+	
+	public void addLetter(char c) {
+		this.textData = insertChar(this.textData, c, cursorPos);
+		cursorPos++;
+		drawContent();
+	}
+	
+	public void removeLetter() {
+		if(cursorPos==0)
+			return;
+		this.textData = removeChar(textData, cursorPos-1);
+		cursorPos--;
+		drawContent();
+	}
+	
+	public void moveCursor(int dir) {
+		cursorPos+=dir;
+		if(cursorPos>textData.length()) {
+			cursorPos = textData.length();
+		}
+		if(cursorPos<0) {
+			cursorPos = 0;
+		}
+		drawContent();
 	}
 	
 	@Override
@@ -111,6 +139,14 @@ public class TextBox extends PageElement {
 
 	public void setEditing(boolean editing) {
 		this.editing = editing;
+	}
+	
+	public int getCursorPos() {
+		return cursorPos;
+	}
+
+	public void setCursorPos(int cursorPos) {
+		this.cursorPos = cursorPos;
 	}
 
 }

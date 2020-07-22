@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
 import com.nm.elems.PageElement;
+import com.nm.elems.elements.TextBox;
 import com.nm.wpc.gui.InputField;
 import com.nm.wpc.screen.*;
 
@@ -86,10 +87,16 @@ public class InputHandler {
 			if(focusedElement != null) {
 				switch (e.getKeyCode()) {
 					case KeyEvent.VK_LEFT:
-						focusedElement.setX(focusedElement.getX()-10);
+						if(focusedElement instanceof TextBox && e.isShiftDown())
+							((TextBox)focusedElement).moveCursor(-1);
+						else
+							focusedElement.setX(focusedElement.getX()-10);
 						break;
 					case KeyEvent.VK_RIGHT:
-						focusedElement.setX(focusedElement.getX()+10);
+						if(focusedElement instanceof TextBox && e.isShiftDown())
+							((TextBox)focusedElement).moveCursor(1);
+						else
+							focusedElement.setX(focusedElement.getX()+10);
 						break;
 					case KeyEvent.VK_UP:
 						focusedElement.setY(focusedElement.getY()-10);
@@ -101,7 +108,23 @@ public class InputHandler {
 						if(activeScreen instanceof WorkingScreen)
 							((WorkingScreen)activeScreen).deleteFocusedElement();
 						break;
+					case KeyEvent.VK_BACK_SPACE:
+						if(focusedElement instanceof TextBox)
+							((TextBox)focusedElement).removeLetter();
+						break;
+					case KeyEvent.VK_SPACE:
+						if(focusedElement instanceof TextBox)
+							((TextBox)focusedElement).addLetter(' ');
+						break;
+					case KeyEvent.VK_ENTER:
+						if(focusedElement instanceof TextBox)
+							((TextBox)focusedElement).stopFocus();
+						break;
 					default:
+						char c = e.getKeyChar();
+						if(Character.isDefined(c))
+							if(focusedElement instanceof TextBox)
+								((TextBox)focusedElement).addLetter(c);
 						break;
 				}
 			}
