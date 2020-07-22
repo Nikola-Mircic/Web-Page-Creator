@@ -65,7 +65,7 @@ public class ElementEditor extends Editor{
 		
 		toShow.add(new ArrayList<GUIObject>());
 		
-		String lastName = edited.getAttributes().get(0).getName();
+		String lastName = findGroup(edited.getAttributes().get(0).getName());
 		toShow.get(0).add((new InputField(edited.getAttributes().get(0).getName(),this.x,this.y,fWidth,fHeight,1)).setValue(edited.getAttributes().get(0).getValue()));
 		int idx = 0;
 		for(int i=1;i<edited.getAttributes().size();++i) {

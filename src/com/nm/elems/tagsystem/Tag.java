@@ -8,14 +8,14 @@ import com.nm.wpc.filesystem.FileManager;
 
 public enum Tag {
 	BOX("<div></div>", 8191),
-	TEXT_BOX("<p></p>", 8191),
-	HEADING_1("<h1></h1>", 8191),
-	HEADING_2("<h2></h2>", 8191),
-	HEADING_3("<h3></h3>", 8191),
-	HEADING_4("<h4></h4>", 8191),
-	HEADING_5("<h5></h5>", 8191),
-	HEADING_6("<h6></h6>", 8191),
-	BODY("<body></body>",8191);
+	TEXT_BOX("<p></p>", 32767),
+	HEADING_1("<h1></h1>", 32767),
+	HEADING_2("<h2></h2>", 32767),
+	HEADING_3("<h3></h3>", 32767),
+	HEADING_4("<h4></h4>", 32767),
+	HEADING_5("<h5></h5>", 32767),
+	HEADING_6("<h6></h6>", 32767),
+	BODY("<body></body>", 8191);
 	
 	private final List<Attribute> attributes;
 	private final String tagname;

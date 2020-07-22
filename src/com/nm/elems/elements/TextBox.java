@@ -1,5 +1,6 @@
 package com.nm.elems.elements;
 
+import java.awt.Font;
 import java.awt.Graphics;
 
 import com.nm.elems.PageElement;
@@ -9,7 +10,9 @@ public class TextBox extends PageElement {
 	protected String textData = "TEXT_DATA_TEST";
 	protected int ptLenght;
 	protected boolean editing;
-	protected int font;
+	
+	protected String fontFamily;
+	protected int fontSize;
 	
 	public TextBox(String tagname) {
 		super(tagname);
@@ -31,14 +34,17 @@ public class TextBox extends PageElement {
 	public void drawContent() {
 		super.drawContent();
 		Graphics g = this.img.getGraphics();
+		this.fontSize = Integer.parseInt(getAttributeValue("font-size"));
+		this.fontFamily = getAttribute("font-family").getValue();
 		g.setColor(getColor(getAttributeValue("color")));
 		if(textData == null) {
 			if(editing)
-				g.drawString("_", 0, 20);
+				g.drawString("_", 0, fontSize);
 		}else {
-			g.drawString(textData, 0, 20);
+			g.setFont(new Font(fontFamily,Font.PLAIN,fontSize));
+			g.drawString(textData, 0, fontSize);
 			if(editing)
-				g.drawString(textData+"_", 0, 20);
+				g.drawString(textData+"_", 0, fontSize);
 		}
 	}
 	
