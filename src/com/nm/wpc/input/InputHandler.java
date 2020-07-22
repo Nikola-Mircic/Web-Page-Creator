@@ -88,21 +88,27 @@ public class InputHandler {
 				switch (e.getKeyCode()) {
 					case KeyEvent.VK_LEFT:
 						if(focusedElement instanceof TextBox && e.isShiftDown())
-							((TextBox)focusedElement).moveCursor(-1);
+							((TextBox)focusedElement).moveCursor(-1,0);
 						else
 							focusedElement.setX(focusedElement.getX()-10);
 						break;
 					case KeyEvent.VK_RIGHT:
 						if(focusedElement instanceof TextBox && e.isShiftDown())
-							((TextBox)focusedElement).moveCursor(1);
+							((TextBox)focusedElement).moveCursor(1,0);
 						else
 							focusedElement.setX(focusedElement.getX()+10);
 						break;
 					case KeyEvent.VK_UP:
-						focusedElement.setY(focusedElement.getY()-10);
+						if(focusedElement instanceof TextBox && e.isShiftDown())
+							((TextBox)focusedElement).moveCursor(0,-1);
+						else
+							focusedElement.setY(focusedElement.getY()-10);
 						break;
 					case KeyEvent.VK_DOWN:
-						focusedElement.setY(focusedElement.getY()+10);
+						if(focusedElement instanceof TextBox && e.isShiftDown())
+							((TextBox)focusedElement).moveCursor(0,1);
+						else
+							focusedElement.setY(focusedElement.getY()+10);
 						break;
 					case KeyEvent.VK_DELETE:
 						if(activeScreen instanceof WorkingScreen)
