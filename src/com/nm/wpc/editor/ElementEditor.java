@@ -133,7 +133,7 @@ public class ElementEditor extends Editor{
 				if(!((InputField)field).getText().equals(edited.getAttributeValue(idx))) {
 					boolean change = edited.setAttributeValue(idx,((InputField)field).getText());
 					((InputField)field).setEditing(false);
-					//((InputField)field).setAlert(change);
+					((InputField)field).setAlert(change);
 				}
 				idx++;
 			}
@@ -145,7 +145,7 @@ public class ElementEditor extends Editor{
 		if(x<this.x || y<this.y) {
 			controler.releaseObjects();
 		}
-		controler.activateOnClick(x, y);
+		controler.activateOnClick(x, y+yOffset);
 
 		drawContent(width, height);
 	}
@@ -153,6 +153,14 @@ public class ElementEditor extends Editor{
 	@Override
 	public void onMouseRelease() {
 		controler.releaseObjects();
+		drawContent(width, height);
+	}
+	
+	@Override
+	public void onMouseWheel(int x,int y,int d) {
+		this.yOffset +=d;
+		if(this.yOffset<0)
+			this.yOffset = 0;
 		drawContent(width, height);
 	}
 	

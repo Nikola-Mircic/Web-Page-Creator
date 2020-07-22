@@ -8,6 +8,7 @@ package com.nm.wpc.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 import com.nm.elems.PageElement;
 import com.nm.wpc.gui.InputField;
@@ -31,6 +32,8 @@ public class InputHandler {
 		case MouseEvent.MOUSE_DRAGGED:
 			screen.onMouseDragged(mouse.getX(), mouse.getY());
 			break;
+		case MouseEvent.MOUSE_WHEEL:
+			screen.onMouseWheel(mouse.getX(),mouse.getY(),((MouseWheelEvent)mouse).getWheelRotation()*10);
 		default:
 			break;
 		}

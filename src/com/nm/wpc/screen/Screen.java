@@ -20,6 +20,7 @@ public abstract class Screen extends JPanel{
 	protected Window window;
 	
 	protected int x,y;
+	protected int yOffset;
 	protected int width,height;
 	
 	protected BufferedImage content;
@@ -30,6 +31,8 @@ public abstract class Screen extends JPanel{
 	protected List<InputPanel> panels;
 	
 	public Screen() {
+		setyOffset(0);
+		
 		this.controler = new GUIControler();
 		this.panels = new ArrayList<InputPanel>();
 	}
@@ -37,6 +40,7 @@ public abstract class Screen extends JPanel{
 	public Screen(int width,int height) {
 		setW(width);
 		setH(height);
+		setyOffset(0);
 		
 		this.controler = new GUIControler();
 		this.panels = new ArrayList<InputPanel>();
@@ -45,7 +49,9 @@ public abstract class Screen extends JPanel{
 	public Screen(int width,int height,Window window) {
 		setW(width);
 		setH(height);
+		setyOffset(0);
 		setWindow(window);
+		
 		this.controler = new GUIControler();
 		this.panels = new ArrayList<InputPanel>();
 	}
@@ -53,9 +59,11 @@ public abstract class Screen extends JPanel{
 	public Screen(int x,int y,int width,int height) {
 		setX(x);
 		setY(y);
+		setyOffset(0);
 		setW(width);
 		setH(height);
 		setWindow(window);
+		
 		this.controler = new GUIControler();
 		this.panels = new ArrayList<InputPanel>();
 	}
@@ -70,6 +78,8 @@ public abstract class Screen extends JPanel{
 	
 	public void onMouseDragged(int x,int y) {}
 	
+	public void onMouseWheel(int x,int y,int d) {}
+	
 	public void onMouseRelease() {}
 	
 	public void onKeyPressed(KeyEvent e) {}
@@ -80,7 +90,7 @@ public abstract class Screen extends JPanel{
 	}
 	
 	protected void drawObjects(Graphics g) {
-		controler.drawObjects(g,this.x,this.y);
+		controler.drawObjects(g,this.x,this.y+yOffset);
 	}
 	
 	public InputField findEditingField() {
@@ -138,6 +148,14 @@ public abstract class Screen extends JPanel{
 
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	public int getyOffset() {
+		return yOffset;
+	}
+
+	public void setyOffset(int yOffset) {
+		this.yOffset = yOffset;
 	}
 
 	public int getW() {

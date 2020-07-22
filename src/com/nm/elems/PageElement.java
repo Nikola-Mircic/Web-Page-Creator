@@ -18,14 +18,14 @@ import com.sun.org.apache.xalan.internal.xsltc.runtime.Attributes;
  */
 
 public class PageElement {
-	private Tag elementTag;
-	private List<Attribute> attributes;
-	private List<PageElement> childs;
-	private PageElement parentElement;
+	protected Tag elementTag;
+	protected List<Attribute> attributes;
+	protected List<PageElement> childs;
+	protected PageElement parentElement;
 	
-	private int x,y;
-	private int width,height;
-	private BufferedImage img;
+	protected int x,y;
+	protected int width,height;
+	protected BufferedImage img;
 	
 	public PageElement(String tagname) {
 		this.childs = new ArrayList<PageElement>();
@@ -47,7 +47,7 @@ public class PageElement {
 		drawContent();
 	}
 	
-	private Tag generateTag(String tagname) {
+	protected Tag generateTag(String tagname) {
 		Tag temp = null;
 		Tag[] tags = Tag.values();
 		for(Tag tag:tags) {
@@ -61,7 +61,7 @@ public class PageElement {
 	}
 	
 	//Generate list of attributes from given bitmask
-	private List<Attribute> generateAttributes(int bitmask){
+	protected List<Attribute> generateAttributes(int bitmask){
 		FileManager files = new FileManager();//for getting all attributes from attribute.dat file
 		Attribute[] attrList = files.getAttributes();//storing attributes to list
 		List<Attribute> temp = new ArrayList<Attribute>();//return data
@@ -75,16 +75,16 @@ public class PageElement {
 		return temp;
 	}
 	
-	private void drawContent() {
+	protected void drawContent() {
 		this.width = Integer.parseInt(getAttributeValue("width"));
 		this.height = Integer.parseInt(getAttributeValue("height"));
-		this.img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		this.img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = img.getGraphics();
 		g.setColor(getColor(getAttributeValue("background-color")));
 		g.fillRect(0, 0, width, height);
 	}
 
-	private Color getColor(String attribute) {
+	protected Color getColor(String attribute) {
 		if(attribute.length()==0)
 			return new Color(0, 0, 0, 0);
 		else {
@@ -143,6 +143,8 @@ public class PageElement {
 			case "margin-top":
 				switch (getAttribute("position").getValue()) {
 				case "absolute":
+					if(temp.getValue().equals(""))
+						attributes.get(index).setValue("0");
 					this.y = Integer.parseInt(temp.getValue());
 					break;
 
@@ -167,7 +169,7 @@ public class PageElement {
 		return false;
 	}
 	
-	private void generateDefaultAttributes(Tag tag) {
+	protected void generateDefaultAttributes(Tag tag) {
 		switch (tag) {
 			case BOX:
 				getAttribute("color").setValue("rgba(0,0,0,1.0)");
@@ -185,9 +187,9 @@ public class PageElement {
 			break;
 			case TEXT_BOX:
 				getAttribute("color").setValue("rgba(0,0,0,1.0)");
-				getAttribute("background-color").setValue("rgba(0,130,160,1.0)");
-				getAttribute("width").setValue("100");
-				getAttribute("height").setValue("80");
+				getAttribute("background-color").setValue("rgba(0,0,0,0.0)");
+				getAttribute("width").setValue("250");
+				getAttribute("height").setValue("30");
 				getAttribute("margin-top").setValue("0");
 				getAttribute("margin-right").setValue("0");
 				getAttribute("margin-bottom").setValue("0");
@@ -370,6 +372,10 @@ public class PageElement {
 		this.getAttribute("height").setValue(Integer.toString(this.height));
 		this.drawContent();
 	}
+	
+	public void stopFocus() {}
+	
+	public void startFocus() {}
 
 	public Tag getElementTag() {
 		return elementTag;

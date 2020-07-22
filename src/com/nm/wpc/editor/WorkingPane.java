@@ -174,7 +174,11 @@ public class WorkingPane extends Editor {
 	}
 
 	public void setFocused(PageElement focused) {
+		if(this.focused!=null)
+			this.focused.stopFocus();
 		this.focused = focused;
+		if(this.focused!=null)
+			this.focused.startFocus();
 	}
 
 	public boolean isTyping() {

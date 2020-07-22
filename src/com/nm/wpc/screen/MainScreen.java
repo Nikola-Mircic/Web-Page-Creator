@@ -152,6 +152,22 @@ public class MainScreen extends Screen{
 	}
 	
 	@Override
+	public void onMouseWheel(int x,int y,int d) {
+		if(panelsActivity) {
+			for(InputPanel panel:panels) {
+				panel.onMouseWheel(x,y,d);
+			}
+		}
+		if(work)
+			working.onMouseWheel(x,y,d);
+		else
+			start.onMouseWheel(x,y,d);
+		
+		repaint();
+	}
+	
+	
+	@Override
 	public void onKeyPressed(KeyEvent e) {
 		if(work)
 			working.onKeyPressed(e);

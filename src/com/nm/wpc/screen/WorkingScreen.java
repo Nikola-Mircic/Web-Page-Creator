@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import com.nm.elems.PageElement;
+import com.nm.elems.elements.TextBox;
 import com.nm.elems.tagsystem.Tag;
 import com.nm.wpc.editor.*;
 import com.nm.wpc.gui.InputField;
@@ -73,7 +74,7 @@ public class WorkingScreen extends Screen{
 	}
 	
 	public void pickElement(Tag newTag) {
-		PageElement newElement = new PageElement(newTag);
+		PageElement newElement = getElement(newTag);
 		((WorkingPane)editors[wpIdx]).addNew(newElement);
 		((ElementEditor)editors[eeIdx]).setElementAttributes(newElement);
 		drawContent(width, height);
@@ -89,6 +90,15 @@ public class WorkingScreen extends Screen{
 	
 	public void checkValues() {
 		((ElementEditor)editors[eeIdx]).checkValues();
+	}
+	
+	private PageElement getElement(Tag tag) {
+		switch (tag) {
+		case TEXT_BOX:
+			return new TextBox(tag);
+		default:
+			return new PageElement(tag);
+		}
 	}
 	
 	@Override
@@ -126,6 +136,15 @@ public class WorkingScreen extends Screen{
 	@Override
 	public void onMouseDragged(int x, int y) {
 		editors[wpIdx].onMouseDragged(x, y);
+		drawContent(width, height);
+	}
+	
+	@Override
+	public void onMouseWheel(int x,int y,int d) {
+		for(int i=0;i<editorsSize;++i) {
+			if(editors[i].x < x && (editors[i].x+editors[i].width)>x && editors[i].y < y && (editors[i].y+editors[i].height)>y)
+				editors[i].onMouseWheel(x,y,d);
+		}
 		drawContent(width, height);
 	}
 	

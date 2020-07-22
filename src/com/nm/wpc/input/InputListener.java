@@ -45,7 +45,7 @@ public class InputListener implements KeyListener,MouseListener,MouseMotionListe
 	
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		
+		ih.handle(e);
 	}
 
 	@Override
