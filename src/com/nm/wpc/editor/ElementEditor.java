@@ -131,9 +131,8 @@ public class ElementEditor extends Editor{
 		for(List<GUIObject> list : toShow) {
 			for(GUIObject field : list) {
 				if(!((InputField)field).getText().equals(edited.getAttributeValue(idx))) {
-					boolean change = edited.setAttributeValue(idx,((InputField)field).getText());
+					edited.setAttributeValue(idx,((InputField)field).getText());
 					((InputField)field).setEditing(false);
-					((InputField)field).setAlert(change);
 				}
 				idx++;
 			}

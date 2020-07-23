@@ -16,8 +16,6 @@ public class TextBox extends PageElement {
 	protected String fontFamily;
 	protected int fontSize;
 	
-	protected int upLett=0,lowLett=0;
-	
 	public TextBox(String tagname) {
 		super(tagname);
 		
@@ -29,8 +27,6 @@ public class TextBox extends PageElement {
 		
 		this.fontSize = Integer.parseInt(getAttributeValue("font-size"));
 		this.fontFamily = getAttributeValue("font-family");
-		
-		findMaxCharsNumber();
 	}
 
 	public TextBox(Tag tag) {
@@ -44,8 +40,6 @@ public class TextBox extends PageElement {
 		
 		this.fontSize = Integer.parseInt(getAttributeValue("font-size"));
 		this.fontFamily = getAttributeValue("font-family");
-		
-		findMaxCharsNumber();
 	}
 	
 	@Override
@@ -54,29 +48,37 @@ public class TextBox extends PageElement {
 		Graphics g = this.img.getGraphics();
 		this.fontSize = Integer.parseInt(getAttributeValue("font-size"));
 		this.fontFamily = getAttribute("font-family").getValue();
-		findMaxCharsNumber();
+		int idx1=0,idx2=0;
 		g.setColor(getColor(getAttributeValue("color")));
 		if(textData == null) {
 			if(editing)
 				g.drawString("_", 0, fontSize);
 		}else {
 			g.setFont(new Font(fontFamily,Font.PLAIN,fontSize));
-			int idx1,idx2;
 			for(int i=0;i<lines;++i) {
-				idx1 = i*ptLenght;
-				idx2 = i*ptLenght+Math.min(ptLenght, textData.length()-i*ptLenght);
+				ptLenght = findptLenght(g,idx1);
+				idx2 = idx1+ptLenght;
 				g.drawString(textData.substring(idx1,idx2), 0, fontSize*(i+1));
+				if(editing && cursorPos >= idx1 && cursorPos <= idx2) {
+					g.drawString(textData.substring(idx1, cursorPos)+"_", 0, fontSize*(i+1));
+				}
+				idx1 = idx2;
 			}
-		}
-		if(editing) {
-			int cursorLine = cursorPos/ptLenght;
-			g.drawString(textData.substring(ptLenght*cursorLine, cursorPos)+"_", 0, fontSize*(cursorLine+1));
 		}
 	}
 	
-	protected void findMaxCharsNumber() {
-			if(fontSize!=0 && width != 0)
-				this.ptLenght = (width)/(fontSize/2);
+	protected int findptLenght(Graphics g,int idx) {
+		int l=idx,d=textData.length(),s,res=idx;
+		while(l<=d) {
+			s = l+(d-l)/2;
+			if(g.getFontMetrics().stringWidth(textData.substring(idx,s))<this.width) {
+				res=s;
+				l=s+1;
+			}else {
+				d=s-1;
+			}
+		}
+		return res-idx;
 	}
 	
 	protected String insertChar(String base,char c,int pos) {
@@ -105,15 +107,11 @@ public class TextBox extends PageElement {
 	}
 	
 	public void addLetter(char c) {
-		findMaxCharsNumber();
-		if(Character.isUpperCase(c))
-			upLett++;
-		else
-			lowLett++;
-		if(textData.length()==lines*ptLenght) {
+		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, fontSize)).stringWidth(textData);
+		if(len>=lines*this.width-fontSize/2) {
 			lines++;
 			if(this.height<lines*fontSize)
-				getAttribute("height").setValue(""+lines*fontSize);
+				setHeight(lines*fontSize+5);
 		}
 		this.textData = insertChar(this.textData, c, cursorPos);
 		cursorPos++;
@@ -121,17 +119,12 @@ public class TextBox extends PageElement {
 	}
 	
 	public void removeLetter() {
-		findMaxCharsNumber();
 		if(cursorPos==0)
 			return;
-		if(textData.length()<lines*ptLenght && lines != 1) {
-			this.height = this.height/lines*(lines-1);
-			lines--;
+		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, fontSize)).stringWidth(textData);
+		if(len<(lines-1)*this.width) {
+			setHeight(this.height/lines*(--lines));
 		}
-		if(Character.isUpperCase(textData.charAt(cursorPos-1)))
-			upLett--;
-		else
-			lowLett--;
 		this.textData = removeChar(textData, cursorPos-1);
 		cursorPos--;
 		drawContent();
@@ -164,25 +157,22 @@ public class TextBox extends PageElement {
 	@Override
 	public void setWidth(int width) {
 		super.setWidth(width);
-		findMaxCharsNumber();
-		lines = textData.length()/ptLenght;
+		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, fontSize)).stringWidth(textData);
+		lines = len/this.width+1;
 		if(this.height<lines*fontSize) {
-			String temp = textData.substring(0,height/fontSize*ptLenght);
-			cursorPos -= textData.length()-temp.length();
-			textData = temp;
+			setHeight(lines*fontSize+5);
 		}
+		drawContent();
 	}
 	
 	@Override
 	public void setHeight(int height) {
 		super.setHeight(height);
-		findMaxCharsNumber();
-		lines = textData.length()/ptLenght;
-		if(this.height<lines*fontSize) {
-			String temp = textData.substring(0,height/fontSize*ptLenght);
-			cursorPos -= textData.length()-temp.length();
-			textData = temp;
+		
+		if(this.height<lines*fontSize+5) {
+			setHeight(lines*fontSize+5);
 		}
+		drawContent();
 	}
 
 	public String getTextData() {

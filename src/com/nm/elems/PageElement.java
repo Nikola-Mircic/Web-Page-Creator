@@ -78,7 +78,7 @@ public class PageElement {
 	protected void drawContent() {
 		this.width = Integer.parseInt(getAttributeValue("width"));
 		this.height = Integer.parseInt(getAttributeValue("height"));
-		this.img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		this.img = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = img.getGraphics();
 		g.setColor(getColor(getAttributeValue("background-color")));
 		g.fillRect(0, 0, width, height);
@@ -124,9 +124,9 @@ public class PageElement {
 		return "";
 	}
 	
-	public boolean setAttributeValue(int index,String newValue) {
+	public void setAttributeValue(int index,String newValue) {
 		if(index>=attributes.size() || index<0)
-			return true;
+			return;
 		attributes.get(index).setValue(newValue);
 		Attribute temp = attributes.get(index);
 		switch(temp.getName()) {
@@ -166,7 +166,6 @@ public class PageElement {
 				break;
 		}
 		drawContent();
-		return false;
 	}
 	
 	protected void generateDefaultAttributes(Tag tag) {
