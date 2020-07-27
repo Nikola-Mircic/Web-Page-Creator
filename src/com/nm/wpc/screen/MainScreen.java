@@ -34,8 +34,8 @@ public class MainScreen extends Screen{
 		this.addMouseWheelListener(listener);
 		
 		this.panelsActivity = false;
-		
 		work=true;
+		repaint();
 	}
 	
 	public MainScreen(int w,int h,Window window) {

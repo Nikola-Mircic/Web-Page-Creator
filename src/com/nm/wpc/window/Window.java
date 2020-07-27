@@ -34,16 +34,32 @@ public class Window extends JFrame implements Runnable{
 	
 	public Window() {
 		Dimension startDimension = Toolkit.getDefaultToolkit().getScreenSize();
+		ms = new MainScreen(startDimension.width, startDimension.height);
+		
+		FileManager fm = new FileManager();
+		fm.createDefaultConfiguration();
+	}
+	
+	public static void main(String[] args) {
+		Window window = new Window();
+		
+		app = new Thread(window);
+		app.start();
+	}
+
+	@Override
+	public void run() {
 		setMinimumSize(new Dimension(WIDTH,HEIGHT));
 		setExtendedState(MAXIMIZED_BOTH);
-		
-		ms = new MainScreen(startDimension.width, startDimension.height);
 		
 		setTitle(TITLE);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
+		
+		this.add(ms);
+		this.addKeyListener(ms.getListener());
 		
 		this.getContentPane().addComponentListener(new ComponentListener() {
 			@Override
@@ -69,22 +85,6 @@ public class Window extends JFrame implements Runnable{
 				
 			}
 		});
-	}
-	
-	public static void main(String[] args) {
-		FileManager fm = new FileManager();
-		fm.createDefaultConfiguration();
-
-		Window window = new Window();
-		
-		window.add(ms);
-		window.addKeyListener(ms.getListener());
-		app = new Thread(window);
-		app.start();
-	}
-
-	@Override
-	public void run() {
 	}
 
 }
