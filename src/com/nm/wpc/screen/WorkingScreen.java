@@ -97,6 +97,10 @@ public class WorkingScreen extends Screen{
 		case TEXT_BOX:
 			return new TextBox(tag);
 		default:
+			if(tag == Tag.HEADING_1 || tag == Tag.HEADING_2 || tag == Tag.HEADING_3 ||
+			   tag == Tag.HEADING_4 || tag == Tag.HEADING_5 || tag == Tag.HEADING_6) {
+				return new TextBox(tag);
+			}
 			return new PageElement(tag);
 		}
 	}
