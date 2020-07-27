@@ -44,11 +44,12 @@ public class ElementSelector extends Editor{
 		controler.setObjects(new ArrayList<GUIObject>());
 		Button btn;
 		Tag[] tags = Tag.values();
+		int n = tags.length;
 		
-		int w = Math.min(this.width/tags.length,400),h = this.height;
+		int w = Math.min((this.width/(tags.length-6)),300),h = this.height;
 		int i;
 		
-		for(i=0;i<tags.length-1;++i) {
+		for(i=0;i<n-1;++i) {
 			btn = null;
 			if(tags[i].name().indexOf("_")!=-1) {
 				if(tags[i].name().substring(0,7).equals("HEADING")){
@@ -60,7 +61,7 @@ public class ElementSelector extends Editor{
 							int s = findHeading(tags);
 							for(int j=0;j<6;++j) {
 								int s2 = j;
-								tempBtn = new Button(tags[s+j].name(), ip.getX(), ip.getY()+j*h, w, h, new Option(){
+								tempBtn = new Button(tags[s+j].name(), ip.getX(), ip.getY()+j*h, w*12/10, h, new Option(){
 									@Override
 									public void make(GUIObject source) {
 										ws.pickElement(tags[s+s2]);
@@ -72,12 +73,13 @@ public class ElementSelector extends Editor{
 							ms.drawPanel(ip);
 						}
 					});
-					i+=6;
+					i+=5;
 				}
 			}
 			if(btn==null){
 				int s = i;
-				btn = new Button(tags[s].name(), this.x+i*w, this.y, w, h, new Option(){
+				int pos = (i<findHeading(tags))?i:i-5;
+				btn = new Button(tags[s].name(), this.x+pos*w, this.y, w, h, new Option(){
 					@Override
 					public void make(GUIObject source) {
 						ws.pickElement(tags[s]);

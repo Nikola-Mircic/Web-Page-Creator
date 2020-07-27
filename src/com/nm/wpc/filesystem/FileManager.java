@@ -279,7 +279,7 @@ public class FileManager {
 	}
 	
 	public Attribute[] getAttributes() {
-		Attribute[] attrs = new Attribute[15];
+		Attribute[] attrs = new Attribute[16];
 		String attributes = "";
 		try {
 			attributes = readFile(findFile("attribute.dat"));

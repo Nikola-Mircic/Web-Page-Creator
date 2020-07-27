@@ -40,24 +40,29 @@ public class Button extends GUIObject{
 		g.setColor(bckg);
 		g.fillRect(0, 0, width, height);
 		this.drawBorder(g,0,0,width,height);
-		g.setFont(new Font("",Font.PLAIN,Math.max(height/3,20)));
-		g.drawString(this.option.getOptName(), (width-this.option.getOptName().length()*10)/4, height-(height-20)/2-border);
+		int fontSize = Math.min(findFontSize(),25);
+		g.setFont(new Font("",Font.PLAIN,fontSize));
+		g.drawString(this.option.getOptName(), (width-this.option.getOptName().length()*10)/4, height/2+fontSize/2);
 	}
 	
-	public void fitText(int method) {
-		if(method == 1) {
-			if(width>=(option.getOptName().length()*10))
-				setWidth(width);
-			else
-				setWidth(option.getOptName().length()*10+15);
-		}else if(method == 2) {
-			int idx = width/10;
-			for(int i=1;i*idx<this.option.getOptName().length();++i) {
-				option.setOptName(option.getOptName().substring(0,i*idx+1)+"\n"+option.getOptName().substring(i*idx+1));
+	public int findFontSize() {
+		int min=1,max=this.height,curr=0;
+		while (min<max) {
+			curr=min+(max-min)/2;
+			int width = img.getGraphics().getFontMetrics(new Font("Serif",Font.PLAIN,curr)).stringWidth(option.getOptName());
+			if(width>=this.width) {
+				if(curr<=height/2) {
+					String newTitle = option.getOptName();
+					int n = newTitle.length()/2;
+					option.setOptName(newTitle.substring(0,n)+System.lineSeparator()+newTitle.substring(n));
+					return curr;
+				}
+				max = curr-1;
+			}else if(width<this.width) {
+				min = curr+1;
 			}
 		}
-		createImage();
-		
+		return (curr==0)?20:curr-5;
 	}
 	
 	public Option getOption() {

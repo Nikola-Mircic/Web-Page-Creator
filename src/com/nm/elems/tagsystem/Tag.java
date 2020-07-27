@@ -15,6 +15,7 @@ public enum Tag {
 	HEADING_4("<h4></h4>", 32767),
 	HEADING_5("<h5></h5>", 32767),
 	HEADING_6("<h6></h6>", 32767),
+	ANCHOR("<a></a>",65535),
 	BODY("<body></body>", 8191);
 	
 	private final List<Attribute> attributes;
@@ -36,7 +37,7 @@ public enum Tag {
 		int d;//for storing position of the byte
 		for(int i=0;i<attrList.length;++i) {
 			d = attrList.length-i-1;
-			if((bitmask & (1<<d))>>d == 1)
+			if((bitmask & (1<<d))>= 1)
 				temp.add(attrList[i]);
 		}
 		

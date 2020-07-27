@@ -54,7 +54,7 @@ public class InputField extends GUIObject{
 		this.img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics g = this.img.getGraphics();
 		border=1;
-		font = 20;
+		font = Math.min(findFontSize(), 20);
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, width, height);
 		//Label drawing
@@ -101,6 +101,20 @@ public class InputField extends GUIObject{
 		}
 		
 		this.drawBorder(g,0,0, width-1, height-1);
+	}
+	
+	public int findFontSize() {
+		int min=1,max=this.height,curr=0;
+		while (min<max) {
+			curr=min+(max-min)/2;
+			int width = img.getGraphics().getFontMetrics(new Font("Serif",Font.PLAIN,curr)).stringWidth(LABEL);
+			if(width>=this.width) {
+				max = curr-1;
+			}else if(width<this.width) {
+				min = curr+1;
+			}
+		}
+		return (curr==0)?20:curr-5;
 	}
 	
 	private String getTextShown() {

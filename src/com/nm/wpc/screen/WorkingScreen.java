@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import com.nm.elems.PageElement;
+import com.nm.elems.elements.Anchor;
 import com.nm.elems.elements.TextBox;
 import com.nm.elems.tagsystem.Tag;
 import com.nm.wpc.editor.*;
@@ -96,6 +97,8 @@ public class WorkingScreen extends Screen{
 		switch (tag) {
 		case TEXT_BOX:
 			return new TextBox(tag);
+		case ANCHOR:
+			return new Anchor(tag);
 		default:
 			if(tag == Tag.HEADING_1 || tag == Tag.HEADING_2 || tag == Tag.HEADING_3 ||
 			   tag == Tag.HEADING_4 || tag == Tag.HEADING_5 || tag == Tag.HEADING_6) {

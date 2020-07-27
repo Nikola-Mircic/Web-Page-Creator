@@ -202,9 +202,25 @@ public class PageElement {
 				break;
 			case BODY:
 				getAttribute("color").setValue("rgba(0,0,0,1.0)");
-				getAttribute("background-color").setValue("rgba(255,255,255,1.0)");
+				getAttribute("background-color").setValue("rgba(150,150,150,1.0)");
 				getAttribute("width").setValue("1000");
 				getAttribute("height").setValue("700");
+				getAttribute("margin-top").setValue("0");
+				getAttribute("margin-right").setValue("0");
+				getAttribute("margin-bottom").setValue("0");
+				getAttribute("margin-left").setValue("0");
+				getAttribute("padding-top").setValue("0");
+				getAttribute("padding-right").setValue("0");
+				getAttribute("padding-bottom").setValue("0");
+				getAttribute("padding-left").setValue("0");
+				break;
+			case ANCHOR:
+				getAttribute("font-size").setValue("20");
+				getAttribute("font-family").setValue("Serif");
+				getAttribute("color").setValue("rgba(10,10,200,1.0)");
+				getAttribute("background-color").setValue("rgba(0,0,0,0.0)");
+				getAttribute("width").setValue("250");
+				getAttribute("height").setValue("30");
 				getAttribute("margin-top").setValue("0");
 				getAttribute("margin-right").setValue("0");
 				getAttribute("margin-bottom").setValue("0");
@@ -223,7 +239,7 @@ public class PageElement {
 					getAttribute("color").setValue("rgba(255,255,255,1.0)");
 					getAttribute("background-color").setValue("rgba(0,0,0,0.0)");
 					getAttribute("width").setValue(Integer.toString(300+(6-headingType)*25));
-					getAttribute("height").setValue(Integer.toString(40+(6-headingType)*3));
+					getAttribute("height").setValue(Integer.toString(35+(6-headingType)*10));
 					getAttribute("margin-top").setValue("0");
 					getAttribute("margin-right").setValue("0");
 					getAttribute("margin-bottom").setValue("0");
