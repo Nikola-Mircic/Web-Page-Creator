@@ -36,7 +36,6 @@ public class Button extends GUIObject{
 	private void createImage() {
 		this.img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics g = this.img.getGraphics();
-		int border = (Math.min(height,width)+20)/20;
 		g.setColor(bckg);
 		g.fillRect(0, 0, width, height);
 		this.drawBorder(g,0,0,width,height);

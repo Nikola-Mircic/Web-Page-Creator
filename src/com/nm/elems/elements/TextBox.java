@@ -46,20 +46,18 @@ public class TextBox extends PageElement {
 	public void drawContent() {
 		super.drawContent();
 		Graphics g = this.img.getGraphics();
-		this.fontSize = Integer.parseInt(getAttributeValue("font-size"));
-		this.fontFamily = getAttribute("font-family").getValue();
-		int idx1=0,idx2=0;
-		g.setColor(getColor(getAttributeValue("color")));
 		if(textData == null) {
 			if(editing)
 				g.drawString("_", 0, fontSize);
 		}else {
+			int idx1=0,idx2=0;
 			g.setFont(new Font(fontFamily,Font.PLAIN,fontSize));
+			g.setColor(getColor(getAttributeValue("color")));
 			for(int i=0;i<lines;++i) {
 				ptLenght = findptLenght(g,idx1);
 				idx2 = idx1+ptLenght;
 				g.drawString(textData.substring(idx1,idx2), 0, fontSize*(i+1)-fontSize/10);
-				if(editing && cursorPos >= idx1 && cursorPos <= idx2) {
+				if(editing && cursorPos >= idx1 && cursorPos <= idx2 && (ptLenght>0 || i==0)) {
 					g.drawString(textData.substring(idx1, cursorPos)+"_", 0, fontSize*(i+1)-fontSize/10);
 				}
 				idx1 = idx2;
@@ -107,13 +105,13 @@ public class TextBox extends PageElement {
 	}
 	
 	public void addLetter(char c) {
-		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, fontSize)).stringWidth(textData);
-		if(len>=lines*this.width-fontSize/2) {
-			lines++;
-			if(this.height<lines*fontSize)
-				setHeight(lines*fontSize+10);
-		}
 		this.textData = insertChar(this.textData, c, cursorPos);
+		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, fontSize)).stringWidth(textData);
+		if(len>=lines*(this.width-fontSize/2)) {
+			lines++;
+			if(this.height<lines*fontSize+10)
+				changeHeight(lines*fontSize+10);
+		}
 		cursorPos++;
 		drawContent();
 	}
@@ -123,7 +121,7 @@ public class TextBox extends PageElement {
 			return;
 		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, fontSize)).stringWidth(textData);
 		if(len<(lines-1)*this.width) {
-			setHeight(this.height/lines*(--lines));
+			changeHeight(this.height/lines*(--lines));
 		}
 		this.textData = removeChar(textData, cursorPos-1);
 		cursorPos--;
@@ -132,7 +130,7 @@ public class TextBox extends PageElement {
 	
 	public void moveCursor(int dirX,int dirY) {
 		cursorPos+=dirX;
-		cursorPos+=dirY*ptLenght;
+		//cursorPos+=dirY*ptLenght;
 		if(cursorPos>textData.length()) {
 			cursorPos = textData.length();
 		}
@@ -155,14 +153,35 @@ public class TextBox extends PageElement {
 	}
 	
 	@Override
+	public void setAttributeValue(int index, String newValue) {
+		super.setAttributeValue(index, newValue);
+		this.fontSize = Integer.parseInt(getAttributeValue("font-size"));
+		this.fontFamily = getAttributeValue("font-family");
+		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, fontSize)).stringWidth(textData);
+		lines = len/this.width+1;
+		if(this.height<lines*fontSize) {
+			changeHeight(lines*fontSize+10);
+		}
+		drawContent();
+	}
+	
+	
+	@Override
 	public void setWidth(int width) {
 		super.setWidth(width);
 		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, fontSize)).stringWidth(textData);
 		lines = len/this.width+1;
 		if(this.height<lines*fontSize) {
-			setHeight(lines*fontSize+10);
+			changeHeight(lines*fontSize+10);
 		}
 		drawContent();
+	}
+	
+	protected void changeWidth(int width) {
+		this.width = width;
+		if(width<30)
+			this.width = 30;
+		this.getAttribute("width").setValue(Integer.toString(this.width));
 	}
 	
 	@Override
@@ -173,6 +192,13 @@ public class TextBox extends PageElement {
 			setHeight(lines*fontSize+10);
 		}
 		drawContent();
+	}
+	
+	protected void changeHeight(int height) {
+		this.height = height;
+		if(height<30)
+			this.height = 30;
+		this.getAttribute("height").setValue(Integer.toString(this.height));
 	}
 
 	public String getTextData() {

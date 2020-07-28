@@ -9,7 +9,6 @@ import java.util.List;
 
 import com.nm.elems.tagsystem.Tag;
 import com.nm.wpc.filesystem.FileManager;
-import com.sun.org.apache.xalan.internal.xsltc.runtime.Attributes;
 
 /*
  * Class: com.nm.elems.PageElement
