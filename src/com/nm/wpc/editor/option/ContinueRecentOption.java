@@ -37,13 +37,13 @@ public class ContinueRecentOption extends Option{
 		}
 		Button btn;
 		InputPanel ip = new InputPanel(source,source.getX()+source.getWidth(),source.getY());
-		Map<String,String> project;
+		
 		for(int i=0;i<recentProjects.size();++i) {
-			project = recentProjects.get(i);
+			Map<String,String> project = recentProjects.get(i);
 			btn = new Button(project.get("name"), source.getX()+source.getWidth(), source.getY()+i*50, 200, 50, new Option(ms) {
 				@Override
 				public void make(GUIObject source) {
-					ms.changeContent();
+					ms.changeContent(project.get("name"));
 				}
 			});
 			ip.addGUIObject(btn);

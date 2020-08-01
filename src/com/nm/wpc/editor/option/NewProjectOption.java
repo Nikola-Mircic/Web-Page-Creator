@@ -41,7 +41,7 @@ public class NewProjectOption extends Option{
 		input = new InputField("Entry point:", 20, 200, 260,80,1);
 		fw.addInputField(input);
 		
-		btn = new Button("Submit", 110, 300 , 80, 40, new CreateProjectOption(fw));
+		btn = new Button("Submit", 110, 300 , 80, 40, new CreateProjectOption(fw,this.ms));
 		fw.addButton(btn);
 		
 		fw.createWindow();

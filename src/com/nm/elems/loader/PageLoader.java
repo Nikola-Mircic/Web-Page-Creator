@@ -29,7 +29,7 @@ public class PageLoader {
 				   		  " <title>"+p.getTITLE()+"</title>"+
 				   		  "</head>";
 		p.setPageHead(pageHead);
-		String pageBody = "<body>"+p.getElementsContent()+"</body>";
+		String pageBody = "<body></body>";
 		//p.setPageBody(pageBody);
 		String pageContent = "<!DOCTYPE html><html>"+pageHead+pageBody+"</html>";
 		p.setPageContent(pageContent);

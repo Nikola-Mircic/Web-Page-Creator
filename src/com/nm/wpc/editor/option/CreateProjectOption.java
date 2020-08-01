@@ -1,7 +1,11 @@
 package com.nm.wpc.editor.option;
 
-import com.nm.wpc.gui.GUIObject;
+import java.util.List;
+
+import com.nm.wpc.filesystem.ProjectManager;
+import com.nm.wpc.gui.*;
 import com.nm.wpc.screen.MainScreen;
+import com.nm.wpc.screen.Panel;
 import com.nm.wpc.window.FormWindow;
 
 /*
@@ -24,6 +28,12 @@ public class CreateProjectOption extends Option{
 	
 	@Override
 	public void make(GUIObject source) {
-		this.fw.submit();
+		Panel p = fw.getPanel();
+		System.out.println("Submiting...");
+		ProjectManager pm = new ProjectManager();
+		List<GUIObject> inputs = p.getObjects();
+		pm.createNewProject(((InputField)inputs.get(0)).getText(), ((InputField)inputs.get(1)).getText(), ((InputField)inputs.get(3)).getText());
+		ms.changeContent(((InputField)inputs.get(0)).getText());
+		fw.dispose();
 	}
 }

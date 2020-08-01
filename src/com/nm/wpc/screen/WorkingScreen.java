@@ -21,6 +21,8 @@ public class WorkingScreen extends Screen{
 	private static final long serialVersionUID = 1L;
 	
 	private MainScreen ms;
+	private String projectName;
+	
 	
 	private int editorsSize;
 	private Editor[] editors;
@@ -29,12 +31,13 @@ public class WorkingScreen extends Screen{
 	public WorkingScreen(int w,int h,MainScreen ms) {
 		super(w, h);
 		this.ms = ms;
+		projectName = "";
 		
 		this.editorsSize = 5;
 		this.editors = new Editor[editorsSize];
 		editors[obIdx] = new OptionsBar(0, 0, w, (int)(h*0.035), this);
 		editors[esIdx] = new ElementSelector(0, (int)(h*0.035), w, (int)(h*0.10), this);
-		editors[wpIdx] = new WorkingPane(0, (int)(h*0.135), (int)(w*0.80), (int)(h*0.865), this);
+		editors[wpIdx] = new WorkingPane(0, (int)(h*0.135), (int)(w*0.80), (int)(h*0.865),this);
 		editors[peIdx] = new PageEditor((int)(w*0.80), (int)(h*0.135), (int)(w*0.20), (int)(h*0.865), this);
 		editors[eeIdx] = new ElementEditor((int)(w*0.80), (int)(h*0.135), (int)(w*0.20), (int)(h*0.865), this);
 		this.drawContent(w,h);
@@ -176,5 +179,15 @@ public class WorkingScreen extends Screen{
 
 	public void setMs(MainScreen ms) {
 		this.ms = ms;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		editors[wpIdx] = new WorkingPane(0, (int)(height*0.135), (int)(width*0.80), (int)(height*0.865), this,projectName);
+		this.projectName = projectName;
+		drawContent(width, height);
 	}
 }

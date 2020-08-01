@@ -23,7 +23,6 @@ import com.nm.wpc.editor.option.*;
 public class ElementEditor extends Editor{
 	private static final long serialVersionUID = 1L;
 	
-	//private List<Attribute> elementAttributes;
 	private PageElement edited;
 	private List<List<GUIObject>> toShow;
 	private Color bckg;
@@ -31,7 +30,6 @@ public class ElementEditor extends Editor{
 	public ElementEditor(int x, int y, int width, int height, WorkingScreen ws) {
 		super(x, y, width, height, ws);
 		
-		//this.setElementAttributes(new ArrayList<Attribute>());
 		this.setToShow(new ArrayList<List<GUIObject>>());
 		
 		bckg = new Color(185, 186, 189);
@@ -161,10 +159,6 @@ public class ElementEditor extends Editor{
 		if(this.yOffset<0)
 			this.yOffset = 0;
 		drawContent(width, height);
-	}
-	
-	public void submitAttributeChange() {
-		//Finish
 	}
 
 	public PageElement getEdited() {

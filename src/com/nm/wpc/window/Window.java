@@ -20,7 +20,6 @@ import java.awt.event.ComponentListener;
 
 import javax.swing.JFrame;
 
-import com.nm.wpc.filesystem.FileManager;
 import com.nm.wpc.screen.MainScreen;
 
 public class Window extends JFrame implements Runnable{
@@ -29,37 +28,11 @@ public class Window extends JFrame implements Runnable{
 	private static int HEIGHT = 700;
 	private String TITLE = "Web Page Creator 2.0.0";
 	
-	private static Thread app;
 	private static MainScreen ms;
 	
 	public Window() {
 		Dimension startDimension = Toolkit.getDefaultToolkit().getScreenSize();
 		ms = new MainScreen(startDimension.width, startDimension.height);
-		
-		FileManager fm = new FileManager();
-		fm.createDefaultConfiguration();
-	}
-	
-	public static void main(String[] args) {
-		Window window = new Window();
-		
-		app = new Thread(window);
-		app.start();
-	}
-
-	@Override
-	public void run() {
-		setMinimumSize(new Dimension(WIDTH,HEIGHT));
-		setExtendedState(MAXIMIZED_BOTH);
-		
-		setTitle(TITLE);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setResizable(true);
-		setLocationRelativeTo(null);
-		setVisible(true);
-		
-		this.add(ms);
-		this.addKeyListener(ms.getListener());
 		
 		this.getContentPane().addComponentListener(new ComponentListener() {
 			@Override
@@ -85,6 +58,27 @@ public class Window extends JFrame implements Runnable{
 				
 			}
 		});
+	}
+	
+	public static void main(String[] args) {
+		Window window = new Window();
+		Thread wpc = new Thread(window);
+		wpc.run();
+	}
+
+	@Override
+	public void run() {
+		setMinimumSize(new Dimension(WIDTH,HEIGHT));
+		setExtendedState(MAXIMIZED_BOTH);
+		
+		setTitle(TITLE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setResizable(true);
+		setLocationRelativeTo(null);
+		setVisible(true);
+		
+		this.add(ms);
+		this.addKeyListener(ms.getListener());
 	}
 
 }

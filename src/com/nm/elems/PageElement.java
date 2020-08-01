@@ -331,6 +331,26 @@ public class PageElement {
 		return this.parentElement;
 	}
 	
+	public String getContent() {
+		String tag = this.elementTag.getTagname();
+		String openTag = tag.substring(0, tag.indexOf("</"));
+		String closeTag = tag.substring(tag.indexOf("</"));
+		String childsContent = "";
+		String styles = "style=\"";
+		
+		for(Attribute attr : attributes) {
+			styles+=attr.getName()+":"+attr.getValue()+attr.getDefaultUnit()+"; ";
+		}
+		styles+="\"";
+		for(PageElement element:childs) {
+			childsContent+=element.getContent();
+		}
+		
+		openTag = openTag.substring(0, openTag.indexOf(">"))+" "+styles+" >";
+		
+		return openTag+childsContent+closeTag;
+	}
+	
 	public List<Attribute> getAttributes() {
 		return this.attributes;
 	}

@@ -77,11 +77,11 @@ public class FileManager {
 	public void createFile(String directory,String filename) {
 		if(!validatePath(directory))
 			return;
-		File file = new File(directory+"/"+filename);
+		File file = new File(directory+File.separatorChar+filename);
 		try {
 			file.createNewFile();
 		} catch (IOException e) {
-			
+			e.printStackTrace();
 		}
 	}
 	
@@ -288,14 +288,19 @@ public class FileManager {
 		}
 		
 		int i=0,idx = attributes.indexOf('\n');
+		String attrName,attrValue,attrDU;
 		while(idx>0) {
 			String line = attributes.substring(0, idx);
-			if(line.charAt(0) != '#')
-				attrs[i++] = new Attribute(line.substring(0, line.indexOf(":")),line.substring(line.indexOf(":")+1,line.indexOf(",")));
+			if(line.charAt(0) != '#') {
+				attrName = line.substring(0, line.indexOf(":"));
+				attrValue = line.substring(line.indexOf(":")+1,line.indexOf(";"));
+				attrDU = line.substring(line.indexOf(";")+1,line.indexOf(","));
+				attrs[i++] = new Attribute(attrName,attrValue,attrDU);
+			}
 			attributes = attributes.substring(idx+1);
 			idx = attributes.indexOf('\n');
 		}
-
+		
 		return attrs;
 	}
 	

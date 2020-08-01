@@ -14,7 +14,6 @@ import com.nm.elems.loader.PageLoader;
 
 public class Page {
 	private String TITLE;
-	//private List<PageElement> elements;
 	private String pageContent;
 	private String pageHead;
 	private String pageLocation;
@@ -27,12 +26,13 @@ public class Page {
 		pl = new PageLoader();
 		pl.createBlankPage(this);
 		
-		//this.elements = new ArrayList<PageElement>();
 		this.body = new PageElement("<body></body>");
 	}
 	
 	public PageElement findSelectedElement(int x,int y) {
 		PageElement temp = body.findSelectedElement(x, y);
+		if(temp==null)
+			return temp;
 		return (temp.equals(body)?null:temp);
 	}
 	
@@ -47,10 +47,6 @@ public class Page {
 	
 	public void addElement(PageElement newElement) {
 		body.addElement(newElement);
-	}
-	
-	public String getElementsContent() {
-		return "";//FIN
 	}
 
 	public String getPageContent() {
@@ -68,6 +64,11 @@ public class Page {
 	public void setTITLE(String tITLE) {
 		TITLE = tITLE;
 	}
+	
+	public String getPageCode() {
+		this.pageContent = body.getContent();
+		return "<!DOCTYPE html><html>"+this.pageHead+this.pageContent+"</html>";
+	}
 
 	public String getPageHead() {
 		return pageHead;
@@ -76,15 +77,7 @@ public class Page {
 	public void setPageHead(String pageHead) {
 		this.pageHead = pageHead;
 	}
-
-	/*public String getPageBody() {
-		return pageBody;
-	}
-
-	public void setPageBody(String pageBody) {
-		this.pageBody = pageBody;
-	}*/
-
+	
 	public String getLocation() {
 		return pageLocation;
 	}

@@ -10,6 +10,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import com.nm.elems.*;
+import com.nm.wpc.editor.option.Option;
+import com.nm.wpc.filesystem.ProjectManager;
+import com.nm.wpc.gui.Button;
+import com.nm.wpc.gui.GUIObject;
 import com.nm.wpc.screen.WorkingScreen;
 
 public class WorkingPane extends Editor {
@@ -17,6 +21,7 @@ public class WorkingPane extends Editor {
 	
 	private Color bckg;
 	
+	private String projectName;
 	private Page page;
 	private PageElement focused;
 	private boolean typing;
@@ -31,6 +36,24 @@ public class WorkingPane extends Editor {
 		this.page = new Page();
 		this.focused = null;
 		this.setTyping(false);
+	}
+	
+	public WorkingPane(int x, int y, int width, int height, WorkingScreen ws,String projectName) {
+		super(x, y, width, height, ws);
+		bckg = new Color(136, 225, 247);
+		
+		this.page = new Page();
+		this.focused = null;
+		this.setTyping(false);
+		this.setProjectName(projectName);
+		
+		controler.addButton(new Button("Test",this.x+150, this.y, 150, 50, new Option() {
+			@Override
+			public void make(GUIObject source) {
+				ProjectManager pm = new ProjectManager();
+				pm.convertPageToHTML(page,projectName);
+			}
+		}));
 	}
 	
 	@Override
@@ -58,6 +81,7 @@ public class WorkingPane extends Editor {
 			g.fillRect(x+w-5, y+h-5, 10, 10);
 			g.fillRect(x-5, y+h-5, 10, 10);
 		}
+		drawObjects(g);
 	}
 	
 	public void addNew(PageElement newElement) {
@@ -77,6 +101,7 @@ public class WorkingPane extends Editor {
 	
 	@Override
 	public void onMousePressed(int x,int y) {
+		controler.activateOnClick(x, y);
 		this.lastX = x;
 		this.lastY = y;
 		x-=this.x;
@@ -151,13 +176,6 @@ public class WorkingPane extends Editor {
 		lastX = x;
 		lastY = y;
 		
-		/*if(focused.isClicked(x-this.x,y-this.y)) {
-			focused.setX(focused.getX()+x-lastX);
-			focused.setY(focused.getY()+y-lastY);
-			lastX = x;
-			lastY = y;
-		}*/
-		
 		drawContent(width,height);
 	}
 
@@ -179,6 +197,14 @@ public class WorkingPane extends Editor {
 		this.focused = focused;
 		if(this.focused!=null)
 			this.focused.startFocus();
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
 	}
 
 	public boolean isTyping() {

@@ -34,7 +34,7 @@ public class MainScreen extends Screen{
 		this.addMouseWheelListener(listener);
 		
 		this.panelsActivity = false;
-		work=true;
+		work=false;
 		repaint();
 	}
 	
@@ -50,7 +50,7 @@ public class MainScreen extends Screen{
 		
 		this.panelsActivity = false;
 		
-		work=true;
+		work=false;
 		this.content = start.getContent();
 	}
 	
@@ -78,6 +78,13 @@ public class MainScreen extends Screen{
 	
 	public void changeContent() {
 		panelsActivity = false;
+		work = !work;
+		repaint();
+	}
+	
+	public void changeContent(String projectName) {
+		panelsActivity = false;
+		working.setProjectName(projectName);
 		work = !work;
 		repaint();
 	}

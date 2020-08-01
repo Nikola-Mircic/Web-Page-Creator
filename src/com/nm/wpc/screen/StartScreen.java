@@ -61,7 +61,7 @@ public class StartScreen extends Screen{
 	private void addButtons() {
 		Button btn;
 		for(int i=0;i<3;i++) {
-			btn = (Button)(new Button(100, 100+i*30, 50, 19, options[i]).setContainer(this));
+			btn = (Button)(new Button(200, 100+i*60, 200, 50, options[i]).setContainer(this));
 			addGUIObject(btn);
 		}
 	}

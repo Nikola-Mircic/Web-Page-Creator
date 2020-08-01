@@ -1,9 +1,14 @@
 package com.nm.wpc.filesystem;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import com.nm.elems.Page;
 
 /*
  * Class: com.nm.wpc.filesystem.ProjectManger
@@ -26,15 +31,18 @@ public class ProjectManager {
 		char separator = File.separatorChar;
 		fm.createDir(location, separator+name);
 		fm.createDir(location+separator+name, "settings");
-		fm.createFile(location+separator+name+"/settings", "project-settings.txt");
+		fm.createFile(location+separator+name+separator+"settings", "project-settings.txt");
 		fm.createDir(location+separator+name, "src");
-		fm.createFile(location+separator+name+"/src",ep);
+		fm.createFile(location+separator+name+separator+"src",ep);
 		
 		createProjectData(name, location, ep);
 	}
 	
 	private void loadProjectData() {
 		String data = fm.getProjectData();
+		this.projects = new ArrayList<>();
+		if(data == "")
+			return;
 		this.projects = getProjects(data);
 	}
 	
@@ -97,6 +105,21 @@ public class ProjectManager {
 			recent.add(projects.get(i).getProjectMap());
 		
 		return recent;
+	}
+	
+	public void convertPageToHTML(Page toConvert,String name) {
+		loadProjectData();
+		for(Project project : projects) {
+			if(project.getData("name").equals(name)) {
+				char sep = File.separatorChar;
+				String pageData = toConvert.getPageCode();
+				try {
+					Files.write(Paths.get(project.getData("location")+sep+project.getData("name")+sep+"src"+sep+project.getData("ep")), pageData.getBytes());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 }
 
@@ -161,6 +184,10 @@ class Project{
 	
 	public Map<String, String> getProjectMap() {
 		return this.data;
+	}
+	
+	public String getData(String name) {
+		return this.data.get(name);
 	}
 	
 	public void setData(String dataName,String value) {

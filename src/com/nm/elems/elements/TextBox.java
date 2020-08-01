@@ -3,6 +3,7 @@ package com.nm.elems.elements;
 import java.awt.Font;
 import java.awt.Graphics;
 
+import com.nm.elems.Attribute;
 import com.nm.elems.PageElement;
 import com.nm.elems.tagsystem.Tag;
 
@@ -199,6 +200,27 @@ public class TextBox extends PageElement {
 		if(height<30)
 			this.height = 30;
 		this.getAttribute("height").setValue(Integer.toString(this.height));
+	}
+	
+	@Override
+	public String getContent() {
+		String tag = this.elementTag.getTagname();
+		String openTag = tag.substring(0, tag.indexOf("</"));
+		String closeTag = tag.substring(tag.indexOf("</"));
+		String childsContent = "";
+		String styles = "style=\"";
+		
+		for(Attribute attr : attributes) {
+			styles+=attr.getName()+":"+attr.getValue()+" ";
+		}
+		styles+="\"";
+		for(PageElement element:childs) {
+			childsContent+=element.getContent();
+		}
+		
+		openTag = openTag.substring(0, openTag.indexOf(">"))+" "+styles+" >";
+		
+		return openTag+this.textData+childsContent+closeTag;
 	}
 
 	public String getTextData() {
