@@ -201,7 +201,7 @@ public class PageElement {
 				break;
 			case BODY:
 				getAttribute("color").setValue("rgba(0,0,0,1.0)");
-				getAttribute("background-color").setValue("rgba(150,150,150,1.0)");
+				getAttribute("background-color").setValue("rgba(136,225,247,1.0)");
 				getAttribute("width").setValue("1000");
 				getAttribute("height").setValue("700");
 				getAttribute("margin-top").setValue("0");

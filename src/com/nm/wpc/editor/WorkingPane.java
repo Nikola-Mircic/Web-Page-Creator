@@ -46,14 +46,6 @@ public class WorkingPane extends Editor {
 		this.focused = null;
 		this.setTyping(false);
 		this.setProjectName(projectName);
-		
-		controler.addButton(new Button("Test",this.x+150, this.y, 150, 50, new Option() {
-			@Override
-			public void make(GUIObject source) {
-				ProjectManager pm = new ProjectManager();
-				pm.convertPageToHTML(page,projectName);
-			}
-		}));
 	}
 	
 	@Override
@@ -81,7 +73,6 @@ public class WorkingPane extends Editor {
 			g.fillRect(x+w-5, y+h-5, 10, 10);
 			g.fillRect(x-5, y+h-5, 10, 10);
 		}
-		drawObjects(g);
 	}
 	
 	public void addNew(PageElement newElement) {
@@ -101,7 +92,6 @@ public class WorkingPane extends Editor {
 	
 	@Override
 	public void onMousePressed(int x,int y) {
-		controler.activateOnClick(x, y);
 		this.lastX = x;
 		this.lastY = y;
 		x-=this.x;

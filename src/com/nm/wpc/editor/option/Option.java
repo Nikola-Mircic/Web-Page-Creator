@@ -21,8 +21,6 @@ public abstract class Option {
   	}
   	
   	public void make(GUIObject source) {}
-	public void redo() {}
-  	public void undo() {}
   	
   	public String getOptName() {
 		return this.optName;

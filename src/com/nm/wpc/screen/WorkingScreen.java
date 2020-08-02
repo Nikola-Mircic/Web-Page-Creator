@@ -35,9 +35,9 @@ public class WorkingScreen extends Screen{
 		
 		this.editorsSize = 5;
 		this.editors = new Editor[editorsSize];
+		editors[wpIdx] = new WorkingPane(0, (int)(h*0.135), (int)(w*0.80), (int)(h*0.865),this);
 		editors[obIdx] = new OptionsBar(0, 0, w, (int)(h*0.035), this);
 		editors[esIdx] = new ElementSelector(0, (int)(h*0.035), w, (int)(h*0.10), this);
-		editors[wpIdx] = new WorkingPane(0, (int)(h*0.135), (int)(w*0.80), (int)(h*0.865),this);
 		editors[peIdx] = new PageEditor((int)(w*0.80), (int)(h*0.135), (int)(w*0.20), (int)(h*0.865), this);
 		editors[eeIdx] = new ElementEditor((int)(w*0.80), (int)(h*0.135), (int)(w*0.20), (int)(h*0.865), this);
 		this.drawContent(w,h);
@@ -186,8 +186,13 @@ public class WorkingScreen extends Screen{
 	}
 
 	public void setProjectName(String projectName) {
-		editors[wpIdx] = new WorkingPane(0, (int)(height*0.135), (int)(width*0.80), (int)(height*0.865), this,projectName);
 		this.projectName = projectName;
+		editors[wpIdx] = new WorkingPane(0, (int)(height*0.135), (int)(width*0.80), (int)(height*0.865), this,projectName);
+		editors[obIdx] = new OptionsBar(0, 0, width, (int)(height*0.035), this); 
 		drawContent(width, height);
+	}
+	
+	public WorkingPane getWorkingPane() {
+		return ((WorkingPane)editors[wpIdx]);
 	}
 }

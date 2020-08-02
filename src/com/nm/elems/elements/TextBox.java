@@ -211,7 +211,7 @@ public class TextBox extends PageElement {
 		String styles = "style=\"";
 		
 		for(Attribute attr : attributes) {
-			styles+=attr.getName()+":"+attr.getValue()+" ";
+			styles+=attr.getName()+":"+attr.getValue()+attr.getDefaultUnit()+"; ";
 		}
 		styles+="\"";
 		for(PageElement element:childs) {

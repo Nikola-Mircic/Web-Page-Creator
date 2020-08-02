@@ -85,7 +85,7 @@ public class MainScreen extends Screen{
 	public void changeContent(String projectName) {
 		panelsActivity = false;
 		working.setProjectName(projectName);
-		work = !work;
+		work = true;
 		repaint();
 	}
 	
