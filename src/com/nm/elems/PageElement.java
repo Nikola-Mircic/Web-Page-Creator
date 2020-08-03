@@ -9,6 +9,9 @@ import java.util.List;
 
 import com.nm.elems.tagsystem.Tag;
 import com.nm.wpc.filesystem.FileManager;
+import com.sun.security.ntlm.Client;
+
+import javafx.util.Pair;
 
 /*
  * Class: com.nm.elems.PageElement
@@ -20,9 +23,12 @@ public class PageElement {
 	protected Tag elementTag;
 	protected List<Attribute> attributes;
 	protected List<PageElement> childs;
+	
 	protected PageElement parentElement;
+	protected PageElement previousElement;
 	
 	protected int x,y;
+	protected int offsetX,offsetY;
 	protected int width,height;
 	protected BufferedImage img;
 	
@@ -144,7 +150,7 @@ public class PageElement {
 				case "absolute":
 					if(temp.getValue().equals(""))
 						attributes.get(index).setValue("0");
-					this.y = Integer.parseInt(temp.getValue());
+					this.offsetY = Integer.parseInt(temp.getValue());
 					break;
 
 				default:
@@ -154,7 +160,9 @@ public class PageElement {
 			case "margin-left":
 				switch (getAttribute("position").getValue()) {
 				case "absolute":
-					this.x = Integer.parseInt(temp.getValue());
+					if(temp.getValue().equals(""))
+						attributes.get(index).setValue("0");
+					this.offsetX = Integer.parseInt(temp.getValue());
 					break;
 
 				default:
@@ -279,56 +287,120 @@ public class PageElement {
 		}
 		if(toDelete!=null) {
 			for(PageElement element : toDelete.childs)
-				element.setParent(this);
-			childs.addAll(toDelete.childs);
+				if(childs.size()==1) {
+					element.setParentElement(this);
+					element.changePreviousElement(null);
+					element.setX(toDelete.x);
+					element.setY(toDelete.y);
+					element.setOffsetX(element.offsetX+toDelete.offsetX);
+					element.setOffsetY(element.offsetY+toDelete.offsetY);
+					childs.add(element);
+				}else {
+					element.setParentElement(this);
+					element.changePreviousElement(childs.get(childs.size()-1));
+					element.setX(toDelete.x);
+					element.setY(toDelete.y);
+					element.setOffsetX(element.offsetX+toDelete.offsetX);
+					element.setOffsetY(element.offsetY+toDelete.offsetY);
+					childs.add(element);
+				}
 			childs.remove(toDelete);
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean isClicked(int x,int y) {
-		return (x>this.x && x<(this.x + this.width) && y>this.y && y<(this.y+this.height));
+	public boolean isClicked(int xPos,int yPos) {
+		xPos-=offsetX;
+		yPos-=offsetY;
+		return (xPos>this.x && xPos<(this.x + this.width) && yPos>this.y && yPos<(this.y+this.height));
 	}
 	
-	public byte getActionCode(int x,int y) {
-		if(this.x-10<=x && x<=this.x+10 && this.y-10<=y && y<=this.y+10)
+	public byte getActionCode(int xPos,int yPos) {
+		xPos-=this.offsetX;
+		yPos-=this.offsetY;
+		
+		if(this.x-10<=xPos && xPos<=this.x+10 && this.y-10<=yPos && yPos<=this.y+10)
 			return 1;
-		if(this.x+width-10<=x && x<=this.x+width+10 && this.y-10<=y && y<=this.y+10)
+		if(this.x+width-10<=xPos && xPos<=this.x+width+10 && this.y-10<=yPos && yPos<=this.y+10)
 			return 2;
-		if(this.x+width-10<=x && x<=this.x+width+10 && this.y+height-10<=y && y<=this.y+height+10)
+		if(this.x+width-10<=xPos && xPos<=this.x+width+10 && this.y+height-10<=yPos && yPos<=this.y+height+10)
 			return 3;
-		if(this.x-10<=x && x<=this.x+10 && this.y+height-10<=y && y<=this.y+height+10)
+		if(this.x-10<=xPos && xPos<=this.x+10 && this.y+height-10<=yPos && yPos<=this.y+height+10)
 			return 4;
-		if(isClicked(x, y))
+		if(isClicked(xPos+offsetX, yPos+offsetY))
 			return 0;
+		
 		return -1;
 	}
 	
 	public void drawContent(Graphics g) {
-		g.drawImage(this.img, this.x, this.y, null);
-		PageElement temp;
-		for(Iterator<PageElement> iter = childs.iterator();iter.hasNext();) {
-			temp = iter.next();
+		g.drawImage(this.img, this.x+this.offsetX, this.y+this.offsetY, null);
+		for(PageElement temp : childs) {
 			temp.drawContent(g);
 		}
 	}
 	
 	public void addElement(PageElement newElement) {
-		childs.add(newElement.setParentElement(this));
+		if(this.childs.size()>0) {
+			newElement.setParentElement(this, childs.get(childs.size()-1));
+		}else {
+			newElement.setParentElement(this, null);
+		}
+		childs.add(newElement);
 	}
 	
-	public PageElement setParentElement(PageElement parent) {
+	public PageElement getParentElement() {
+		return parentElement;
+	}
+
+	public void setParentElement(PageElement parent) {
 		this.parentElement = parent;
-		return this;
 	}
 	
-	public void setParent(PageElement parent) {
+	public void setParentElement(PageElement parent,PageElement previous) {
 		this.parentElement = parent;
+		if(previous==null) {
+			int offset = parent.getX()+parent.getOffsetX();
+			setX(offset+Integer.parseInt(getAttributeValue("margin-left")));
+				
+			offset = parent.getY()+parent.getOffsetY();
+			setY(offset+Integer.parseInt(getAttributeValue("margin-top")));
+		}else {
+			setPreviousElement(previous);
+		}
+	}
+
+	public PageElement getPreviousElement() {
+		return previousElement;
 	}
 	
-	public PageElement getParent() {
-		return this.parentElement;
+	public void changePreviousElement(PageElement previous) {
+		this.previousElement = previous;
+	}
+
+	public void setPreviousElement(PageElement previous) {
+		this.previousElement = previous;
+		String position = getAttributeValue("position");
+		if(previous!=null) {
+			int offset;
+			switch (position) {
+			case "absolute":
+				offset = previous.getX();
+				setX(offset+Integer.parseInt(getAttributeValue("margin-left")));
+				
+				offset = previous.getY();
+				setY(offset+Integer.parseInt(getAttributeValue("margin-top")));
+				break;
+			default:
+				offset = previous.getX();
+				setX(offset+Integer.parseInt(getAttributeValue("margin-left")));
+				
+				offset = previous.getY()+previous.getHeight();
+				setY(offset+Integer.parseInt(getAttributeValue("margin-top")));
+				break;
+			}
+		}
 	}
 	
 	public String getContent() {
@@ -365,30 +437,34 @@ public class PageElement {
 
 	public void setX(int x) {
 		this.x = x;
-		switch (getAttribute("position").getValue()) {
-		case "absolute":
-			getAttribute("margin-left").setValue(Integer.toString(this.x));
-			break;
-
-		default:
-			break;
-		}
 	}
 
 	public int getY() {
 		return y;
 	}
 
+	public int getOffsetX() {
+		return offsetX;
+	}
+
+	public void setOffsetX(int offsetX) {
+		String newMargin = Integer.toString(Integer.parseInt(getAttribute("margin-left").getValue())+offsetX-this.offsetX);
+		getAttribute("margin-left").setValue(newMargin);
+		this.offsetX = offsetX;
+	}
+
+	public int getOffsetY() {
+		return offsetY;
+	}
+
+	public void setOffsetY(int offsetY) {
+		String newMargin = Integer.toString(Integer.parseInt(getAttribute("margin-top").getValue())+offsetY-this.offsetY);
+		getAttribute("margin-top").setValue(newMargin);
+		this.offsetY = offsetY;
+	}
+
 	public void setY(int y) {
 		this.y = y;
-		switch (getAttribute("position").getValue()) {
-		case "absolute":
-			getAttribute("margin-top").setValue(Integer.toString(this.y));
-			break;
-
-		default:
-			break;
-		}
 	}
 
 	public int getWidth() {

@@ -63,8 +63,8 @@ public class WorkingPane extends Editor {
 		//Border for focusing element
 		if(focused != null) {
 			g.setColor(Color.BLUE);
-			int x = focused.getX();
-			int y = focused.getY();
+			int x = focused.getX()+focused.getOffsetX();
+			int y = focused.getY()+focused.getOffsetY();
 			int w = focused.getWidth();
 			int h = focused.getHeight();
 			g.drawRect(x, y, w, h);
@@ -136,17 +136,17 @@ public class WorkingPane extends Editor {
 		
 		switch (actionCode) {
 		case 0:
-			focused.setX(focused.getX()+x-lastX);
-			focused.setY(focused.getY()+y-lastY);
+			focused.setOffsetX(focused.getOffsetX()+x-lastX);
+			focused.setOffsetY(focused.getOffsetY()+y-lastY);
 			break;
 		case 1:
-			focused.setX(focused.getX()+x-lastX);
-			focused.setY(focused.getY()+y-lastY);
+			focused.setOffsetX(focused.getOffsetX()+x-lastX);
+			focused.setOffsetY(focused.getOffsetY()+y-lastY);
 			focused.setWidth(focused.getWidth()+lastX-x);
 			focused.setHeight(focused.getHeight()+lastY-y);
 			break;
 		case 2:
-			focused.setY(focused.getY()+y-lastY);
+			focused.setOffsetY(focused.getOffsetY()+y-lastY);
 			focused.setWidth(focused.getWidth()+x-lastX);
 			focused.setHeight(focused.getHeight()-y+lastY);
 			break;
@@ -155,7 +155,7 @@ public class WorkingPane extends Editor {
 			focused.setHeight(focused.getHeight()+y-lastY);
 			break;
 		case 4:
-			focused.setX(focused.getX()+x-lastX);
+			focused.setOffsetX(focused.getOffsetX()+x-lastX);
 			focused.setWidth(focused.getWidth()-x+lastX);
 			focused.setHeight(focused.getHeight()+y-lastY);
 			break;
