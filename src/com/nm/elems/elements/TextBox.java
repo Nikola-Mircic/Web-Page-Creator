@@ -202,6 +202,21 @@ public class TextBox extends PageElement {
 		this.getAttribute("height").setValue(Integer.toString(this.height));
 	}
 	
+	private String makeHTMLString(String base) {
+		String temp = "",temp2;
+		int idx = 0;
+		for(int i=0;i<lines;++i) {
+			ptLenght = findptLenght(img.getGraphics(), idx);
+			temp2=base.substring(idx,idx+ptLenght);
+			temp2 = temp2.replaceAll("<", "&lt;");
+			temp2 = temp2.replaceAll(">", "&gt;");
+			temp2+="<br>";
+			temp+=temp2;
+			idx+=ptLenght;
+		}
+		return temp;
+	}
+	
 	@Override
 	public String getContent() {
 		String tag = this.elementTag.getTagname();
@@ -220,7 +235,8 @@ public class TextBox extends PageElement {
 		
 		openTag = openTag.substring(0, openTag.indexOf(">"))+" "+styles+" >";
 		
-		return openTag+this.textData+childsContent+closeTag;
+		System.out.println(makeHTMLString(textData));
+		return openTag+makeHTMLString(textData)+childsContent+closeTag;
 	}
 
 	public String getTextData() {
