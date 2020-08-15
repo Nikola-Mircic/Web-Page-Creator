@@ -9,11 +9,11 @@ package com.nm.wpc.editor;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 import com.nm.elems.*;
-import com.nm.wpc.editor.option.Option;
+import com.nm.elems.loader.PageLoader;
 import com.nm.wpc.filesystem.ProjectManager;
-import com.nm.wpc.gui.Button;
-import com.nm.wpc.gui.GUIObject;
 import com.nm.wpc.screen.WorkingScreen;
 
 public class WorkingPane extends Editor {
@@ -195,6 +195,14 @@ public class WorkingPane extends Editor {
 
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
+		PageLoader pl = new PageLoader();
+		ProjectManager pm = new ProjectManager();
+		try {
+			this.page = pl.convertToPage(pm.getPageSource(projectName));
+		} catch (IOException e) {
+			this.page = pl.createBlankPage();
+			e.printStackTrace();
+		}
 	}
 
 	public boolean isTyping() {

@@ -4,14 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import com.nm.elems.tagsystem.Tag;
 import com.nm.wpc.filesystem.FileManager;
-import com.sun.security.ntlm.Client;
-
-import javafx.util.Pair;
 
 /*
  * Class: com.nm.elems.PageElement

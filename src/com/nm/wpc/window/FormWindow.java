@@ -1,17 +1,10 @@
 package com.nm.wpc.window;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.util.List;
-
 import javax.swing.JFrame;
 
 import com.nm.wpc.screen.*;
 import com.nm.wpc.editor.option.Option;
-import com.nm.wpc.filesystem.ProjectManager;
 import com.nm.wpc.gui.*;
-import com.nm.wpc.input.InputListener;
 
 public class FormWindow extends JFrame{
 	private static final long serialVersionUID = 1L;

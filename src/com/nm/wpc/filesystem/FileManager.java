@@ -132,11 +132,13 @@ public class FileManager {
 	}
 	
 	public File findFile(String filename) {
-		return findFile(new File(absolutePath), filename);
+		File temp = findFile(new File(absolutePath), filename);
+		return temp;
 	}
 	
 	public File findFile(String directory,String filename) {
-		return findFile(new File(directory), filename);
+		File temp = findFile(new File(directory), filename);
+		return temp;
 	}
 	
 	private File findFile(File root,String filename) {
@@ -155,6 +157,8 @@ public class FileManager {
 	}
 	
 	public String readFile(File file) throws IOException {
+		if(file == null)
+			return "ERROR";
 		StringBuilder sb = new StringBuilder();
 		InputStream in = new FileInputStream(file);
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));

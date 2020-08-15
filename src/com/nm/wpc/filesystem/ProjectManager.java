@@ -1,7 +1,11 @@
 package com.nm.wpc.filesystem;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
@@ -9,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.nm.elems.Page;
+import com.nm.elems.loader.*;
 
 /*
  * Class: com.nm.wpc.filesystem.ProjectManger
@@ -18,13 +23,23 @@ import com.nm.elems.Page;
 
 public class ProjectManager {
 	private FileManager fm;
+	private PageLoader pl;
 	private List<Project> projects;
 	
 	public ProjectManager() {
 		fm = new FileManager();
+		pl = new PageLoader();
 		projects = new ArrayList<Project>();
 		
 		loadProjectData();
+	}
+	
+	private void loadProjectData() {
+		String data = fm.getProjectData();
+		this.projects = new ArrayList<>();
+		if(data == "")
+			return;
+		this.projects = getProjects(data);
 	}
 	
 	public void createNewProject(String name,String location,String ep) {
@@ -38,14 +53,6 @@ public class ProjectManager {
 		createProjectData(name, location, ep);
 	}
 	
-	private void loadProjectData() {
-		String data = fm.getProjectData();
-		this.projects = new ArrayList<>();
-		if(data == "")
-			return;
-		this.projects = getProjects(data);
-	}
-	
 	private void createProjectData(String name,String location,String ep) {
 		Project project = new Project();
 		Calendar date = Calendar.getInstance();
@@ -57,6 +64,8 @@ public class ProjectManager {
 		project.setData("dateModified", date.getTime().toString());
 		
 		this.projects.add(project);
+		insertHTMLData(project, pl.createBlankPage().getPageCode());
+		
 		fm.addProjectData(project.getProjectData());
 	}
 	
@@ -69,7 +78,7 @@ public class ProjectManager {
 			if(data.charAt(i)=='@') {
 				if(data.substring(i, i+3).equals("@|@")) {
 					temp.add(new Project(data.substring(idx, i)));
-					i+=2;
+					i+=4;
 					idx = i+1;
 				}
 			}
@@ -107,10 +116,10 @@ public class ProjectManager {
 		return recent;
 	}
 	
-	public void convertPageToHTML(Page toConvert,String name) {
+	public void convertPageToHTML(Page toConvert,String projectName) {
 		loadProjectData();
 		for(Project project : projects) {
-			if(project.getData("name").equals(name)) {
+			if(project.getData("name").equals(projectName)) {
 				char sep = File.separatorChar;
 				String pageData = toConvert.getPageCode();
 				try {
@@ -120,6 +129,58 @@ public class ProjectManager {
 				}
 			}
 		}
+	}
+	
+	
+	public void insetHTMLData(String projectName,String data) {
+		loadProjectData();
+		for(Project project : projects) {
+			if(project.getData("name").equals(projectName)) {
+				char sep = File.separatorChar;
+				try {
+					Files.write(Paths.get(project.getData("location")+sep+project.getData("name")+sep+"src"+sep+project.getData("ep")), data.getBytes());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void insertHTMLData(Project project,String data) {
+		for(Project p : projects) {
+			if(p.getData("name").equals(project.getData("name"))) {
+				char sep = File.separatorChar;
+				try {
+					Files.write(Paths.get(project.getData("location")+sep+project.getData("name")+sep+"src"+sep+project.getData("ep")), data.getBytes());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public String getPageSource(String projectName) throws IOException {
+		for(Project project : projects) {
+			if(project.getData("name").equals(projectName)) {
+
+				char sep = File.separatorChar;
+				String path = project.getData("location")+sep+project.getData("name")+sep+"src"+sep+project.getData("ep");
+				FileInputStream fs = new FileInputStream(path);
+				DataInputStream in = new DataInputStream(fs);
+				BufferedReader br = new BufferedReader(new InputStreamReader(in));
+				StringBuilder sb = new StringBuilder();
+				String line = "";
+				while((line=br.readLine())!=null) {
+					sb.append(line);
+				}
+				br.close();
+				in.close();
+				fs.close();
+				
+				return sb.toString();
+			}
+		}
+		return "";
 	}
 }
 

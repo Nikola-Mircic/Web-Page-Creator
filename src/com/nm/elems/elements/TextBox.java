@@ -131,7 +131,6 @@ public class TextBox extends PageElement {
 	
 	public void moveCursor(int dirX,int dirY) {
 		cursorPos+=dirX;
-		//cursorPos+=dirY*ptLenght;
 		if(cursorPos>textData.length()) {
 			cursorPos = textData.length();
 		}
@@ -235,7 +234,6 @@ public class TextBox extends PageElement {
 		
 		openTag = openTag.substring(0, openTag.indexOf(">"))+" "+styles+" >";
 		
-		System.out.println(makeHTMLString(textData));
 		return openTag+makeHTMLString(textData)+childsContent+closeTag;
 	}
 

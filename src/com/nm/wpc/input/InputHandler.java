@@ -80,6 +80,8 @@ public class InputHandler {
 			screen.repaint();
 		}else {
 			PageElement focusedElement = null;
+			if(!(screen instanceof MainScreen))
+				return;
 			Screen activeScreen = ((MainScreen)screen).getActiveScreen();
 			if(activeScreen instanceof WorkingScreen) {
 				focusedElement = ((WorkingScreen)activeScreen).findFocusedElement();

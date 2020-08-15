@@ -1,7 +1,5 @@
 package com.nm.elems.elements;
 
-import javax.smartcardio.ATR;
-
 import com.nm.elems.Attribute;
 import com.nm.elems.PageElement;
 import com.nm.elems.tagsystem.Tag;
