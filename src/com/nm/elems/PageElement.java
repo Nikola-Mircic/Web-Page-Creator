@@ -33,8 +33,19 @@ public class PageElement {
 		this.elementTag = generateTag(tagname);
 		this.attributes = generateAttributes(elementTag.getBitmask());
 		generateDefaultAttributes(elementTag);
-		setX(0);
-		setY(0);
+		
+		if(tagname.indexOf(' ')!=-1) {
+			String temp = tagname.substring(tagname.indexOf("style=")+7);
+			temp = temp.substring(0,temp.indexOf('\"'));
+			Attribute tempAttr = null;
+			while(temp.indexOf("; ")!=-1) {
+				tempAttr = getAttribute(temp.substring(0,temp.indexOf(":")));
+				if(tempAttr!=null)
+					setAttributeValue(attributes.indexOf(tempAttr), temp.substring(temp.indexOf(":")+1,temp.indexOf(tempAttr.getDefaultUnit()+";")));
+				temp = temp.substring(temp.indexOf("; ")+2);
+			}
+		}
+		
 		drawContent();
 	}
 	
@@ -42,13 +53,19 @@ public class PageElement {
 		this.childs = new ArrayList<PageElement>();
 		this.elementTag = tag;
 		this.attributes = generateAttributes(elementTag.getBitmask());
+		
 		generateDefaultAttributes(elementTag);
+		
 		setX(0);
 		setY(0);
+		
 		drawContent();
 	}
 	
 	protected Tag generateTag(String tagname) {
+		if(tagname.indexOf(' ')!=-1) {
+			tagname = tagname.substring(0,tagname.indexOf(" "))+">"+tagname.substring(tagname.lastIndexOf("<"));
+		}
 		Tag temp = null;
 		Tag[] tags = Tag.values();
 		for(Tag tag:tags) {
@@ -358,10 +375,10 @@ public class PageElement {
 		this.parentElement = parent;
 		if(previous==null) {
 			int offset = parent.getX()+parent.getOffsetX();
-			setX(offset+Integer.parseInt(getAttributeValue("margin-left")));
+			setX(offset);
 				
 			offset = parent.getY()+parent.getOffsetY();
-			setY(offset+Integer.parseInt(getAttributeValue("margin-top")));
+			setY(offset);
 		}else {
 			setPreviousElement(previous);
 		}
@@ -383,17 +400,17 @@ public class PageElement {
 			switch (position) {
 			case "absolute":
 				offset = previous.getX();
-				setX(offset+Integer.parseInt(getAttributeValue("margin-left")));
+				setX(offset);
 				
 				offset = previous.getY();
-				setY(offset+Integer.parseInt(getAttributeValue("margin-top")));
+				setY(offset);
 				break;
 			default:
 				offset = previous.getX();
-				setX(offset+Integer.parseInt(getAttributeValue("margin-left")));
+				setX(offset);
 				
 				offset = previous.getY()+previous.getHeight();
-				setY(offset+Integer.parseInt(getAttributeValue("margin-top")));
+				setY(offset);
 				break;
 			}
 		}
@@ -442,6 +459,10 @@ public class PageElement {
 	public int getOffsetX() {
 		return offsetX;
 	}
+	
+	public void loadOffsetX(int offsetX) {
+		this.offsetX = offsetX;
+	}
 
 	public void setOffsetX(int offsetX) {
 		String newMargin = Integer.toString(Integer.parseInt(getAttribute("margin-left").getValue())+offsetX-this.offsetX);
@@ -453,6 +474,10 @@ public class PageElement {
 		return offsetY;
 	}
 
+	public void loadOffsetY(int offsetY) {
+		this.offsetY = offsetY;
+	}
+	
 	public void setOffsetY(int offsetY) {
 		String newMargin = Integer.toString(Integer.parseInt(getAttribute("margin-top").getValue())+offsetY-this.offsetY);
 		getAttribute("margin-top").setValue(newMargin);

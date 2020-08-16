@@ -203,6 +203,7 @@ public class WorkingPane extends Editor {
 			this.page = pl.createBlankPage();
 			e.printStackTrace();
 		}
+		drawContent(width, height);
 	}
 
 	public boolean isTyping() {
