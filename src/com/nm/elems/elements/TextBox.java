@@ -2,6 +2,7 @@ package com.nm.elems.elements;
 
 import java.awt.Font;
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 import com.nm.elems.Attribute;
 import com.nm.elems.PageElement;
@@ -18,11 +19,31 @@ public class TextBox extends PageElement {
 	protected int fontSize;
 	
 	public TextBox(String tagname) {
-		super(tagname);
-		
+		super();
 		setTextData("");
+		
+		this.childs = new ArrayList<PageElement>();
+		this.elementTag = generateTag(tagname);
+		this.attributes = generateAttributes(elementTag.getBitmask());
+		generateDefaultAttributes(elementTag);
+		
+		if(tagname.indexOf(' ')!=-1) {
+			String temp = tagname.substring(tagname.indexOf("style=")+7);
+			temp = temp.substring(0,temp.indexOf('\"'));
+			Attribute tempAttr = null;
+			while(temp.indexOf("; ")!=-1) {
+				tempAttr = getAttribute(temp.substring(0,temp.indexOf(":")));
+				if(tempAttr!=null)
+					setAttributeValue(attributes.indexOf(tempAttr), temp.substring(temp.indexOf(":")+1,temp.indexOf(tempAttr.getDefaultUnit()+";")));
+				temp = temp.substring(temp.indexOf("; ")+2);
+			}
+			
+			setEditing(false);
+		}else {
+			setEditing(true);
+		}
+		
 		setPtLenght(0);
-		setEditing(true);
 		setCursorPos(0);
 		this.lines = 1;
 		
@@ -155,12 +176,14 @@ public class TextBox extends PageElement {
 	@Override
 	public void setAttributeValue(int index, String newValue) {
 		super.setAttributeValue(index, newValue);
-		this.fontSize = Integer.parseInt(getAttributeValue("font-size"));
-		this.fontFamily = getAttributeValue("font-family");
-		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, fontSize)).stringWidth(textData);
-		lines = len/this.width+1;
-		if(this.height<lines*fontSize) {
-			changeHeight(lines*fontSize+10);
+		if(attributes.get(index).getName().equals("font-size") || attributes.get(index).getName().equals("font-family")) {
+			this.fontSize = Integer.parseInt(getAttributeValue("font-size"));
+			this.fontFamily = getAttributeValue("font-family");
+			int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, fontSize)).stringWidth(textData);
+			lines = len/this.width+1;
+			if(this.height<lines*fontSize) {
+				changeHeight(lines*fontSize+10);
+			}
 		}
 		drawContent();
 	}
@@ -240,7 +263,18 @@ public class TextBox extends PageElement {
 	public String getTextData() {
 		return textData;
 	}
-
+	
+	public void addTextData(String textData) {
+		this.textData += textData;
+		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, fontSize)).stringWidth(textData);
+		if(len>=lines*(this.width-fontSize/2)) {
+			lines++;
+			if(this.height<lines*fontSize+10)
+				changeHeight(lines*fontSize+10);
+		}
+		drawContent();
+	}
+	
 	public void setTextData(String textData) {
 		this.textData = textData;
 	}

@@ -28,6 +28,9 @@ public class PageElement {
 	protected int width,height;
 	protected BufferedImage img;
 	
+	public PageElement() {
+	}
+	
 	public PageElement(String tagname) {
 		this.childs = new ArrayList<PageElement>();
 		this.elementTag = generateTag(tagname);

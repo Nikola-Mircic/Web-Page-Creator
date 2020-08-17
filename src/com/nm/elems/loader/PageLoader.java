@@ -86,14 +86,22 @@ public class PageLoader {
 						elems.push(temp);
 						p.addElement(temp);
 					}
+					start += tag.length();
 				}
 			}else if(!s.empty()) {
-				if(isCloseTag(tag) && s.peek().equals(tag)) {
+				if(tag.equals("<br>")) {
+					String temp = source.substring(start);
+					String textData = temp.substring(0,temp.indexOf(tag));
+					textData = textData.replaceAll("&lt;", "<");
+					textData = textData.replaceAll("&gt;", ">");
+					((TextBox)elems.peek()).addTextData(textData);
+					start+=temp.indexOf(tag)+4;
+				}else if(isCloseTag(tag) && s.peek().equals(tag)) {
 					s.pop();
 					elems.pop();
+					start += tag.length();
 				}
 			}
-			start += tag.length();
 			tag=findNextTag(start, source);
 		}
 		
