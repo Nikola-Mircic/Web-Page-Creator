@@ -24,8 +24,8 @@ import com.nm.wpc.screen.MainScreen;
 
 public class Window extends JFrame implements Runnable{
 	private static final long serialVersionUID = 1L;
-	private static int WIDTH = 1000;
-	private static int HEIGHT = 700;
+	public static int WIDTH = 1000;
+	public static int HEIGHT = 700;
 	private String TITLE = "Web Page Creator 2.0.0";
 	
 	private static MainScreen ms;

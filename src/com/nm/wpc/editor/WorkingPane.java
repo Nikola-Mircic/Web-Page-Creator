@@ -65,8 +65,8 @@ public class WorkingPane extends Editor {
 			g.setColor(Color.BLUE);
 			int x = focused.getX()+focused.getOffsetX();
 			int y = focused.getY()+focused.getOffsetY();
-			int w = focused.getWidth();
-			int h = focused.getHeight();
+			int w = (int)(0.8*focused.getWidth());
+			int h = (int)(0.8*focused.getHeight());
 			g.drawRect(x, y, w, h);
 			g.fillRect(x-5, y-5, 10, 10);
 			g.fillRect(x+w-5, y-5, 10, 10);

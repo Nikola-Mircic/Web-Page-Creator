@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.nm.elems.tagsystem.Tag;
+import com.nm.wpc.editor.WorkingPane;
 import com.nm.wpc.filesystem.FileManager;
+import com.nm.wpc.window.Window;
 
 /*
  * Class: com.nm.elems.PageElement
@@ -99,10 +101,10 @@ public class PageElement {
 	protected void drawContent() {
 		this.width = Integer.parseInt(getAttributeValue("width"));
 		this.height = Integer.parseInt(getAttributeValue("height"));
-		this.img = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_ARGB);
+		this.img = new BufferedImage((int)(0.8*this.width), (int)(0.8*this.height), BufferedImage.TYPE_INT_ARGB);
 		Graphics g = img.getGraphics();
 		g.setColor(getColor(getAttributeValue("background-color")));
-		g.fillRect(0, 0, width, height);
+		g.fillRect(0, 0, (int)(0.8*this.width), (int)(0.8*this.height));
 	}
 
 	protected Color getColor(String attribute) {
@@ -166,7 +168,7 @@ public class PageElement {
 				case "absolute":
 					if(temp.getValue().equals(""))
 						attributes.get(index).setValue("0");
-					this.offsetY = Integer.parseInt(temp.getValue());
+					this.offsetY = (int)(0.865*Integer.parseInt(temp.getValue()));
 					break;
 
 				default:
@@ -178,7 +180,7 @@ public class PageElement {
 				case "absolute":
 					if(temp.getValue().equals(""))
 						attributes.get(index).setValue("0");
-					this.offsetX = Integer.parseInt(temp.getValue());
+					this.offsetX = (int)(0.8*Integer.parseInt(temp.getValue()));
 					break;
 
 				default:
@@ -338,11 +340,11 @@ public class PageElement {
 		
 		if(this.x-10<=xPos && xPos<=this.x+10 && this.y-10<=yPos && yPos<=this.y+10)
 			return 1;
-		if(this.x+width-10<=xPos && xPos<=this.x+width+10 && this.y-10<=yPos && yPos<=this.y+10)
+		if(this.x+(int)(0.8*width)-10<=xPos && xPos<=this.x+(int)(0.8*width)+10 && this.y-10<=yPos && yPos<=this.y+10)
 			return 2;
-		if(this.x+width-10<=xPos && xPos<=this.x+width+10 && this.y+height-10<=yPos && yPos<=this.y+height+10)
+		if(this.x+(int)(0.8*width)-10<=xPos && xPos<=this.x+(int)(0.8*width)+10 && this.y+(int)(0.8*height)-10<=yPos && yPos<=this.y+(int)(0.8*height)+10)
 			return 3;
-		if(this.x-10<=xPos && xPos<=this.x+10 && this.y+height-10<=yPos && yPos<=this.y+height+10)
+		if(this.x-10<=xPos && xPos<=this.x+10 && this.y+(int)(0.8*height)-10<=yPos && yPos<=this.y+(int)(0.8*height)+10)
 			return 4;
 		if(isClicked(xPos+offsetX, yPos+offsetY))
 			return 0;
@@ -468,7 +470,7 @@ public class PageElement {
 	}
 
 	public void setOffsetX(int offsetX) {
-		String newMargin = Integer.toString(Integer.parseInt(getAttribute("margin-left").getValue())+offsetX-this.offsetX);
+		String newMargin = Integer.toString((int)((Integer.parseInt(getAttribute("margin-left").getValue())+offsetX-this.offsetX)*0.8));
 		getAttribute("margin-left").setValue(newMargin);
 		this.offsetX = offsetX;
 	}
@@ -482,7 +484,7 @@ public class PageElement {
 	}
 	
 	public void setOffsetY(int offsetY) {
-		String newMargin = Integer.toString(Integer.parseInt(getAttribute("margin-top").getValue())+offsetY-this.offsetY);
+		String newMargin = Integer.toString((int)((Integer.parseInt(getAttribute("margin-top").getValue())+offsetY-this.offsetY)*0.865));
 		getAttribute("margin-top").setValue(newMargin);
 		this.offsetY = offsetY;
 	}
