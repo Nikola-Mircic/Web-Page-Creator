@@ -15,5 +15,5 @@ On appliacation start you will see two buttons.One is for creating a new project
 Working Screen is separated into four sections:
 1. __Options menu__ - There are three buttons: one for creating a new project,one for openin recently closed proejec and last for saving changes in current project
 2. __Element selector__ - There are four different buttons for adding new elements to the page. The first button creates grey rectangle,the second button is for adding plain text. The third button creates list of six different types of headings sorted by size. The fourth button is for adding a text with a link to the file,or any web site.
-3. __Working pane__ - This is the biggest part of working screen. It show you the preview of your page and the currently focused element.
-4. __Element editor__ - This is the rightmost part of the working screen. It display a list of focused element's attributes.
+3. __Working pane__ - This is the biggest part of the working screen. It shows you the preview of your page and the currently focused element.
+4. __Element editor__ - This is the rightmost part of the working screen. It displays a list of focused element's attributes.
