@@ -33,8 +33,7 @@ public class StartScreen extends Screen{
 		
 		this.options = new Option[3];
 		options[0] =  new NewProjectOption(this.ms);
-		options[1] =  new NewProjectOption(this.ms);
-		options[2] =  new ContinueRecentOption(this.ms);
+		options[1] =  new ContinueRecentOption(this.ms);
 		
 		addButtons();
 		
@@ -60,7 +59,7 @@ public class StartScreen extends Screen{
 	
 	private void addButtons() {
 		Button btn;
-		for(int i=0;i<3;i++) {
+		for(int i=0;i<2;i++) {
 			btn = (Button)(new Button(200, 100+i*60, 200, 50, options[i]).setContainer(this));
 			addGUIObject(btn);
 		}
