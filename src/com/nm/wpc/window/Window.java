@@ -1,11 +1,4 @@
 /*
- * Web Page Creator [v2.0.0]
- * Created by:
- * Date: 9/2/2020
- * Time: 16:50
- * */
-
-/*
  * Classname: com.nm.wpc.window.Window
  * Superclass:
  * Used for: Creating frame of app
