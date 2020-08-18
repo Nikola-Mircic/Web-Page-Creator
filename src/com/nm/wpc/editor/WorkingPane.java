@@ -63,10 +63,10 @@ public class WorkingPane extends Editor {
 		//Border for focusing element
 		if(focused != null) {
 			g.setColor(Color.BLUE);
-			int x = focused.getX()+focused.getOffsetX();
-			int y = focused.getY()+focused.getOffsetY();
-			int w = (int)(0.8*focused.getWidth());
-			int h = (int)(0.8*focused.getHeight());
+			int x = scale(focused.getX()+focused.getOffsetX());
+			int y = scale(focused.getY()+focused.getOffsetY());
+			int w = scale(focused.getWidth());
+			int h = scale(focused.getHeight());
 			g.drawRect(x, y, w, h);
 			g.fillRect(x-5, y-5, 10, 10);
 			g.fillRect(x+w-5, y-5, 10, 10);
@@ -213,5 +213,12 @@ public class WorkingPane extends Editor {
 	public void setTyping(boolean typing) {
 		this.typing = typing;
 	}
-
+	
+	public int scale(double x) {
+		return (int)(0.8*x);
+	}
+	
+	public int scale(int x) {
+		return (int)(0.8*x);
+	}
 }

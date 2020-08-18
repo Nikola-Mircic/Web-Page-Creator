@@ -73,7 +73,7 @@ public class TextBox extends PageElement {
 				g.drawString("_", 0, fontSize);
 		}else {
 			int idx1=0,idx2=0;
-			g.setFont(new Font(fontFamily,Font.PLAIN,fontSize));
+			g.setFont(new Font(fontFamily,Font.PLAIN,(int)fontSize));
 			g.setColor(getColor(getAttributeValue("color")));
 			for(int i=0;i<lines;++i) {
 				ptLenght = findptLenght(g,idx1);
@@ -91,7 +91,7 @@ public class TextBox extends PageElement {
 		int l=idx,d=textData.length(),s,res=idx;
 		while(l<=d) {
 			s = l+(d-l)/2;
-			if(g.getFontMetrics().stringWidth(textData.substring(idx,s))<this.width) {
+			if(g.getFontMetrics().stringWidth(textData.substring(idx,s))<scale(width)) {
 				res=s;
 				l=s+1;
 			}else {
@@ -128,10 +128,10 @@ public class TextBox extends PageElement {
 	
 	public void addLetter(char c) {
 		this.textData = insertChar(this.textData, c, cursorPos);
-		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, fontSize)).stringWidth(textData);
-		if(len>=lines*(this.width-fontSize/2)) {
+		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, scale(fontSize))).stringWidth(textData);
+		if(len>=lines*(scale(width)-scale(fontSize)/2)) {
 			lines++;
-			if(this.height<lines*fontSize+10)
+			if(scale(this.height)<lines*fontSize+10)
 				changeHeight(lines*fontSize+10);
 		}
 		cursorPos++;
@@ -141,8 +141,8 @@ public class TextBox extends PageElement {
 	public void removeLetter() {
 		if(cursorPos==0)
 			return;
-		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, fontSize)).stringWidth(textData);
-		if(len<(lines-1)*this.width) {
+		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, scale(fontSize))).stringWidth(textData);
+		if(len<(lines-1)*scale(width)) {
 			changeHeight(this.height/lines*(--lines));
 		}
 		this.textData = removeChar(textData, cursorPos-1);
@@ -179,9 +179,9 @@ public class TextBox extends PageElement {
 		if(attributes.get(index).getName().equals("font-size") || attributes.get(index).getName().equals("font-family")) {
 			this.fontSize = Integer.parseInt(getAttributeValue("font-size"));
 			this.fontFamily = getAttributeValue("font-family");
-			int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, fontSize)).stringWidth(textData);
-			lines = len/this.width+1;
-			if(this.height<lines*fontSize) {
+			int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, scale(fontSize))).stringWidth(textData);
+			lines = len/scale(width)+1;
+			if(scale(this.height)<lines*fontSize) {
 				changeHeight(lines*fontSize+10);
 			}
 		}
@@ -192,9 +192,9 @@ public class TextBox extends PageElement {
 	@Override
 	public void setWidth(int width) {
 		super.setWidth(width);
-		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, fontSize)).stringWidth(textData);
-		lines = len/this.width+1;
-		if(this.height<lines*fontSize) {
+		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, scale(fontSize))).stringWidth(textData);
+		lines = len/scale(width)+1;
+		if(scale(this.height)<lines*scale(fontSize)) {
 			changeHeight(lines*fontSize+10);
 		}
 		drawContent();
@@ -211,8 +211,8 @@ public class TextBox extends PageElement {
 	public void setHeight(int height) {
 		super.setHeight(height);
 		
-		if(this.height<lines*fontSize+10) {
-			setHeight(lines*fontSize+10);
+		if(scale(this.height)<lines*scale(fontSize)+10) {
+			changeHeight(lines*fontSize+10);
 		}
 		drawContent();
 	}
@@ -266,10 +266,10 @@ public class TextBox extends PageElement {
 	
 	public void addTextData(String textData) {
 		this.textData += textData;
-		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, fontSize)).stringWidth(textData);
-		if(len>=lines*(this.width-fontSize/2)) {
+		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, scale(fontSize))).stringWidth(textData);
+		if(len>=lines*(scale(width)-scale(fontSize)/2)) {
 			lines++;
-			if(this.height<lines*fontSize+10)
+			if(scale(this.height)<lines*scale(fontSize)+10)
 				changeHeight(lines*fontSize+10);
 		}
 		drawContent();
