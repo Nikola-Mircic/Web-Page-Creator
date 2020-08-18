@@ -2,8 +2,6 @@ package com.nm.elems.loader;
 
 import java.util.Stack;
 
-import javax.swing.text.html.HTMLDocument.HTMLReader.TagAction;
-
 import com.nm.elems.Page;
 import com.nm.elems.PageElement;
 import com.nm.elems.elements.Anchor;

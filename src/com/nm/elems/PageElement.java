@@ -7,9 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.nm.elems.tagsystem.Tag;
-import com.nm.wpc.editor.WorkingPane;
 import com.nm.wpc.filesystem.FileManager;
-import com.nm.wpc.window.Window;
+
 
 /*
  * Class: com.nm.elems.PageElement
