@@ -6,11 +6,12 @@
 Web Page Creator is an easy to use application for creating simple web pages. You can make your web page just by picking which element u want to add or delete. For each element on your page, there is a list of attributes you can change it or you can leave it on default if u don't want to change anything.
 
 ### Instalation
-To set up WPC on Windows go to the [link](https://github.com/Nikola-Mircic/Web-Page-Creator/blob/master/release/wpc_alpha_8.18.20.rar) and download __wpc_alpha_8.18.20.rar__. When download is complete,extract files to an empty folder and run __wpc.jar__. Make sure that you got `attributes.dat` and `projects.dat` files. If there is a problem while launching application please report an issue.
+To set up WPC on Windows go to the [link](https://github.com/Nikola-Mircic/Web-Page-Creator/blob/master/release/wpc_alpha_8.19.20.rar) and download __wpc_alpha_8.19.20.rar__. When download is complete,extract files to an empty folder and run __wpc.jar__. Make sure that you got `attributes.dat` and `projects.dat` files. If there is a problem while launching application please report an issue.
 
 ### Creating a page
 #### Start Screen
-On appliacation start you will see two buttons.One is for creating a new project,and second is for loading a recently closed project.
+On appliacation start you will see three buttons.One is for creating a new project,second button is for opening an wpc project,and third is for loading a recently closed project.
+> __NOTE__: You can only open a project made in the Web page creator ( version alpha 8.19.20 and latest )!
 #### Working Screen
 Working Screen is separated into four sections:
 1. __Options menu__ - There are three buttons: one for creating a new project,one for openin recently closed proejec and last for saving changes in current project
