@@ -58,6 +58,10 @@ public class FormWindow extends JFrame{
 		p.getObjects().add(btn);
 	}
 	
+	public void addGUIObject(GUIObject object) {
+		p.getObjects().add(object);
+	}
+	
 	public Panel getPanel() {
 		return this.p;
 	}

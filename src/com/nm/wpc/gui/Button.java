@@ -41,7 +41,7 @@ public class Button extends GUIObject{
 		this.drawBorder(g,0,0,width,height);
 		int fontSize = Math.min(findFontSize(),25);
 		g.setFont(new Font("",Font.PLAIN,fontSize));
-		g.drawString(this.option.getOptName(), (width-this.option.getOptName().length()*10)/4, height/2+fontSize/2);
+		g.drawString(this.option.getOptName(), (width-this.option.getOptName().length()*10)/4+5, height/2+fontSize/2);
 	}
 	
 	public int findFontSize() {

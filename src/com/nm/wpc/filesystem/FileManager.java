@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import com.nm.elems.Attribute;
 
@@ -264,11 +265,20 @@ public class FileManager {
 		}
 	}
 	
-	public void addProjectData(String data) {
+	public void addProjectData(Project data) {
 		String fileData = getProjectData();
-		fileData+=data;
+		fileData+=convertProjectData(data);
+		String projectSettings = data.getData("name")+";"+data.getData("location")+";"+data.getData("ep")+";";
 		try {
 			Files.write(Paths.get(findFile("projects.dat").getAbsolutePath()), fileData.getBytes());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			System.out.println(projectSettings);
+			char sep = File.separatorChar;
+			Files.write(Paths.get(data.getData("location")+sep+data.getData("name")+sep+"settings"+sep+"project-settings.txt"), projectSettings.getBytes());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -280,6 +290,18 @@ public class FileManager {
 		} catch (IOException e) {
 			return "";
 		}
+	}
+	
+	public String convertProjectData(Project project) {
+		String pData = "";
+		
+		for(Map.Entry<String, String> entry : project.getProjectMap().entrySet()) {
+			pData+=((String)entry.getValue()+"%|%");
+		}
+		
+		pData+="@|@";
+		
+		return pData;
 	}
 	
 	public Attribute[] getAttributes() {

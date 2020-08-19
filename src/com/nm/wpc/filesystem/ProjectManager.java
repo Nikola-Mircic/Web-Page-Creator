@@ -53,7 +53,7 @@ public class ProjectManager {
 		createProjectData(name, location, ep);
 	}
 	
-	private void createProjectData(String name,String location,String ep) {
+	public void createProjectData(String name,String location,String ep) {
 		Project project = new Project();
 		Calendar date = Calendar.getInstance();
 		
@@ -66,7 +66,31 @@ public class ProjectManager {
 		this.projects.add(project);
 		insertHTMLData(project, pl.createBlankPage().getPageCode());
 		
-		fm.addProjectData(project.getProjectData());
+		fm.addProjectData(project);
+	}
+	
+	public void openProjectData(String data[]) {
+		Project project = new Project();
+		Calendar date = Calendar.getInstance();
+		
+		project.setData("name", data[0]);
+		project.setData("location", data[1]);
+		project.setData("ep", data[2]);
+		project.setData("dateCreated", date.getTime().toString());
+		project.setData("dateModified", date.getTime().toString());
+		
+		boolean exist = false;
+		for(Project temp : projects) {
+			if(temp.getData("name").equals(data[0])) {
+				exist = true;
+				break;
+			}
+		}
+		
+		if(!exist) {
+			this.projects.add(project);
+			fm.addProjectData(project);
+		}
 	}
 	
 	private List<Project> getProjects(String data){

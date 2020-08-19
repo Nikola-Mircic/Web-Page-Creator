@@ -1,7 +1,0 @@
-- Project name: Web Page Creator
-- Date created: 18.8.2020
-- Version: alpha 8.18.20
-- Author: Nikola Mircic
-- E-mail: nikola123mircic@gmail.com
-
-* For more information read README.md please.
