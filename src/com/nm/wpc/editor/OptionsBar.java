@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 
 import com.nm.wpc.editor.option.ContinueRecentOption;
 import com.nm.wpc.editor.option.NewProjectOption;
+import com.nm.wpc.editor.option.OpenProjectOption;
 import com.nm.wpc.editor.option.Option;
 import com.nm.wpc.editor.option.SaveProjectOption;
 import com.nm.wpc.gui.Button;
@@ -39,14 +40,15 @@ public class OptionsBar extends Editor {
 	}
 	
 	private void genarateObjects() {
-		Option[] options = new Option[3];
+		Option[] options = new Option[4];
 		options[0] = new NewProjectOption(ws.getMs());
 		options[1] = new ContinueRecentOption(ws.getMs());
+		options[2] = new OpenProjectOption(ws.getMs());
 		if(ws.getWorkingPane().getPage()!= null && ws.getProjectName() != "")
-			options[2] = new SaveProjectOption(ws.getMs(), ws.getWorkingPane().getPage(), ws.getProjectName());
+			options[3] = new SaveProjectOption(ws.getMs(), ws.getWorkingPane().getPage(), ws.getProjectName());
 		else
-			options[2] = new SaveProjectOption(ws.getMs());
-		for(int i=0;i<3;i++) {
+			options[3] = new SaveProjectOption(ws.getMs());
+		for(int i=0;i<4;i++) {
 			this.addGUIObject(new Button(i*150, 0, 150, this.height, options[i]));
 		}
 	}
