@@ -22,17 +22,19 @@ import com.nm.elems.Attribute;
 
 public class FileManager {
 	private String absolutePath;
-	
+	private Attribute[] attrs;
 	/*Constructors:
 	 *	FileManager() - for a default project path
 	 *	FileManager(String dir) - for using function inside a directory which is given by an absolute path dir */
 	public FileManager() {
 		File path = new File("");
 		this.absolutePath = path.getAbsolutePath();
+		createDefaultAttributes();
 	}
 	
 	public FileManager(String dir) {
 		this.absolutePath = dir;
+		createDefaultAttributes();
 	}
 	
 	public boolean validatePath(String path) {
@@ -159,7 +161,7 @@ public class FileManager {
 	
 	public String readFile(File file) throws IOException {
 		if(file == null)
-			return "ERROR";
+			return "";
 		StringBuilder sb = new StringBuilder();
 		InputStream in = new FileInputStream(file);
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -180,74 +182,14 @@ public class FileManager {
 	 * */
 	
 	public void createDefaultConfiguration() {
-		createDefaultProperties();//Continue with this!!!!
-	}
-	
-	/*Functions dealing with .properties file:
-	 *	createDefaultProperties() - It call in main function in Window class and create .properties file for the first time with default values
-	 *	getProperties() - returns data from .properties
-	 *	changeProperties(String propertieName,String newValue) - change value of field propertieName to newValue
-	 *	makePropertie(String propertieName) -  create new field
-	 *	makePropertie(String propertieName,String newValue) - create new field with value newValue*/
-	private void createDefaultProperties() {
-		if(findFile(".properties")==null) {
-			File newProps = new File(absolutePath+"/.properties");
+		if(findFile("projects.dat")==null) {
+			File projects = new File(absolutePath+File.separatorChar+"projects.dat");
 			try {
-				newProps.createNewFile();
-				makePropertie("author");
-				makePropertie("default-project-name", "project");
-				makePropertie("default-project-location", absolutePath+"/projects");
-				makePropertie("default-font-size","20");
-			} catch (IOException e) {
-				e.printStackTrace();
+				projects.createNewFile();
+			} catch (Exception e) {
+				System.err.println(e.toString());
 			}
 		}
-	}
-	
-	public String getProperties() {
-		try {
-			return readFile(findFile(".properties"));
-		} catch (IOException e) {
-			return "";
-		}
-	}
-	
-	public void changeProperties(String propertieName,String newValue) {
-		String fileData = getProperties();
-		if(fileData=="")
-			return;
-		
-		int idxOfPropertie = fileData.indexOf(propertieName);
-		if(idxOfPropertie == -1)
-			return;
-		
-		int idxOfValue = idxOfPropertie + propertieName.length()+1;
-		fileData = fileData.substring(0, idxOfValue)+newValue+","+fileData.substring(idxOfValue+fileData.substring(idxOfValue).indexOf(",")+1);
-		try {
-            Files.write(Paths.get(findFile(".properties").getAbsolutePath()), fileData.getBytes());
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-	}
-	
-	public void makePropertie(String propertieName) {
-		String fileData = getProperties();
-		fileData += (propertieName+":"+",\n");
-		try {
-            Files.write(Paths.get(findFile(".properties").getAbsolutePath()), fileData.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-	}
-	
-	public void makePropertie(String propertieName,String newValue) {
-		String fileData = getProperties();
-		fileData += (propertieName+":"+newValue+",\n");
-		try {
-            Files.write(Paths.get(findFile(".properties").getAbsolutePath()), fileData.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 	}
 	
 	/*Functions dealing with projects.dat file
@@ -276,7 +218,6 @@ public class FileManager {
 		}
 		
 		try {
-			System.out.println(projectSettings);
 			char sep = File.separatorChar;
 			Files.write(Paths.get(data.getData("location")+sep+data.getData("name")+sep+"settings"+sep+"project-settings.txt"), projectSettings.getBytes());
 		} catch (Exception e) {
@@ -304,29 +245,28 @@ public class FileManager {
 		return pData;
 	}
 	
+	
+	public void createDefaultAttributes() {
+		attrs = new Attribute[16];
+		attrs[0] = new Attribute("href","","");
+		attrs[1] = new Attribute("font-size","","px");
+		attrs[2] = new Attribute("font-family","","");
+		attrs[3] = new Attribute("color","","");
+		attrs[4] = new Attribute("background-color","","");
+		attrs[5] = new Attribute("width","","px");
+		attrs[6] = new Attribute("height","","px");
+		attrs[7] = new Attribute("position","absolute","");
+		attrs[8] = new Attribute("margin-top","","px");
+		attrs[9] = new Attribute("margin-right","","px");
+		attrs[10] = new Attribute("margin-bottom","","px");
+		attrs[11] = new Attribute("margin-left","","px");
+		attrs[12] = new Attribute("padding-top","","px");
+		attrs[13] = new Attribute("padding-right","","px");
+		attrs[14] = new Attribute("padding-bottom","","px");
+		attrs[15] = new Attribute("padding-left","","px");
+	}
+	
 	public Attribute[] getAttributes() {
-		Attribute[] attrs = new Attribute[16];
-		String attributes = "";
-		try {
-			attributes = readFile(findFile("attribute.dat"));
-		} catch (IOException e) {
-			return new Attribute[0];
-		}
-		
-		int i=0,idx = attributes.indexOf('\n');
-		String attrName,attrValue,attrDU;
-		while(idx>0) {
-			String line = attributes.substring(0, idx);
-			if(line.charAt(0) != '#') {
-				attrName = line.substring(0, line.indexOf(":"));
-				attrValue = line.substring(line.indexOf(":")+1,line.indexOf(";"));
-				attrDU = line.substring(line.indexOf(";")+1,line.indexOf(","));
-				attrs[i++] = new Attribute(attrName,attrValue,attrDU);
-			}
-			attributes = attributes.substring(idx+1);
-			idx = attributes.indexOf('\n');
-		}
-		
 		return attrs;
 	}
 	

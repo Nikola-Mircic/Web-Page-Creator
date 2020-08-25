@@ -13,6 +13,7 @@ import java.awt.event.ComponentListener;
 
 import javax.swing.JFrame;
 
+import com.nm.wpc.filesystem.FileManager;
 import com.nm.wpc.screen.MainScreen;
 
 public class Window extends JFrame implements Runnable{
@@ -55,6 +56,8 @@ public class Window extends JFrame implements Runnable{
 	
 	public static void main(String[] args) {
 		Window window = new Window();
+		FileManager fm = new FileManager();
+		fm.createDefaultConfiguration();
 		Thread wpc = new Thread(window);
 		wpc.run();
 	}
