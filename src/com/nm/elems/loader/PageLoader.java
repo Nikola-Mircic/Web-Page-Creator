@@ -63,7 +63,7 @@ public class PageLoader {
 		
 		p.setPageHead(source.substring(l,r));
 		//Page elements
-		source = source.substring(r+6,source.indexOf("</body>"));
+		source = source.substring(r,source.indexOf("</body>"));
 		source = source.substring(source.indexOf('>')+1);
 		
 		Stack<String> s = new Stack<>();
@@ -97,8 +97,7 @@ public class PageLoader {
 				}else if(isCloseTag(tag) && s.peek().equals(tag)) {
 					s.pop();
 					elems.pop();
-					start += tag.length();
-				}
+					start += tag.length();				}
 			}
 			tag=findNextTag(start, source);
 		}
@@ -110,8 +109,9 @@ public class PageLoader {
 		String tempBase = base.substring(start);
 		int idx1 = tempBase.indexOf('<'),
 			idx2 = tempBase.indexOf('>');
-		if(idx1<idx2 && idx1!=-1 && idx2!=-1)
+		if(idx1<idx2 && idx1!=-1 && idx2!=-1) {
 			return tempBase.substring(idx1, idx2+1);
+		}
 		return "";
 	}
 	

@@ -9,7 +9,9 @@ public class Anchor extends TextBox {
 	
 	public Anchor(String tagname) {
 		super(tagname);
-		this.link = getAttributeValue("href");
+		String addrs = tagname.substring(tagname.indexOf("href=\"")+6,tagname.lastIndexOf("\""));
+		this.getAttribute("href").setValue(addrs);
+		this.link = addrs;
 	}
 
 	public Anchor(Tag tag) {
@@ -43,17 +45,10 @@ public class Anchor extends TextBox {
 	}
 	
 	private String makeHTMLString(String base) {
-		String temp = "",temp2;
-		int idx = 0;
-		for(int i=0;i<lines;++i) {
-			ptLenght = findptLenght(img.getGraphics(), idx);
-			temp2=base.substring(idx,idx+ptLenght);
-			temp2 = temp2.replaceAll("<", "&lt;");
-			temp2 = temp2.replaceAll(">", "&gt;");
-			temp2+="<br>";
-			temp+=temp2;
-			idx+=ptLenght;
-		}
+		String temp = base;
+		temp = base.replaceAll("<", "&lt;");
+		temp = temp.replaceAll(">", "&gt;");
+		temp += "<br>";
 		return temp;
 	}
 	
