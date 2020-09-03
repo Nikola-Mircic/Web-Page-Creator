@@ -73,14 +73,14 @@ public class TextBox extends PageElement {
 				g.drawString("_", 0, fontSize);
 		}else {
 			int idx1=0,idx2=0;
-			g.setFont(new Font(fontFamily,Font.PLAIN,(int)fontSize));
+			g.setFont(new Font(fontFamily,Font.PLAIN,scale(fontSize)));
 			g.setColor(getColor(getAttributeValue("color")));
 			for(int i=0;i<lines;++i) {
 				ptLenght = findptLenght(g,idx1);
 				idx2 = idx1+ptLenght;
-				g.drawString(textData.substring(idx1,idx2), 0, fontSize*(i+1)-fontSize/10);
+				g.drawString(textData.substring(idx1,idx2), 0, scale(fontSize*(i+1)-fontSize/20));
 				if(editing && cursorPos >= idx1 && cursorPos <= idx2 && (ptLenght>0 || i==0)) {
-					g.drawString(textData.substring(idx1, cursorPos)+"_", 0, fontSize*(i+1)-fontSize/10);
+					g.drawString(textData.substring(idx1, cursorPos)+"_", 0, scale(fontSize*(i+1)-fontSize/20));
 				}
 				idx1 = idx2;
 			}
@@ -91,7 +91,7 @@ public class TextBox extends PageElement {
 		int l=idx,d=textData.length(),s,res=idx;
 		while(l<=d) {
 			s = l+(d-l)/2;
-			if(g.getFontMetrics().stringWidth(textData.substring(idx,s))<scale(width)) {
+			if(g.getFontMetrics(g.getFont()).stringWidth(textData.substring(idx,s))<scale(width)) {
 				res=s;
 				l=s+1;
 			}else {
@@ -129,10 +129,10 @@ public class TextBox extends PageElement {
 	public void addLetter(char c) {
 		this.textData = insertChar(this.textData, c, cursorPos);
 		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, scale(fontSize))).stringWidth(textData);
-		if(len>=lines*(scale(width)-scale(fontSize)/2)) {
+		if(len>=lines*(scale(width))) {
 			lines++;
-			if(scale(this.height)<lines*fontSize+10)
-				changeHeight(lines*fontSize+10);
+			if(scale(this.height)<lines*(scale(fontSize)+10))
+				changeHeight(lines*(fontSize+10));
 		}
 		cursorPos++;
 		drawContent();
@@ -181,7 +181,7 @@ public class TextBox extends PageElement {
 			this.fontFamily = getAttributeValue("font-family");
 			int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, scale(fontSize))).stringWidth(textData);
 			lines = len/scale(width)+1;
-			if(scale(this.height)<lines*fontSize) {
+			if(scale(this.height)<lines*scale(fontSize)) {
 				changeHeight(lines*fontSize+10);
 			}
 		}
@@ -225,17 +225,10 @@ public class TextBox extends PageElement {
 	}
 	
 	private String makeHTMLString(String base) {
-		String temp = "",temp2;
-		int idx = 0;
-		for(int i=0;i<lines;++i) {
-			ptLenght = findptLenght(img.getGraphics(), idx);
-			temp2=base.substring(idx,idx+ptLenght);
-			temp2 = temp2.replaceAll("<", "&lt;");
-			temp2 = temp2.replaceAll(">", "&gt;");
-			temp2+="<br>";
-			temp+=temp2;
-			idx+=ptLenght;
-		}
+		String temp = base;
+		temp = base.replaceAll("<", "&lt;");
+		temp = temp.replaceAll(">", "&gt;");
+		temp += "<br>";
 		return temp;
 	}
 	
