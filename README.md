@@ -1,5 +1,5 @@
 # Web Page Creator 
-##### Version: alpha 8.25.20
+##### Version: alpha 9.9.20
 #### Author: [Nikola-Mircic](https://github.com/Nikola-Mircic)
 
 ### About
