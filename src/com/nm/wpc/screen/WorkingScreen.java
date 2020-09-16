@@ -113,8 +113,10 @@ public class WorkingScreen extends Screen{
 	
 	@Override
 	public void onMousePressed(int x,int y) {
-		if(x>(width-66) && y>(height-64))
+		if(x>(width-66) && y>(height-64)) {
 			ms.changeContent();
+			return;
+		}
 		
 		if(editors[eeIdx].findEditingField()!=null)
 			((ElementEditor)this.editors[eeIdx]).checkValues();

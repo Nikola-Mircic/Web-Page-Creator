@@ -21,7 +21,7 @@ public class MainScreen extends Screen{
 	
 	private InputListener listener;
 	
-	private boolean work = true;
+	private boolean work;
 	
 	public MainScreen(int w,int h) {
 		super(w, h);
@@ -61,12 +61,15 @@ public class MainScreen extends Screen{
 		}else {
 			this.content = start.getContent();
 		}
+		
 		g.drawImage(this.content, 0, 0, null);
+		
 		if(panelsActivity) {
 			drawPanels(g);
 		}else{
 			panels.clear();
 		}
+		
 		g.dispose();
 	}
 	
@@ -78,12 +81,14 @@ public class MainScreen extends Screen{
 	
 	public void changeContent() {
 		panelsActivity = false;
+		
 		work = !work;
 		repaint();
 	}
 	
 	public void changeContent(String projectName) {
 		panelsActivity = false;
+		
 		working.setProjectName(projectName);
 		work = true;
 		repaint();
@@ -197,6 +202,14 @@ public class MainScreen extends Screen{
 			}
 		}
 		return null;
+	}
+
+	public boolean isWork() {
+		return work;
+	}
+
+	public void setWork(boolean work) {
+		this.work = work;
 	}
 	
 }
