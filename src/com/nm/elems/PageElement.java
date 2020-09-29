@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.nm.elems.tagsystem.Tag;
 import com.nm.wpc.filesystem.FileManager;
+import com.nm.wpc.gui.InputField;
 
 /*
  * Class: com.nm.elems.PageElement
@@ -109,15 +111,25 @@ public class PageElement {
 		if(attribute.length()==0)
 			return new Color(0, 0, 0, 0);
 		else {
+			String color[] = attribute.substring(attribute.indexOf('(')+1,attribute.indexOf(')')).split(",");
+			int r,g,b,a;
+			for(int i=0;i<4;++i) {
+				if(color[i].equals(""))
+					color[i] = "0";
+				else if(Float.parseFloat(color[i])<0)
+					color[i]="0";
+				else {
+					if(Float.parseFloat(color[i])>255 && i<3)
+						color[i]="255";
+					else if(Float.parseFloat(color[i])>1.0 && i==3)
+						color[i]="1.0";
+				}
+			}
+			r = Integer.parseInt(color[0]);
+			g = Integer.parseInt(color[1]);
+			b = Integer.parseInt(color[2]);
+			a = (int)(Float.parseFloat(color[3])*255);
 			
-			String source = attribute.substring(attribute.indexOf('(')+1, attribute.indexOf(')'));
-			int r = Integer.parseInt(source.substring(0,source.indexOf(',')));
-			source = source.substring(source.indexOf(',')+1);
-			int g = Integer.parseInt(source.substring(0,source.indexOf(',')));
-			source = source.substring(source.indexOf(',')+1);
-			int b = Integer.parseInt(source.substring(0,source.indexOf(',')));
-			source = source.substring(source.indexOf(',')+1);
-			int a = (int)(Float.parseFloat(source)*255);
 			return new Color(r, g, b, a);
 		}
 	}
@@ -145,9 +157,62 @@ public class PageElement {
 		return "";
 	}
 	
+	public void setAttributeValue(int index,InputField field) {
+		if(index>=attributes.size() || index<0)
+			return;
+		String newValue = field.getText();
+		attributes.get(index).setValue(newValue);
+		Attribute temp = attributes.get(index);
+		
+		String color[];
+		switch(temp.getName()) {
+			case "background-color":
+				color = newValue.substring(newValue.indexOf('(')+1,newValue.indexOf(')')).split(",");
+				for(int i=0;i<4;i++) {
+					if(color[i].equals(""))
+						color[i] = "0";
+					else if(Float.parseFloat(color[i])<0)
+						color[i]="0";
+					else {
+						if(Float.parseFloat(color[i])>255 && i<3)
+							color[i]="255";
+						else if(Float.parseFloat(color[i])>1.0 && i==3)
+							color[i]="1.0";
+					}
+				}
+				newValue = newValue.substring(0,newValue.indexOf('(')+1)+String.join(",", color)+")";
+				attributes.get(index).setValue(newValue);
+				field.setText(newValue);
+				break;
+			case "color":
+				color = newValue.substring(newValue.indexOf('(')+1,newValue.indexOf(')')).split(",");
+				for(int i=0;i<4;i++) {
+					if(color[i].equals(""))
+						color[i] = "0";
+					else if(Float.parseFloat(color[i])<0)
+						color[i]="0";
+					else {
+						if(Float.parseFloat(color[i])>255 && i<3)
+							color[i]="255";
+						else if(Float.parseFloat(color[i])>1.0 && i==3)
+							color[i]="1.0";
+					}
+				}
+				newValue = newValue.substring(0,newValue.indexOf('(')+1)+String.join(",", color)+")";
+				attributes.get(index).setValue(newValue);
+				field.setText(newValue);
+				break;
+			default:
+				setAttributeValue(index, newValue);
+				break;
+		}
+		drawContent();
+	}
+	
 	public void setAttributeValue(int index,String newValue) {
 		if(index>=attributes.size() || index<0)
 			return;
+
 		attributes.get(index).setValue(newValue);
 		Attribute temp = attributes.get(index);
 		switch(temp.getName()) {
@@ -185,6 +250,16 @@ public class PageElement {
 					break;
 				}
 				break;
+			case "background-color":
+				String color[] = newValue.substring(newValue.indexOf('(')+1,newValue.indexOf(')')).split(",");
+				for(int i=0;i<3;i++) {
+					if(Integer.parseInt(color[i])<0)
+						color[i]="0";
+				}
+				if(Float.parseFloat(color[3]) < 0)
+					color[3] = "0.0";
+				newValue = newValue.substring(0,newValue.indexOf('(')+1)+String.join(",", color)+")";
+				attributes.get(index).setValue(newValue);
 			default:
 				break;
 		}
