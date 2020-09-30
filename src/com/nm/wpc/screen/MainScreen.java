@@ -10,6 +10,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JFrame;
+
 import com.nm.wpc.input.InputListener;
 import com.nm.wpc.window.Window;
 
@@ -81,7 +83,12 @@ public class MainScreen extends Screen{
 	
 	public void changeContent() {
 		panelsActivity = false;
-		
+		if(work) {
+			window.setSize(Window.WIDTH, Window.HEIGHT);
+			window.setLocationRelativeTo(null);
+		}else {
+			window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		}
 		work = !work;
 		repaint();
 	}
@@ -91,6 +98,7 @@ public class MainScreen extends Screen{
 		
 		working.setProjectName(projectName);
 		work = true;
+		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		repaint();
 	}
 	

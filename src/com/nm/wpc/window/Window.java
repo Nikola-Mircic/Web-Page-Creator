@@ -7,7 +7,6 @@
 package com.nm.wpc.window;
 
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
@@ -18,15 +17,14 @@ import com.nm.wpc.screen.MainScreen;
 
 public class Window extends JFrame implements Runnable{
 	private static final long serialVersionUID = 1L;
-	public static int WIDTH = 1000;
-	public static int HEIGHT = 700;
-	private String TITLE = "Web Page Creator 2.0.0";
+	public static final int WIDTH = 1000;
+	public static final int HEIGHT = 700;
+	private final String TITLE = "Web Page Creator <alpha 9.30.20>";
 	
 	private static MainScreen ms;
 	
 	public Window() {
-		Dimension startDimension = Toolkit.getDefaultToolkit().getScreenSize();
-		ms = new MainScreen(startDimension.width, startDimension.height);
+		ms = new MainScreen(WIDTH, HEIGHT,this);
 		
 		this.getContentPane().addComponentListener(new ComponentListener() {
 			@Override
@@ -65,7 +63,7 @@ public class Window extends JFrame implements Runnable{
 	@Override
 	public void run() {
 		setMinimumSize(new Dimension(WIDTH,HEIGHT));
-		setExtendedState(MAXIMIZED_BOTH);
+		setSize(WIDTH,HEIGHT);
 		
 		setTitle(TITLE);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
