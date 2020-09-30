@@ -1,12 +1,12 @@
 # Web Page Creator 
-##### Version: alpha 9.30.20
+##### Version: beta 9.30.20
 #### Author: [Nikola-Mircic](https://github.com/Nikola-Mircic)
 
 ### About
 Web Page Creator is an easy to use application for creating simple web pages. You can make your web page just by picking which element u want to add or delete. For each element on your page, there is a list of attributes you can change it or you can leave it on default if u don't want to change anything.
 
 ### Instalation
-To set up WPC on Windows go to the [link](https://github.com/Nikola-Mircic/Web-Page-Creator/raw/master/release/wpc_alpha_9.30.20.rar) and download __wpc_alpha_9.30.20.rar__. When download is complete,extract files to an empty folder and run __wpc.jar__. If there is a problem while launching application please report an issue.
+To set up WPC on Windows go to the [link](https://github.com/Nikola-Mircic/Web-Page-Creator/raw/master/release/wpc_beta_9.30.20.rar) and download __wpc_beta_9.30.20.rar__. When download is complete,extract files to an empty folder and run __wpc.jar__. If there is a problem while launching application please report an issue.
 
 ### Creating a page
 #### Start screen
