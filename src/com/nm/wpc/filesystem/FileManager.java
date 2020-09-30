@@ -1,3 +1,21 @@
+/*  Copyright 2020 Nikola Mircic
+  
+    This file is part of Web Page Creator.
+
+    Web Page Creator is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Web Page Creator is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Web Page Creator.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 /*
  * Class: com.nm.wpc.filesystem.FileManager
  * Superclass : 
@@ -247,7 +265,7 @@ public class FileManager {
 	
 	
 	public void createDefaultAttributes() {
-		attrs = new Attribute[16];
+		attrs = new Attribute[10];
 		attrs[0] = new Attribute("href","","");
 		attrs[1] = new Attribute("font-size","","px");
 		attrs[2] = new Attribute("font-family","","");
@@ -257,13 +275,7 @@ public class FileManager {
 		attrs[6] = new Attribute("height","","px");
 		attrs[7] = new Attribute("position","absolute","");
 		attrs[8] = new Attribute("margin-top","","px");
-		attrs[9] = new Attribute("margin-right","","px");
-		attrs[10] = new Attribute("margin-bottom","","px");
-		attrs[11] = new Attribute("margin-left","","px");
-		attrs[12] = new Attribute("padding-top","","px");
-		attrs[13] = new Attribute("padding-right","","px");
-		attrs[14] = new Attribute("padding-bottom","","px");
-		attrs[15] = new Attribute("padding-left","","px");
+		attrs[9] = new Attribute("margin-left","","px");
 	}
 	
 	public Attribute[] getAttributes() {

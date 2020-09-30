@@ -1,3 +1,21 @@
+/*  Copyright 2020 Nikola Mircic
+  
+    This file is part of Web Page Creator.
+
+    Web Page Creator is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Web Page Creator is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Web Page Creator.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.nm.elems.tagsystem;
 
 import java.util.ArrayList;
@@ -7,16 +25,16 @@ import com.nm.elems.*;
 import com.nm.wpc.filesystem.FileManager;
 
 public enum Tag {
-	BOX("<div></div>", 8191),
-	TEXT_BOX("<p></p>", 32767),
-	HEADING_1("<h1></h1>", 32767),
-	HEADING_2("<h2></h2>", 32767),
-	HEADING_3("<h3></h3>", 32767),
-	HEADING_4("<h4></h4>", 32767),
-	HEADING_5("<h5></h5>", 32767),
-	HEADING_6("<h6></h6>", 32767),
-	ANCHOR("<a></a>",65535),
-	BODY("<body></body>", 8191);
+	BOX("<div></div>", 63),
+	TEXT_BOX("<p></p>", 511),
+	HEADING_1("<h1></h1>", 511),
+	HEADING_2("<h2></h2>", 511),
+	HEADING_3("<h3></h3>", 511),
+	HEADING_4("<h4></h4>", 511),
+	HEADING_5("<h5></h5>", 511),
+	HEADING_6("<h6></h6>", 511),
+	ANCHOR("<a></a>",1023),
+	BODY("<body></body>", 63);
 	
 	private final List<Attribute> attributes;
 	private final String tagname;

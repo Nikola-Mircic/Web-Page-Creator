@@ -1,5 +1,22 @@
-/*
- * Class: com.nm.wpc.editor.ElementEditor
+/*  Copyright 2020 Nikola Mircic
+  
+    This file is part of Web Page Creator.
+
+    Web Page Creator is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Web Page Creator is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Web Page Creator.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+/*Class: com.nm.wpc.editor.ElementEditor
  * Superclass : com.nm.editor.Editor
  * Used for: allows you to change attributes of single element and displays it
  */

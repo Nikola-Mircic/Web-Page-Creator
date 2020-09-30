@@ -1,3 +1,21 @@
+/*  Copyright 2020 Nikola Mircic
+  
+    This file is part of Web Page Creator.
+
+    Web Page Creator is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Web Page Creator is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Web Page Creator.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.nm.elems;
 
 import java.awt.Color;
@@ -37,6 +55,9 @@ public class PageElement {
 		this.elementTag = generateTag(tagname);
 		this.attributes = generateAttributes(elementTag.getBitmask());
 		generateDefaultAttributes(elementTag);
+		
+		setX(0);
+		setY(0);
 		
 		if(tagname.indexOf(' ')!=-1) {
 			String temp = tagname.substring(tagname.indexOf("style=")+7);
@@ -98,8 +119,8 @@ public class PageElement {
 	}
 	
 	protected void drawContent() {
-		this.width = Integer.parseInt(getAttributeValue("width"));
-		this.height = Integer.parseInt(getAttributeValue("height"));
+		this.width = Math.max(Integer.parseInt(getAttributeValue("width")),30);
+		this.height = Math.max(Integer.parseInt(getAttributeValue("height")),20);
 		this.img = new BufferedImage(scale(this.width), scale(this.height), BufferedImage.TYPE_INT_ARGB);
 		Graphics g = img.getGraphics();
 		g.setColor(getColor(getAttributeValue("background-color")));
@@ -165,6 +186,11 @@ public class PageElement {
 		
 		String color[];
 		switch(temp.getName()) {
+			case "position":
+				if(!newValue.equals("absolute")) {
+					field.setText("absolute");
+				}
+				break;
 			case "background-color":
 				color = newValue.substring(newValue.indexOf('(')+1,newValue.indexOf(')')).split(",");
 				for(int i=0;i<4;i++) {
@@ -215,36 +241,28 @@ public class PageElement {
 		attributes.get(index).setValue(newValue);
 		Attribute temp = attributes.get(index);
 		switch(temp.getName()) {
-			case "position":
-					switch (temp.getValue()) {
-					case "absulute":
-						getAttribute("margin-top").setValue(Integer.toString(this.y));
-						getAttribute("margin-left").setValue(Integer.toString(this.x));
-						break;
-					default:
-						//return true;
-					}
-				break;
 			case "margin-top":
 				switch (getAttribute("position").getValue()) {
-				case "absolute":
-					if(temp.getValue().equals(""))
-						attributes.get(index).setValue("0");
-					changeOffsetY((int)(0.865*Integer.parseInt(temp.getValue())));
-					break;
-
-				default:
-					break;
+					case "absolute":
+						if(newValue.equals("")) {
+							attributes.get(index).setValue("0");
+							temp.setValue("0");
+						}
+						changeOffsetY(Integer.parseInt(temp.getValue()));
+						break;
+					default:
+						break;
 				}
 				break;
 			case "margin-left":
 				switch (getAttribute("position").getValue()) {
 				case "absolute":
-					if(temp.getValue().equals(""))
+					if(newValue.equals("")) {
 						attributes.get(index).setValue("0");
-					changeOffsetX(scale(Integer.parseInt(temp.getValue())));
+						temp.setValue("0");
+					}
+					changeOffsetX(Integer.parseInt(temp.getValue()));
 					break;
-
 				default:
 					break;
 				}
@@ -268,18 +286,11 @@ public class PageElement {
 	protected void generateDefaultAttributes(Tag tag) {
 		switch (tag) {
 			case BOX:
-				getAttribute("color").setValue("rgba(0,0,0,1.0)");
 				getAttribute("background-color").setValue("rgba(150,150,150,1.0)");
 				getAttribute("width").setValue("200");
 				getAttribute("height").setValue("100");
 				getAttribute("margin-top").setValue("0");
-				getAttribute("margin-right").setValue("0");
-				getAttribute("margin-bottom").setValue("0");
 				getAttribute("margin-left").setValue("0");
-				getAttribute("padding-top").setValue("0");
-				getAttribute("padding-right").setValue("0");
-				getAttribute("padding-bottom").setValue("0");
-				getAttribute("padding-left").setValue("0");
 			break;
 			case TEXT_BOX:
 				getAttribute("font-size").setValue("20");
@@ -289,27 +300,14 @@ public class PageElement {
 				getAttribute("width").setValue("250");
 				getAttribute("height").setValue("30");
 				getAttribute("margin-top").setValue("0");
-				getAttribute("margin-right").setValue("0");
-				getAttribute("margin-bottom").setValue("0");
 				getAttribute("margin-left").setValue("0");
-				getAttribute("padding-top").setValue("0");
-				getAttribute("padding-right").setValue("0");
-				getAttribute("padding-bottom").setValue("0");
-				getAttribute("padding-left").setValue("0");
 				break;
 			case BODY:
-				getAttribute("color").setValue("rgba(0,0,0,1.0)");
 				getAttribute("background-color").setValue("rgba(136,225,247,1.0)");
 				getAttribute("width").setValue("1000");
 				getAttribute("height").setValue("700");
 				getAttribute("margin-top").setValue("0");
-				getAttribute("margin-right").setValue("0");
-				getAttribute("margin-bottom").setValue("0");
 				getAttribute("margin-left").setValue("0");
-				getAttribute("padding-top").setValue("0");
-				getAttribute("padding-right").setValue("0");
-				getAttribute("padding-bottom").setValue("0");
-				getAttribute("padding-left").setValue("0");
 				break;
 			case ANCHOR:
 				getAttribute("font-size").setValue("20");
@@ -319,13 +317,7 @@ public class PageElement {
 				getAttribute("width").setValue("250");
 				getAttribute("height").setValue("30");
 				getAttribute("margin-top").setValue("0");
-				getAttribute("margin-right").setValue("0");
-				getAttribute("margin-bottom").setValue("0");
 				getAttribute("margin-left").setValue("0");
-				getAttribute("padding-top").setValue("0");
-				getAttribute("padding-right").setValue("0");
-				getAttribute("padding-bottom").setValue("0");
-				getAttribute("padding-left").setValue("0");
 				break;
 			default:
 				String tagString = tag.toString();
@@ -338,13 +330,7 @@ public class PageElement {
 					getAttribute("width").setValue(Integer.toString(300+(6-headingType)*25));
 					getAttribute("height").setValue(Integer.toString(35+(6-headingType)*10));
 					getAttribute("margin-top").setValue("0");
-					getAttribute("margin-right").setValue("0");
-					getAttribute("margin-bottom").setValue("0");
 					getAttribute("margin-left").setValue("0");
-					getAttribute("padding-top").setValue("0");
-					getAttribute("padding-right").setValue("0");
-					getAttribute("padding-bottom").setValue("0");
-					getAttribute("padding-left").setValue("0");
 				}
 				break;
 		}
