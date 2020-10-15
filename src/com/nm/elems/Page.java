@@ -21,7 +21,9 @@ package com.nm.elems;
 import java.awt.Graphics;
 import java.util.List;
 
+import com.nm.elems.attribute.Attribute;
 import com.nm.elems.loader.PageLoader;
+import com.nm.wpc.gui.InputField;
 
 /*
  * Class: com.nm.elems.Page
@@ -36,15 +38,20 @@ public class Page {
 	private String pageHead;
 	private String pageLocation;
 	
+	private List<Attribute> attrs;
+	
 	private PageElement body;
 	
 	private PageLoader pl;
 	
 	public Page() {
 		pl = new PageLoader();
+		
 		pl.createBlankPage(this);
 		
 		this.body = new PageElement("<body></body>");
+		
+		this.attrs.addAll(body.getAttributes());
 	}
 	
 	public PageElement findSelectedElement(int x,int y) {
@@ -52,6 +59,36 @@ public class Page {
 		if(temp==null)
 			return temp;
 		return (temp.equals(body)?null:temp);
+	}
+	
+	public Attribute getAttribute(String attrName) {
+		for(Attribute temp : attrs) {
+			if(temp.getName().equals(attrName))
+				return temp;
+		}
+		return null;
+	}
+	
+	public String getAttributeValue(int index) {
+		if(index>=attrs.size() || index<0)
+			return "";
+		return attrs.get(index).getValue();
+	}
+	
+	public String getAttributeValue(String attrName) {
+		for(Attribute temp : attrs){
+			if(temp.getName().equals(attrName)) {
+				return temp.getValue();
+			}	
+		}
+		return "";
+	}
+	
+	public void setAttributeValue(int index,InputField field) {
+		if(index>=attrs.size() || index<0)
+			return;
+		String newValue = field.getText();
+		attrs.get(index).setValue(newValue);
 	}
 	
 	public void deleteElement(PageElement delete) {
@@ -108,7 +145,11 @@ public class Page {
 		return body.getChilds();
 	}
 
-	/*public void setElements(List<PageElement> elements) {
-		body.setChilds(elements);
-	}*/
+	public List<Attribute> getAttributes() {
+		return attrs;
+	}
+
+	public void setAttributes(List<Attribute> attrs) {
+		this.attrs = attrs;
+	}
 }

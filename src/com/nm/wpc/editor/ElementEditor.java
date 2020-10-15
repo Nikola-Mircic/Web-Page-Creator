@@ -29,8 +29,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.nm.elems.Attribute;
 import com.nm.elems.PageElement;
+import com.nm.elems.attribute.Attribute;
 import com.nm.wpc.gui.Button;
 import com.nm.wpc.gui.GUIObject;
 import com.nm.wpc.gui.InputField;

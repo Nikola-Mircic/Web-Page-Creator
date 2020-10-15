@@ -21,7 +21,7 @@ package com.nm.elems.tagsystem;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.nm.elems.*;
+import com.nm.elems.attribute.Attribute;
 import com.nm.wpc.filesystem.FileManager;
 
 public enum Tag {

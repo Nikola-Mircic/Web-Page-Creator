@@ -28,6 +28,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import com.nm.elems.Page;
 import com.nm.elems.PageElement;
 import com.nm.elems.elements.Anchor;
 import com.nm.elems.elements.TextBox;
@@ -40,6 +41,7 @@ public class WorkingScreen extends Screen{
 	
 	private MainScreen ms;
 	private String projectName;
+	private Page editedPage;
 	
 	
 	private int editorsSize;
@@ -209,6 +211,7 @@ public class WorkingScreen extends Screen{
 		this.projectName = projectName;
 		editors[wpIdx] = new WorkingPane(0, (int)(height*0.135), (int)(width*0.80), (int)(height*0.865), this,projectName);
 		editors[obIdx] = new OptionsBar(0, 0, width, (int)(height*0.035), this); 
+		editors[peIdx] = new PageEditor((int)(width*0.80), (int)(height*0.135), (int)(width*0.20), (int)(height*0.865), this);
 		drawContent(width, height);
 	}
 	

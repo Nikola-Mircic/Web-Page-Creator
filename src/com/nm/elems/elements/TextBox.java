@@ -22,9 +22,11 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import com.nm.elems.Attribute;
 import com.nm.elems.PageElement;
+import com.nm.elems.attribute.Attribute;
+import com.nm.elems.attribute.AttributeList;
 import com.nm.elems.tagsystem.Tag;
+import com.nm.wpc.gui.InputField;
 
 public class TextBox extends PageElement {
 	protected String textData;
@@ -42,8 +44,7 @@ public class TextBox extends PageElement {
 		
 		this.childs = new ArrayList<PageElement>();
 		this.elementTag = generateTag(tagname);
-		this.attributes = generateAttributes(elementTag.getBitmask());
-		generateDefaultAttributes(elementTag);
+		this.attributes = new AttributeList(elementTag);
 		
 		if(tagname.indexOf(' ')!=-1) {
 			String temp = tagname.substring(tagname.indexOf("style=")+7);
@@ -192,8 +193,8 @@ public class TextBox extends PageElement {
 	}
 	
 	@Override
-	public void setAttributeValue(int index, String newValue) {
-		super.setAttributeValue(index, newValue);
+	public void setAttributeValue(int index, InputField field) {
+		super.setAttributeValue(index, field);
 		if(attributes.get(index).getName().equals("font-size") || attributes.get(index).getName().equals("font-family")) {
 			this.fontSize = Integer.parseInt(getAttributeValue("font-size"));
 			this.fontFamily = getAttributeValue("font-family");
@@ -267,7 +268,7 @@ public class TextBox extends PageElement {
 		String childsContent = "";
 		String styles = "style=\"";
 		
-		for(Attribute attr : attributes) {
+		for(Attribute attr : attributes.getAttributes()) {
 			styles+=attr.getName()+":"+attr.getValue()+attr.getDefaultUnit()+"; ";
 		}
 		styles+="\"";

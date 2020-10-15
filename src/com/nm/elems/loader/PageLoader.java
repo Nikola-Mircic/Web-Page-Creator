@@ -18,10 +18,13 @@
 
 package com.nm.elems.loader;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 import com.nm.elems.Page;
 import com.nm.elems.PageElement;
+import com.nm.elems.attribute.Attribute;
 import com.nm.elems.elements.Anchor;
 import com.nm.elems.elements.TextBox;
 import com.nm.elems.tagsystem.Tag;
@@ -42,17 +45,11 @@ public class PageLoader {
 	}
 	
 	public void createBlankPage(Page p) {
-		p.setTITLE("WPC Page");
-		String pageHead = "<head>"+
-				   		  " <meta charset=\"UTF-8\">"+
-				   		  " <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"+
-				   		  " <title>"+p.getTITLE()+"</title>"+
-				   		  "</head>";
-		p.setPageHead(pageHead);
-		String pageBody = "<body></body>";
-		//p.setPageBody(pageBody);
-		String pageContent = "<!DOCTYPE html><html>"+pageHead+pageBody+"</html>";
-		p.setPageContent(pageContent);
+		List<Attribute> temp = new ArrayList<>();
+		temp.add(new Attribute("Title", "WPC Page", ""));
+		temp.add(new Attribute("charset", "UTF-8", ""));
+		
+		p.setAttributes(temp);
 	}
 	
 	public Page makeBlankPage(Page p) {

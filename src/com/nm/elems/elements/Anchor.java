@@ -18,8 +18,8 @@
 
 package com.nm.elems.elements;
 
-import com.nm.elems.Attribute;
 import com.nm.elems.PageElement;
+import com.nm.elems.attribute.Attribute;
 import com.nm.elems.tagsystem.Tag;
 
 public class Anchor extends TextBox {
@@ -45,7 +45,7 @@ public class Anchor extends TextBox {
 		String childsContent = "";
 		String styles = "style=\"";
 		
-		for(Attribute attr : attributes) {
+		for(Attribute attr : attributes.getAttributes()) {
 			if(!attr.getName().equals("href"))
 				styles+=attr.getName()+":"+attr.getValue()+attr.getDefaultUnit()+"; ";
 		}

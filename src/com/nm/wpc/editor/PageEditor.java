@@ -30,19 +30,27 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.nm.elems.Attribute;
+import com.nm.elems.Page;
+import com.nm.elems.attribute.Attribute;
 import com.nm.wpc.screen.WorkingScreen;
 
 public class PageEditor extends Editor {
 	private static final long serialVersionUID = 1L;
 	
-	private List<Attribute> pageAttributes;
 	private Color bckg;
+	private Page page;
 	
 	public PageEditor(int x, int y, int width, int height, WorkingScreen ws) {
 		super(x, y, width, height, ws);
 		
-		this.setPageAttributes(new ArrayList<Attribute>());
+		bckg = new Color(118, 186, 114);
+		drawContent(width, height);
+	}
+	
+	public PageEditor(int x, int y, int width, int height, WorkingScreen ws,Page p) {
+		super(x, y, width, height, ws);
+		
+		this.setPage(p);
 		bckg = new Color(118, 186, 114);
 		drawContent(width, height);
 	}
@@ -69,11 +77,11 @@ public class PageEditor extends Editor {
 		drawContent(width, height);
 	}
 
-	public List<Attribute> getPageAttributes() {
-		return pageAttributes;
+	public Page getPage() {
+		return page;
 	}
 
-	public void setPageAttributes(List<Attribute> pageAttributes) {
-		this.pageAttributes = pageAttributes;
+	public void setPage(Page page) {
+		this.page = page;
 	}
 }

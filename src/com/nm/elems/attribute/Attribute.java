@@ -16,7 +16,7 @@
     along with Web Page Creator.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.nm.elems;
+package com.nm.elems.attribute;
 
 import com.nm.wpc.gui.*;
 

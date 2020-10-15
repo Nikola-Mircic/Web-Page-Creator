@@ -36,7 +36,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.nm.elems.Attribute;
+import com.nm.elems.attribute.Attribute;
 
 public class FileManager {
 	private String absolutePath;
