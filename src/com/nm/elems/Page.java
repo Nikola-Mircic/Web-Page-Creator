@@ -124,7 +124,7 @@ public class Page {
 	public String getPageCode() {
 		this.pageContent = body.getContent();
 		this.pageHead = "<head>"+
-		   		  		" <meta charset=\"UTF-8\">"+
+		   		  		" <meta charset=\""+this.attrs.getAttributeValue("charset")+"\">"+
 		   		  		" <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"+
 		   		  		" <title>"+this.attrs.getAttributeValue("title")+"</title>"+
 		   		  		"</head>";

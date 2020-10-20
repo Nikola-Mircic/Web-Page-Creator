@@ -155,6 +155,12 @@ public class ElementEditor extends Editor{
 	}
 	
 	@Override
+	public void update(int x, int y, int width, int height, WorkingScreen ws) {
+		super.update(x, y, width, height, ws);
+		this.toShow.clear();
+	}
+	
+	@Override
 	public void onMousePressed(int x,int y) {
 		if(x<this.x || y<this.y) {
 			controler.releaseObjects();

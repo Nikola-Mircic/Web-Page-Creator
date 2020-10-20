@@ -70,6 +70,17 @@ public class PageLoader {
 	public Page convertToPage(String source) {
 		Page p = new Page();
 		
+		int idx = source.indexOf("<title>")+7;
+		
+		String title = source.substring(idx,source.indexOf("</title>"));
+		
+		idx = source.indexOf("charset=\"")+9;
+		
+		String charset = source.substring(idx, idx + source.substring(idx).indexOf("\">"));
+		
+		p.getAttribute("title").setValue(title);
+		p.getAttribute("charset").setValue(charset);
+		
 		//Page heading
 		int l = source.indexOf("<head>");
 		int r = source.indexOf("<body");

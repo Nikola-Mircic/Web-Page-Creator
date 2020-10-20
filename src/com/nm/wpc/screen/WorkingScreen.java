@@ -210,7 +210,6 @@ public class WorkingScreen extends Screen{
 
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
-		System.out.println("ProjectName "+projectName);
 		editors[wpIdx] = new WorkingPane(0, (int)(height*0.135), (int)(width*0.80), (int)(height*0.865), this,projectName);
 		editors[obIdx] = new OptionsBar(0, 0, width, (int)(height*0.035), this); 
 		editors[peIdx] = new PageEditor((int)(width*0.80), (int)(height*0.135), (int)(width*0.20), (int)(height*0.865), this,((WorkingPane)editors[wpIdx]).getPage());
