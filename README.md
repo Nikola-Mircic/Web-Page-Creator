@@ -18,3 +18,4 @@ Working screen is separated into four sections:
 2. __Element selector__ - There are four different buttons for adding new elements to the page. The first button creates grey rectangle,the second button is for adding plain text. The third button creates list of six different types of headings sorted by size. The fourth button is for adding a text with a link to the file,or any web site.
 3. __Working panel__ - This is the biggest part of the working screen. It shows you the preview of your page and the currently focused element.
 4. __Element editor__ - This is the rightmost part of the working screen. It displays a list of focused element's attributes.
+5. __Page editor__ - Contains list of attributes used to edit current page, ie. title and encoding.
