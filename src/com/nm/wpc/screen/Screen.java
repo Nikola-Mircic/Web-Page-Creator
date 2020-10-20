@@ -108,7 +108,7 @@ public abstract class Screen extends JPanel{
 	}
 	
 	protected void drawObjects(Graphics g) {
-		controler.drawObjects(g,this.x,this.y+yOffset);
+		controler.drawObjects(g,this.x,this.y);
 	}
 	
 	public InputField findEditingField() {

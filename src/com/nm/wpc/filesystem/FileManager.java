@@ -36,23 +36,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.nm.elems.attribute.Attribute;
-
 public class FileManager {
 	private String absolutePath;
-	private Attribute[] attrs;
+	
 	/*Constructors:
 	 *	FileManager() - for a default project path
 	 *	FileManager(String dir) - for using function inside a directory which is given by an absolute path dir */
 	public FileManager() {
 		File path = new File("");
 		this.absolutePath = path.getAbsolutePath();
-		createDefaultAttributes();
 	}
 	
 	public FileManager(String dir) {
 		this.absolutePath = dir;
-		createDefaultAttributes();
 	}
 	
 	public boolean validatePath(String path) {
@@ -262,24 +258,4 @@ public class FileManager {
 		
 		return pData;
 	}
-	
-	
-	public void createDefaultAttributes() {
-		attrs = new Attribute[10];
-		attrs[0] = new Attribute("href","","");
-		attrs[1] = new Attribute("font-size","","px");
-		attrs[2] = new Attribute("font-family","","");
-		attrs[3] = new Attribute("color","","");
-		attrs[4] = new Attribute("background-color","","");
-		attrs[5] = new Attribute("width","","px");
-		attrs[6] = new Attribute("height","","px");
-		attrs[7] = new Attribute("position","absolute","");
-		attrs[8] = new Attribute("margin-top","","px");
-		attrs[9] = new Attribute("margin-left","","px");
-	}
-	
-	public Attribute[] getAttributes() {
-		return attrs;
-	}
-	
 }

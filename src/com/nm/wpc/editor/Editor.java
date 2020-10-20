@@ -43,10 +43,6 @@ public class Editor extends Screen{
 		setWs(ws);
 		drawContent(width, height);
 	}
-	
-	public void callback(Screen destination) {
-		
-	}
 
 	public WorkingScreen getWs() {
 		return ws;

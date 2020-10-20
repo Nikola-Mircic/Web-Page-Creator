@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.nm.elems.attribute.Attribute;
-import com.nm.wpc.filesystem.FileManager;
+import com.nm.elems.attribute.ElementAttributeList;
 
 public enum Tag {
 	BOX("<div></div>", 63),
@@ -49,8 +49,7 @@ public enum Tag {
 	
 	//Generate list of attributes from given bitmask
 	private List<Attribute> generateAttributes(int bitmask){
-		FileManager files = new FileManager();//for getting all attributes from attribute.dat file
-		Attribute[] attrList = files.getAttributes();//storing attributes to list
+		Attribute[] attrList = ElementAttributeList.makeAttributes();
 		List<Attribute> temp = new ArrayList<Attribute>();//return data
 		int d;//for storing position of the byte
 		for(int i=0;i<attrList.length;++i) {

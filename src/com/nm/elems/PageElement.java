@@ -24,8 +24,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.nm.elems.attribute.Attribute;
-import com.nm.elems.attribute.AttributeList;
+import com.nm.elems.attribute.*;
 import com.nm.elems.tagsystem.Tag;
 import com.nm.wpc.gui.InputField;
 
@@ -54,7 +53,7 @@ public class PageElement {
 	public PageElement(String tagname) {
 		this.childs = new ArrayList<PageElement>();
 		this.elementTag = generateTag(tagname);
-		this.attributes = new AttributeList(elementTag);
+		this.attributes = new ElementAttributeList(elementTag);
 		
 		setX(0);
 		setY(0);
@@ -77,7 +76,7 @@ public class PageElement {
 	public PageElement(Tag tag) {
 		this.childs = new ArrayList<PageElement>();
 		this.elementTag = tag;
-		this.attributes = new AttributeList(elementTag);
+		this.attributes = new ElementAttributeList(elementTag);
 		
 		setX(0);
 		setY(0);

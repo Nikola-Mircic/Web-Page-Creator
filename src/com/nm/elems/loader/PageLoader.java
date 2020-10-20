@@ -46,7 +46,7 @@ public class PageLoader {
 	
 	public void createBlankPage(Page p) {
 		List<Attribute> temp = new ArrayList<>();
-		temp.add(new Attribute("Title", "WPC Page", ""));
+		temp.add(new Attribute("title", "WPC Page", ""));
 		temp.add(new Attribute("charset", "UTF-8", ""));
 		
 		p.setAttributes(temp);

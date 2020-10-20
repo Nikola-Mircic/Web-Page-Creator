@@ -23,8 +23,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 import com.nm.elems.PageElement;
-import com.nm.elems.attribute.Attribute;
-import com.nm.elems.attribute.AttributeList;
+import com.nm.elems.attribute.*;
 import com.nm.elems.tagsystem.Tag;
 import com.nm.wpc.gui.InputField;
 
@@ -44,7 +43,7 @@ public class TextBox extends PageElement {
 		
 		this.childs = new ArrayList<PageElement>();
 		this.elementTag = generateTag(tagname);
-		this.attributes = new AttributeList(elementTag);
+		this.attributes = new ElementAttributeList(elementTag);
 		
 		if(tagname.indexOf(' ')!=-1) {
 			String temp = tagname.substring(tagname.indexOf("style=")+7);

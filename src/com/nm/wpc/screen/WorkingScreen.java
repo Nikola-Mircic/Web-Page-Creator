@@ -28,7 +28,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import com.nm.elems.Page;
 import com.nm.elems.PageElement;
 import com.nm.elems.elements.Anchor;
 import com.nm.elems.elements.TextBox;
@@ -41,8 +40,6 @@ public class WorkingScreen extends Screen{
 	
 	private MainScreen ms;
 	private String projectName;
-	private Page editedPage;
-	
 	
 	private int editorsSize;
 	private Editor[] editors;
@@ -58,7 +55,7 @@ public class WorkingScreen extends Screen{
 		editors[wpIdx] = new WorkingPane(0, (int)(h*0.135), (int)(w*0.80), (int)(h*0.865),this);
 		editors[obIdx] = new OptionsBar(0, 0, w, (int)(h*0.035), this);
 		editors[esIdx] = new ElementSelector(0, (int)(h*0.035), w, (int)(h*0.10), this);
-		editors[peIdx] = new PageEditor((int)(w*0.80), (int)(h*0.135), (int)(w*0.20), (int)(h*0.865), this);
+		editors[peIdx] = new PageEditor((int)(w*0.80), (int)(h*0.135), (int)(w*0.20), (int)(h*0.865), this, ((WorkingPane)editors[wpIdx]).getPage());
 		editors[eeIdx] = new ElementEditor((int)(w*0.80), (int)(h*0.135), (int)(w*0.20), (int)(h*0.865), this);
 		this.drawContent(w,h);
 	}
@@ -83,6 +80,7 @@ public class WorkingScreen extends Screen{
 		for(int i=0;i<3;++i) {
 			g.drawImage(editors[i].getContent(), editors[i].getX(), editors[i].getY(), null);
 		}
+		
 		if(((WorkingPane)editors[wpIdx]).getFocused() != null)
 			g.drawImage(editors[eeIdx].getContent(), editors[eeIdx].getX(), editors[eeIdx].getY(), null);
 		else
@@ -90,6 +88,8 @@ public class WorkingScreen extends Screen{
 	}
 	
 	private void updateSize(int newWidth,int newHeight) {
+		this.width = newWidth;
+		this.height = newHeight;
 		editors[obIdx].update(0, 0, newWidth, (int)(newHeight*0.035), this);
 		editors[esIdx].update(0, (int)(newHeight*0.035), newWidth, (int)(newHeight*0.10), this);
 		editors[wpIdx].update(0, (int)(newHeight*0.135), (int)(newWidth*0.80), (int)(newHeight*0.865), this);
@@ -114,6 +114,7 @@ public class WorkingScreen extends Screen{
 	
 	public void checkValues() {
 		((ElementEditor)editors[eeIdx]).checkValues();
+		((PageEditor)editors[peIdx]).checkValues();
 	}
 	
 	private PageElement getElement(Tag tag) {
@@ -209,9 +210,10 @@ public class WorkingScreen extends Screen{
 
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
+		System.out.println("ProjectName "+projectName);
 		editors[wpIdx] = new WorkingPane(0, (int)(height*0.135), (int)(width*0.80), (int)(height*0.865), this,projectName);
 		editors[obIdx] = new OptionsBar(0, 0, width, (int)(height*0.035), this); 
-		editors[peIdx] = new PageEditor((int)(width*0.80), (int)(height*0.135), (int)(width*0.20), (int)(height*0.865), this);
+		editors[peIdx] = new PageEditor((int)(width*0.80), (int)(height*0.135), (int)(width*0.20), (int)(height*0.865), this,((WorkingPane)editors[wpIdx]).getPage());
 		drawContent(width, height);
 	}
 	

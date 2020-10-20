@@ -21,7 +21,7 @@ package com.nm.elems;
 import java.awt.Graphics;
 import java.util.List;
 
-import com.nm.elems.attribute.Attribute;
+import com.nm.elems.attribute.*;
 import com.nm.elems.loader.PageLoader;
 import com.nm.wpc.gui.InputField;
 
@@ -38,7 +38,7 @@ public class Page {
 	private String pageHead;
 	private String pageLocation;
 	
-	private List<Attribute> attrs;
+	private AttributeList attrs;
 	
 	private PageElement body;
 	
@@ -46,12 +46,13 @@ public class Page {
 	
 	public Page() {
 		pl = new PageLoader();
+		this.attrs = new PageAttributeList();
 		
 		pl.createBlankPage(this);
 		
 		this.body = new PageElement("<body></body>");
 		
-		this.attrs.addAll(body.getAttributes());
+		this.attrs.getAttributes().addAll(body.getAttributes());
 	}
 	
 	public PageElement findSelectedElement(int x,int y) {
@@ -62,7 +63,7 @@ public class Page {
 	}
 	
 	public Attribute getAttribute(String attrName) {
-		for(Attribute temp : attrs) {
+		for(Attribute temp : attrs.getAttributes()) {
 			if(temp.getName().equals(attrName))
 				return temp;
 		}
@@ -70,13 +71,13 @@ public class Page {
 	}
 	
 	public String getAttributeValue(int index) {
-		if(index>=attrs.size() || index<0)
+		if(index>=attrs.getAttributes().size() || index<0)
 			return "";
 		return attrs.get(index).getValue();
 	}
 	
 	public String getAttributeValue(String attrName) {
-		for(Attribute temp : attrs){
+		for(Attribute temp : attrs.getAttributes()){
 			if(temp.getName().equals(attrName)) {
 				return temp.getValue();
 			}	
@@ -85,7 +86,7 @@ public class Page {
 	}
 	
 	public void setAttributeValue(int index,InputField field) {
-		if(index>=attrs.size() || index<0)
+		if(index>=attrs.getAttributes().size() || index<0)
 			return;
 		String newValue = field.getText();
 		attrs.get(index).setValue(newValue);
@@ -122,6 +123,11 @@ public class Page {
 	
 	public String getPageCode() {
 		this.pageContent = body.getContent();
+		this.pageHead = "<head>"+
+		   		  		" <meta charset=\"UTF-8\">"+
+		   		  		" <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"+
+		   		  		" <title>"+this.attrs.getAttributeValue("title")+"</title>"+
+		   		  		"</head>";
 		return "<!DOCTYPE html><html>"+this.pageHead+this.pageContent+"</html>";
 	}
 
@@ -146,10 +152,11 @@ public class Page {
 	}
 
 	public List<Attribute> getAttributes() {
-		return attrs;
+		return attrs.getAttributes();
 	}
 
 	public void setAttributes(List<Attribute> attrs) {
-		this.attrs = attrs;
+		this.attrs.getAttributes().clear();
+		this.attrs.getAttributes().addAll(attrs);
 	}
 }
