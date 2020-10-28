@@ -36,7 +36,7 @@ public class Window extends JFrame implements Runnable{
 	private static final long serialVersionUID = 1L;
 	public static final int WIDTH = 1000;
 	public static final int HEIGHT = 700;
-	private final String TITLE = "Web Page Creator <beta 9.30.20>";
+	private final String TITLE = "Web Page Creator 1.1";
 	
 	private static MainScreen ms;
 	

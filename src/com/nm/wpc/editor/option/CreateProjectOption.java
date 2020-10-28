@@ -47,11 +47,17 @@ public class CreateProjectOption extends Option{
 	@Override
 	public void make(GUIObject source) {
 		Panel p = fw.getPanel();
-		System.out.println("Submiting...");
+
 		ProjectManager pm = new ProjectManager();
+		
 		List<GUIObject> inputs = p.getObjects();
-		pm.createNewProject(((InputField)inputs.get(0)).getText(), ((InputField)inputs.get(1)).getText(), ((InputField)inputs.get(3)).getText());
-		ms.changeContent(((InputField)inputs.get(0)).getText());
-		fw.dispose();
+		String[] projectData = {((InputField)inputs.get(0)).getText(), ((InputField)inputs.get(1)).getText(), ((InputField)inputs.get(3)).getText()};
+		
+		if(!projectData[0].equals("") && !projectData[1].equals("") && !projectData[2].equals("")) {
+			pm.createNewProject(projectData[0], projectData[1], projectData[2]);
+			
+			ms.changeContent(((InputField)inputs.get(0)).getText());
+			fw.dispose();
+		}
 	}
 }

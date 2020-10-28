@@ -51,8 +51,6 @@ public class Page {
 		pl.createBlankPage(this);
 		
 		this.body = new PageElement("<body></body>");
-		
-		this.attrs.getAttributes().addAll(body.getAttributes());
 	}
 	
 	public PageElement findSelectedElement(int x,int y) {
@@ -97,8 +95,9 @@ public class Page {
 	}
 	
 	public void drawElements(Graphics g) {
-		for(PageElement element : body.getChilds())
-			element.drawContent(g);
+		body.drawContent(g);
+		/*for(PageElement element : body.getChilds())
+			element.drawContent(g);*/
 	}
 	
 	public void addElement(PageElement newElement) {

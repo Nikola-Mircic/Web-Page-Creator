@@ -76,19 +76,19 @@ public class OpenProjectOption extends Option {
 		fw.addGUIObject(new Button("Submit", 70, 300 , 100, 40, new Option(ms) {
 			@Override
 			public void make(GUIObject source) {
-				if(projectLocation.getText().equals("") || projectLocation.getText() == null)
-					return;
-				FileManager fm = new FileManager();
-				String projectData;
-				try {
-					projectData = fm.readFile(new File(projectLocation.getText()));
-				} catch (IOException e) {
+				if(!(projectLocation.getText().equals("") || projectLocation.getText() == null)) {
+					FileManager fm = new FileManager();
+					String projectData;
+					try {
+						projectData = fm.readFile(new File(projectLocation.getText()));
+					} catch (IOException e) {
+						fw.dispose();
+						return;
+					}
+					pm.openProjectData(projectData.split(";"));
+					ms.changeContent(projectData.substring(0,projectData.indexOf(";")));
 					fw.dispose();
-					return;
 				}
-				pm.openProjectData(projectData.split(";"));
-				ms.changeContent(projectData.substring(0,projectData.indexOf(";")));
-				fw.dispose();
 			}
 		}));
 		

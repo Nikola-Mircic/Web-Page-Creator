@@ -47,20 +47,29 @@ public class SelectFileOption extends Option{
 	
 	@Override
 	public void make(GUIObject source) {
-		try {
-		    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} 
-		catch (Exception e) {
-		}
-		JFileChooser choose = new JFileChooser();
-		choose.setCurrentDirectory(new File("."));
-		choose.setDialogTitle("Choose a directory");
-		choose.setFileSelectionMode(this.mode);
-		choose.setAcceptAllFileFilterUsed(false);
+		final int MODE = this.mode;
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+				    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				} 
+				catch (Exception e) {
+				}
+				JFileChooser choose = new JFileChooser();
+				choose.setCurrentDirectory(new File("."));
+				choose.setDialogTitle("Choose a directory");
+				choose.setFileSelectionMode(MODE);
+				choose.setAcceptAllFileFilterUsed(false);
 
-		int val = choose.showOpenDialog(ms);
-		if(val == JFileChooser.APPROVE_OPTION) {
-			((InputField)((Button)source).getGuiObject()).setText(choose.getSelectedFile().getAbsolutePath());
-		}
+				int val = choose.showOpenDialog(ms);
+				if(val == JFileChooser.APPROVE_OPTION) {
+					((InputField)((Button)source).getGuiObject()).setText(choose.getSelectedFile().getAbsolutePath());
+				}
+				
+			}
+		});
+		
+		t.start();
 	}
 }

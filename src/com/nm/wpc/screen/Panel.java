@@ -66,6 +66,7 @@ public class Panel extends Screen{
 		GUIObject object = checkOnClick(x, y);
 		if(object != null) {
 			object.mousePressed(x, y);
+			last=object;
 		}
 		
 		repaint();
@@ -77,6 +78,7 @@ public class Panel extends Screen{
 			last.mouseReleased();
 			last = null;
 		}
+		
 		repaint();
 	}
 

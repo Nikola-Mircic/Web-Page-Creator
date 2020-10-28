@@ -84,5 +84,12 @@ public class OptionsBar extends Editor {
 		controler.releaseObjects();
 		drawContent(width, height);
 	}
+	
+	@Override
+	public void update(int x, int y, int width, int height, WorkingScreen ws) {
+		super.update(x, y, width, height, ws);
+		this.genarateObjects();
+		this.drawContent(width, height);
+	}
 
 }

@@ -71,7 +71,7 @@ public class ElementEditor extends Editor{
 	private void generateObjects() {
 		if(edited==null)
 			return;
-		if(edited.getAttributes().isEmpty())
+		if(!toShow.isEmpty() && edited.getAttributes().isEmpty())
 			return;
 		
 		controler.setObjects(new ArrayList<GUIObject>());

@@ -88,7 +88,7 @@ public class PageEditor extends Editor {
 		if(page==null)
 			return;
 		
-		if(page.getAttributes().isEmpty())
+		if(!toShow.isEmpty() && page.getAttributes().isEmpty())
 			return;
 		
 		controler.setObjects(new ArrayList<GUIObject>());
