@@ -67,7 +67,7 @@ public class OpenProjectOption extends Option {
 			fw.addGUIObject(btn);
 		}
 		
-		InputField projectLocation = new InputField("Project settings file:", 15, recentProjects.size()*50+10, 200, 100, 1);
+		InputField projectLocation = (InputField)(new InputField("Project settings file:", 15, recentProjects.size()*50+10, 200, 100, 1).setContainer(fw.getPanel()));
 		Button browse = new Button("Browse", 155, recentProjects.size()*50+20, 50, 30, new SelectFileOption()).setGuiObject(projectLocation);
 		
 		fw.addGUIObject(projectLocation);

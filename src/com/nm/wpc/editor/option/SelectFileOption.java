@@ -65,11 +65,10 @@ public class SelectFileOption extends Option{
 				int val = choose.showOpenDialog(ms);
 				if(val == JFileChooser.APPROVE_OPTION) {
 					((InputField)((Button)source).getGuiObject()).setText(choose.getSelectedFile().getAbsolutePath());
+					((InputField)((Button)source).getGuiObject()).getContainer().repaint();
 				}
-				
 			}
 		});
-		
 		t.start();
 	}
 }
