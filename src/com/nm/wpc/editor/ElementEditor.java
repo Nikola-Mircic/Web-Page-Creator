@@ -31,9 +31,7 @@ import java.util.List;
 
 import com.nm.elems.PageElement;
 import com.nm.elems.attribute.Attribute;
-import com.nm.wpc.gui.Button;
-import com.nm.wpc.gui.GUIObject;
-import com.nm.wpc.gui.InputField;
+import com.nm.wpc.gui.*;
 import com.nm.wpc.screen.*;
 import com.nm.wpc.editor.option.*;
 
@@ -43,6 +41,12 @@ public class ElementEditor extends Editor{
 	private PageElement edited;
 	private List<List<GUIObject>> toShow;
 	private Color bckg;
+	
+	private enum InputFieldType{
+		InputField,
+		ColorField,
+		NumberField
+	};
 	
 	public ElementEditor(int x, int y, int width, int height, WorkingScreen ws) {
 		super(x, y, width, height, ws);
@@ -76,23 +80,23 @@ public class ElementEditor extends Editor{
 		
 		controler.setObjects(new ArrayList<GUIObject>());
 		toShow = new ArrayList<List<GUIObject>>();
-		int fWidth=this.width,fHeight=80;
+		int fWidth=this.width-10,fHeight=80;
 		
 		toShow.add(new ArrayList<GUIObject>());
 		
 		String lastName = findGroup(edited.getAttributes().get(0).getName());
-		toShow.get(0).add((new InputField(edited.getAttributes().get(0).getName(),this.x,this.y,fWidth,fHeight,1)).setValue(edited.getAttributes().get(0).getValue()));
+		toShow.get(0).add(getInputField(0, this.x, this.y, fWidth, fHeight, 1));
 		int idx = 0;
 		for(int i=1;i<edited.getAttributes().size();++i) {
 			if(findGroup(edited.getAttributes().get(i).getName()).equals(lastName)) {
 				if(toShow.get(idx).size() == 1)
 					toShow.get(idx).get(0).setWidth(fWidth*8/10);
-				toShow.get(idx).add((new InputField(edited.getAttributes().get(i).getName(),this.x,this.y+toShow.get(idx).size()*fHeight,fWidth*8/10,fHeight,1)).setValue(edited.getAttributes().get(i).getValue()));
+				toShow.get(idx).add(getInputField(i, this.x, this.y+toShow.get(idx).size()*fHeight, fWidth*8/10, fHeight, 1));
 			}else {
 				toShow.add(new ArrayList<GUIObject>());
 				idx++;
-				toShow.get(idx).add((new InputField(edited.getAttributes().get(i).getName(),this.x,this.y+idx*fHeight,fWidth,fHeight,1)).setValue(edited.getAttributes().get(i).getValue()));
 				lastName = findGroup(edited.getAttributes().get(i).getName());
+				toShow.get(idx).add(getInputField(i, this.x, this.y+idx*fHeight, fWidth, fHeight, 1));
 			}
 		}
 		
@@ -137,6 +141,38 @@ public class ElementEditor extends Editor{
 			return attrName.substring(0, idx);
 		}
 		return attrName;
+	}
+	
+	private InputField getInputField(int index, int x, int y, int w, int h, int type) {
+		String attrName = edited.getAttributes().get(index).getName();
+		String value = edited.getAttributes().get(index).getValue();
+		InputField temp;
+		
+		switch (getIFType(attrName)) {
+		case ColorField:
+			temp = new ColorField(attrName, x, y, w, h, type);
+			break;
+		case NumberField:
+			temp = new NumberField(attrName, x, y, w, h, type);
+			break;
+		default:
+			temp = new InputField(attrName, x, y, w, h, type);
+			break;
+		}
+		
+		temp.setValue(value);
+		temp.setContainer(this);
+		
+		return temp;
+	}
+	
+	private InputFieldType getIFType(String attrName) {
+		if(attrName.equals("color") || attrName.equals("background-color")) {
+			return InputFieldType.ColorField;
+		}else if(findGroup(attrName).equals("margin") || attrName.equals("width") || attrName.equals("height") || attrName.equals("font-size")) {
+			return InputFieldType.NumberField;
+		}
+		return InputFieldType.InputField;
 	}
 	
 	public void checkValues() {

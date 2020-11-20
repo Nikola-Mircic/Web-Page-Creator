@@ -33,7 +33,7 @@ public class InputField extends GUIObject{
 	private String LABEL;
 	private String textData;
 	
-	private int type;
+	protected int type;
 	private int ptOffset;
 	private int ptLenght;
 	private int cursorPos;
@@ -65,7 +65,7 @@ public class InputField extends GUIObject{
 		drawImage();
 	}
 	
-	private void drawImage() {
+	protected void drawImage() {
 		if(width<=0 || height<=0)
 			return;
 		//Frame drawing

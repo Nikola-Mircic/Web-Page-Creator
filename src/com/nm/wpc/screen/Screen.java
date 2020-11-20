@@ -122,7 +122,7 @@ public abstract class Screen extends JPanel{
 	}
 	
 	protected GUIObject checkOnClick(int x,int y) {
-		return controler.checkOnClick(x,y);
+		return controler.checkOnClick(x-this.x,y-this.y);
 	}
 	
 	protected void sendToBack(InputPanel panel){
