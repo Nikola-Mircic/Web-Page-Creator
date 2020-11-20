@@ -1,7 +1,7 @@
 # Web Page Creator 
 #### Author: [Nikola-Mircic](https://github.com/Nikola-Mircic)
 
-![GitHub](https://img.shields.io/github/license/Nikola-Mircic/Web-Page-Creator?color=blue&label=License)
+[![GitHub](https://img.shields.io/github/license/Nikola-Mircic/Web-Page-Creator?color=blue&label=License)](LICENSE)
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Nikola-Mircic/Web-Page-Creator?color=green&label=Version)
 
 ### About
