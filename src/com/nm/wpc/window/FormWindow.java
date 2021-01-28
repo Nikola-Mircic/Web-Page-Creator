@@ -21,7 +21,7 @@ package com.nm.wpc.window;
 import javax.swing.JFrame;
 
 import com.nm.wpc.screen.*;
-import com.nm.wpc.editor.option.Option;
+import com.nm.wpc.gui.option.Option;
 import com.nm.wpc.gui.*;
 
 public class FormWindow extends JFrame{

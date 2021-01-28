@@ -22,7 +22,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
-import com.nm.wpc.editor.option.Option;
+import com.nm.wpc.gui.option.Option;
 import com.nm.wpc.gui.Button;
 import com.nm.wpc.gui.GUIObject;
 import com.nm.wpc.gui.InputField;

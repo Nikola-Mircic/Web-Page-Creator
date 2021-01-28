@@ -30,7 +30,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import com.nm.elems.*;
+import com.nm.elems.elements.TextBox;
 import com.nm.elems.loader.PageLoader;
+import com.nm.wpc.editor.changes.Changes;
+import com.nm.wpc.editor.changes.TextChange;
 import com.nm.wpc.filesystem.ProjectManager;
 import com.nm.wpc.screen.WorkingScreen;
 
@@ -125,7 +128,12 @@ public class WorkingPane extends Editor {
 			if(newFocused != null) {
 				this.ws.createEditor(newFocused);
 			}
-				
+			
+			if(this.focused instanceof TextBox && this.focused!=newFocused) {
+				TextChange c = TextChange.makeChange(ws, ((TextBox)focused), ((TextBox) focused).getTextData(), ((TextBox) focused).getLastSavedData());
+				Changes.addChange(c);
+			}
+			
 			setFocused(newFocused);
 		}
 		

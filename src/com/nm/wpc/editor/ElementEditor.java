@@ -31,9 +31,16 @@ import java.util.List;
 
 import com.nm.elems.PageElement;
 import com.nm.elems.attribute.Attribute;
-import com.nm.wpc.gui.*;
-import com.nm.wpc.screen.*;
-import com.nm.wpc.editor.option.*;
+import com.nm.wpc.editor.changes.Changes;
+import com.nm.wpc.editor.changes.ElementAttributeChange;
+import com.nm.wpc.gui.Button;
+import com.nm.wpc.gui.ColorField;
+import com.nm.wpc.gui.GUIObject;
+import com.nm.wpc.gui.InputField;
+import com.nm.wpc.gui.NumberField;
+import com.nm.wpc.gui.option.Option;
+import com.nm.wpc.screen.InputPanel;
+import com.nm.wpc.screen.WorkingScreen;
 
 public class ElementEditor extends Editor{
 	private static final long serialVersionUID = 1L;
@@ -182,7 +189,10 @@ public class ElementEditor extends Editor{
 		for(List<GUIObject> list : toShow) {
 			for(GUIObject field : list) {
 				if(!((InputField)field).getText().equals(edited.getAttributeValue(idx))) {
+					String lastData = edited.getAttributeValue(idx);
 					edited.setAttributeValue(idx,((InputField)field));
+					String data = ((InputField)field).getText();
+					Changes.addChange(ElementAttributeChange.makeChange(this.ws, edited, idx, data, lastData));
 					((InputField)field).setEditing(false);
 				}
 				idx++;

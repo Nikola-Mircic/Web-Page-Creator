@@ -30,6 +30,7 @@ import java.awt.event.MouseWheelEvent;
 
 import com.nm.elems.PageElement;
 import com.nm.elems.elements.TextBox;
+import com.nm.wpc.editor.changes.Changes;
 import com.nm.wpc.gui.InputField;
 import com.nm.wpc.screen.*;
 
@@ -104,6 +105,7 @@ public class InputHandler {
 			if(activeScreen instanceof WorkingScreen) {
 				focusedElement = ((WorkingScreen)activeScreen).findFocusedElement();
 			}
+			//CONTROLING ELEMENT
 			if(focusedElement != null) {
 				switch (e.getKeyCode()) {
 					case KeyEvent.VK_LEFT:
@@ -152,6 +154,16 @@ public class InputHandler {
 							if(focusedElement instanceof TextBox)
 								((TextBox)focusedElement).addLetter(c);
 						break;
+				}
+			}
+			//UNDO & REDO
+			if(e.getKeyCode() == KeyEvent.VK_Z) {
+				if(e.isControlDown()) {
+					Changes.undoLastChange();
+				}
+			}else if(e.getKeyCode() == KeyEvent.VK_Y) {
+				if(e.isControlDown()) {
+					Changes.redoLastChange();
 				}
 			}
 			screen.repaint();

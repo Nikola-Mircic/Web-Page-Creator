@@ -29,7 +29,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import com.nm.wpc.editor.option.Option;
+import com.nm.wpc.gui.option.Option;
 
 public class Button extends GUIObject{
 	private Option option;
@@ -43,9 +43,9 @@ public class Button extends GUIObject{
 		createImage();
 	}
 	
-	public Button(String title,int x,int y,int width,int height,Option option) {
+	public Button(String title,int x,int y,int width,int height,com.nm.wpc.gui.option.Option option2) {
 		super(x,y,width,height);
-		this.option = option;
+		this.option = option2;
 		this.option.setOptName(title);
 		bckg = Color.WHITE;
 		createImage();

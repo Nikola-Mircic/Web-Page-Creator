@@ -21,7 +21,7 @@ package com.nm.wpc.gui;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import com.nm.wpc.editor.option.SelectColorOption;
+import com.nm.wpc.gui.option.SelectColorOption;
 
 public class ColorField extends InputField {
 	private Color color;

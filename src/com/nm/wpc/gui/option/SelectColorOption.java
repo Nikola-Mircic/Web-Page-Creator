@@ -16,7 +16,7 @@
     along with Web Page Creator.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.nm.wpc.editor.option;
+package com.nm.wpc.gui.option;
 
 import java.awt.Color;
 

@@ -2,7 +2,7 @@ package com.nm.wpc.gui;
 
 import java.awt.Graphics;
 
-import com.nm.wpc.editor.option.Option;
+import com.nm.wpc.gui.option.Option;
 import com.nm.wpc.screen.Screen;
 import com.nm.wpc.editor.*;
 

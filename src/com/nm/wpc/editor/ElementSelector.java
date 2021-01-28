@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import com.nm.wpc.screen.*;
 import com.nm.wpc.gui.*;
 import com.nm.elems.tagsystem.*;
-import com.nm.wpc.editor.option.*;
+import com.nm.wpc.gui.option.*;
 
 public class ElementSelector extends Editor{
 	private static final long serialVersionUID = 1L;

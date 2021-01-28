@@ -16,28 +16,34 @@
     along with Web Page Creator.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.nm.elems.attribute;
+package com.nm.wpc.editor.changes;
 
-import com.nm.wpc.gui.InputField;
+import java.lang.reflect.Field;
 
-public class PageAttributeList extends AttributeList {
+import com.nm.wpc.screen.WorkingScreen;
 
-	public PageAttributeList() {
-		super();
-		
-		this.attributes.add(new Attribute("title", "WPC page", ""));
-		this.attributes.add(new Attribute("encoding", "utf-8", ""));
+public abstract class Change<T, V>{
+	protected WorkingScreen ws;
+	protected T changedObject;
+	protected V data;
+	protected V lastData;
+	protected Field field;
+	
+	public Change(WorkingScreen ws,T changedObject,String field) {
+		this.ws = ws;
+		this.changedObject = changedObject;
+		if(!field.equals("")) {
+			try {
+				this.field = changedObject.getClass().getField(field);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
-	@Override
-	public void setAttributeValue(int index,InputField field) {
-		String newValue = field.getText();
-		
-		attributes.get(index).setValue(newValue);
-	}
+	protected abstract void changeData(V data, V lastData);
 	
-	@Override
-	public void setAttributeValue(int index, String newValue) {
-		attributes.get(index).setValue(newValue);
-	}
+	protected abstract void undo();
+	
+	protected abstract void redo();
 }

@@ -28,6 +28,7 @@ import com.nm.elems.attribute.Attribute;
 import com.nm.elems.elements.Anchor;
 import com.nm.elems.elements.TextBox;
 import com.nm.elems.tagsystem.Tag;
+import com.nm.wpc.editor.changes.Changes;
 
 /*
  * Class: com.nm.elems.loader.PageLoader
@@ -118,7 +119,7 @@ public class PageLoader {
 					String textData = temp.substring(0,temp.indexOf(tag));
 					textData = textData.replaceAll("&lt;", "<");
 					textData = textData.replaceAll("&gt;", ">");
-					((TextBox)elems.peek()).addTextData(textData);
+					((TextBox)elems.peek()).loadTextData(textData);
 					start+=temp.indexOf(tag)+4;
 				}else if(isCloseTag(tag) && s.peek().equals(tag)) {
 					s.pop();
@@ -128,6 +129,7 @@ public class PageLoader {
 			tag=findNextTag(start, source);
 		}
 		
+		Changes.clearHistory();
 		return p;
 	}
 	

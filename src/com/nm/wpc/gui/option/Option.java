@@ -16,37 +16,35 @@
     along with Web Page Creator.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.nm.wpc.editor.option;
+package com.nm.wpc.gui.option;
 
+import com.nm.wpc.gui.GUIObject;
 import com.nm.wpc.screen.MainScreen;
-import com.nm.elems.Page;
-import com.nm.wpc.filesystem.ProjectManager;
-import com.nm.wpc.gui.*;
 
-public class SaveProjectOption extends Option {
-	private String projectName;
-	private Page page;
-	
-	public SaveProjectOption() {
-		
-	}
+/*
+ * Class: com.nm.wpc.editor.option.Option
+ * Superclass : 
+ * Used for: Defining options
+ */
 
-	public SaveProjectOption(MainScreen ms) {
-		super(ms);
-		setOptName("Save Project");
+public abstract class Option {
+  	protected String optName;
+  	protected MainScreen ms;
+  	
+  	public Option() {
+  	}
+  	
+  	public Option(MainScreen ms) {
+  		this.ms = ms;
+  	}
+  	
+  	public void make(GUIObject source) {}
+  	
+  	public String getOptName() {
+		return this.optName;
 	}
-	
-	public SaveProjectOption(MainScreen ms,Page page,String projectName) {
-		super(ms);
-		this.projectName = projectName;
-		this.page = page;
-		setOptName("Save Project");
+  	
+	public void setOptName(String optName) {
+		this.optName = optName;
 	}
-	
-	@Override
-	public void make(GUIObject source) {
-		ProjectManager pm = new ProjectManager();
-		pm.convertPageToHTML(page, projectName);
-	}
-
-}
+} 

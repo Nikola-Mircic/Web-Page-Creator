@@ -28,6 +28,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import com.nm.elems.Page;
 import com.nm.elems.PageElement;
 import com.nm.elems.elements.Anchor;
 import com.nm.elems.elements.TextBox;
@@ -106,6 +107,10 @@ public class WorkingScreen extends Screen{
 	
 	public void createEditor(PageElement element) {
 		((ElementEditor)editors[eeIdx]).setElementAttributes(element);
+	}
+	
+	public void createEditor(Page page) {
+		((PageEditor)editors[peIdx]).setPageAttributes(page);
 	}
 	
 	public void deleteFocusedElement() {

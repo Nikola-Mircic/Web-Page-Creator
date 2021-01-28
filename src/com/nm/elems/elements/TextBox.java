@@ -28,6 +28,7 @@ import com.nm.elems.tagsystem.Tag;
 import com.nm.wpc.gui.InputField;
 
 public class TextBox extends PageElement {
+	protected String lastSavedData;
 	protected String textData;
 	protected int ptLenght;
 	protected int cursorPos;
@@ -37,9 +38,14 @@ public class TextBox extends PageElement {
 	protected String fontFamily;
 	protected int fontSize;
 	
+	public boolean isChanged;
+	
 	public TextBox(String tagname) {
 		super();
-		setTextData("");
+		this.textData = "";
+		this.lastSavedData = "";
+		
+		this.isChanged = false;
 		
 		this.childs = new ArrayList<PageElement>();
 		this.elementTag = generateTag(tagname);
@@ -145,6 +151,10 @@ public class TextBox extends PageElement {
 	}
 	
 	public void addLetter(char c) {
+		if(!isChanged) {
+			setLastSavedData(this.textData);
+			isChanged = true;
+		}
 		this.textData = insertChar(this.textData, c, cursorPos);
 		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, fontSize)).stringWidth(textData);
 		if(len>=lines*(width-15)) {
@@ -157,6 +167,10 @@ public class TextBox extends PageElement {
 	}
 	
 	public void removeLetter() {
+		if(!isChanged) {
+			setLastSavedData(this.textData);
+			isChanged = true;
+		}
 		if(cursorPos==0)
 			return;
 		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, (fontSize))).stringWidth(textData);
@@ -284,8 +298,9 @@ public class TextBox extends PageElement {
 		return textData;
 	}
 	
-	public void addTextData(String textData) {
+	public void loadTextData(String textData) {
 		this.textData += textData;
+		this.lastSavedData += textData;
 		int len = img.getGraphics().getFontMetrics(new Font(fontFamily, Font.PLAIN, (fontSize))).stringWidth(textData);
 		if(len>=lines*((width)-(fontSize)/2)) {
 			lines++;
@@ -297,6 +312,14 @@ public class TextBox extends PageElement {
 	
 	public void setTextData(String textData) {
 		this.textData = textData;
+	}
+
+	public String getLastSavedData() {
+		return lastSavedData;
+	}
+
+	public void setLastSavedData(String lastSavedData) {
+		this.lastSavedData = lastSavedData;
 	}
 
 	public int getPtLenght() {

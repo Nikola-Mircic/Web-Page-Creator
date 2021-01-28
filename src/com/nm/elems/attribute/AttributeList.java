@@ -24,7 +24,7 @@ import java.util.List;
 import com.nm.wpc.gui.InputField;
 
 public class AttributeList {
-	protected List<Attribute> attributes;
+	public List<Attribute> attributes;
 	
 	public AttributeList() {
 		this.attributes = new ArrayList<>();

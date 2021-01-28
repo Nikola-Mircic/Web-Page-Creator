@@ -29,10 +29,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
-import com.nm.wpc.editor.option.ContinueRecentOption;
-import com.nm.wpc.editor.option.NewProjectOption;
-import com.nm.wpc.editor.option.OpenProjectOption;
-import com.nm.wpc.editor.option.Option;
+import com.nm.wpc.gui.option.*;
 import com.nm.wpc.gui.Button;
 import com.nm.wpc.gui.GUIObject;
 import com.nm.wpc.gui.InputField;

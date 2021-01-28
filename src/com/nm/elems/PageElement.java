@@ -35,8 +35,9 @@ import com.nm.wpc.gui.InputField;
  */
 
 public class PageElement {
+	public AttributeList attributes;
+	
 	protected Tag elementTag;
-	protected AttributeList attributes;
 	protected List<PageElement> childs;
 	
 	protected PageElement parentElement;
@@ -100,7 +101,7 @@ public class PageElement {
 		return temp;
 	}
 	
-	protected void drawContent() {
+	public void drawContent() {
 		this.width = Math.max(Integer.parseInt(getAttributeValue("width")),30);
 		this.height = Math.max(Integer.parseInt(getAttributeValue("height")),20);
 		this.img = new BufferedImage(scale(this.width), scale(this.height), BufferedImage.TYPE_INT_ARGB);
@@ -343,9 +344,13 @@ public class PageElement {
 	public List<Attribute> getAttributes() {
 		return this.attributes.getAttributes();
 	}
+	
+	public AttributeList getAttributesList() {
+		return this.attributes;
+	}
 
 	public void setAttributes(List<Attribute> attributes) {
-		this.attributes.setAttributes(attributes);;
+		this.attributes.setAttributes(attributes);
 	}
 
 	public int getX() {

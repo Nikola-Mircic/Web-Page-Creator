@@ -31,7 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.nm.elems.Page;
-import com.nm.wpc.editor.option.Option;
+import com.nm.wpc.gui.option.Option;
+import com.nm.wpc.editor.changes.Changes;
+import com.nm.wpc.editor.changes.PageAttributeChange;
 import com.nm.wpc.gui.*;
 import com.nm.wpc.screen.InputPanel;
 import com.nm.wpc.screen.WorkingScreen;
@@ -90,6 +92,8 @@ public class PageEditor extends Editor {
 		
 		if(!toShow.isEmpty() && page.getAttributes().isEmpty())
 			return;
+		
+		System.out.println("Generating new editor!!");
 		
 		controler.setObjects(new ArrayList<GUIObject>());
 		toShow = new ArrayList<List<GUIObject>>();
@@ -163,7 +167,10 @@ public class PageEditor extends Editor {
 		for(List<GUIObject> list : toShow) {
 			for(GUIObject field : list) {
 				if(!((InputField)field).getText().equals(page.getAttributeValue(idx))) {
+					String lastData = page.getAttributeValue(idx);
 					page.setAttributeValue(idx,((InputField)field));
+					String data = ((InputField)field).getText();
+					Changes.addChange(PageAttributeChange.makeChange(this.ws, page, idx, data, lastData));
 					((InputField)field).setEditing(false);
 				}
 				idx++;
@@ -201,6 +208,12 @@ public class PageEditor extends Editor {
 
 	public void setPage(Page page) {
 		this.page = page;
+	}
+	
+	public void setPageAttributes(Page element) {
+		this.setPage(element);
+		generateObjects();
+		drawContent(width, height);
 	}
 
 	public List<List<GUIObject>> getToShow() {

@@ -16,28 +16,37 @@
     along with Web Page Creator.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.nm.elems.attribute;
+package com.nm.wpc.gui.option;
 
-import com.nm.wpc.gui.InputField;
+import com.nm.wpc.screen.MainScreen;
+import com.nm.elems.Page;
+import com.nm.wpc.filesystem.ProjectManager;
+import com.nm.wpc.gui.*;
 
-public class PageAttributeList extends AttributeList {
-
-	public PageAttributeList() {
-		super();
+public class SaveProjectOption extends Option {
+	private String projectName;
+	private Page page;
+	
+	public SaveProjectOption() {
 		
-		this.attributes.add(new Attribute("title", "WPC page", ""));
-		this.attributes.add(new Attribute("encoding", "utf-8", ""));
+	}
+
+	public SaveProjectOption(MainScreen ms) {
+		super(ms);
+		setOptName("Save Project");
+	}
+	
+	public SaveProjectOption(MainScreen ms,Page page,String projectName) {
+		super(ms);
+		this.projectName = projectName;
+		this.page = page;
+		setOptName("Save Project");
 	}
 	
 	@Override
-	public void setAttributeValue(int index,InputField field) {
-		String newValue = field.getText();
-		
-		attributes.get(index).setValue(newValue);
+	public void make(GUIObject source) {
+		ProjectManager pm = new ProjectManager();
+		pm.convertPageToHTML(page, projectName);
 	}
-	
-	@Override
-	public void setAttributeValue(int index, String newValue) {
-		attributes.get(index).setValue(newValue);
-	}
+
 }

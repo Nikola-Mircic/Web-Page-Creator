@@ -33,12 +33,12 @@ import com.nm.wpc.gui.InputField;
 
 
 public class Page {
+	public AttributeList attrs;
+	
 	private String TITLE;
 	private String pageContent;
 	private String pageHead;
 	private String pageLocation;
-	
-	private AttributeList attrs;
 	
 	private PageElement body;
 	
