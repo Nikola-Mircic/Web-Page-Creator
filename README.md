@@ -2,7 +2,7 @@
 #### Author: [Nikola-Mircic](https://github.com/Nikola-Mircic)
 
 [![GitHub](https://img.shields.io/github/license/Nikola-Mircic/Web-Page-Creator?color=blue&label=License)](LICENSE)
-![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Nikola-Mircic/Web-Page-Creator?color=green&label=Version)
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/tag/Nikola-Mircic/Web-Page-Creator?color=green&label=Version)
 
 ### About
 Web Page Creator is an easy to use application for creating simple web pages. You can make your web page just by picking which element you want to add or delete. For each element on your page, there is a list of attributes you can change it or you can leave it on default if you don't want to change anything.
